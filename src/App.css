@@ -1,0 +1,27 @@
+.gray-background {
+  background-color: #a4a4a4;
+}
+
+.border-radius {
+  border-radius: 9rem;
+}
+
+/* ScrolL Bar */
+
+.custom-scrollbar::-webkit-scrollbar {
+  height: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f0f0f0;
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
