@@ -2,7 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-
 body {
-    font-family: 'JetBrains Mono', sans-serif;
-  }
+  font-family: "JetBrains Mono", sans-serif;
+}
+
+.gray-background {
+  background-color: #a4a4a4;
+}

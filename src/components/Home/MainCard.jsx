@@ -1,6 +1,6 @@
 import { Card, Button } from "@nextui-org/react";
-import "../index.css";
-import imgPhone from "../assets/undraw_mobile_ux_re_59hr.svg";
+import "../../index.css";
+import imgPhone from "../../assets/undraw_mobile_ux_re_59hr.svg";
 
 export default function MainCard() {
   return (
