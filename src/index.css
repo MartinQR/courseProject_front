@@ -9,3 +9,11 @@ body {
 .gray-background {
   background-color: #a4a4a4;
 }
+
+.border-radius2 {
+  border-radius: 2.2rem;
+}
+
+.border-radius3{
+border-radius:3rem
+}
