@@ -9,6 +9,7 @@ import {
   Textarea,
 } from "@nextui-org/react";
 import "../../index.css";
+import toast from "react-hot-toast";
 
 // Component that generates a question/input and returns it as an object
 export default function AddInput({ setFormData, formData }) {
@@ -30,7 +31,7 @@ export default function AddInput({ setFormData, formData }) {
   function clearInput() {
     setInputData({
       title: "",
-      type: null,
+      type: "",
       description: "",
       displayed: true,
       options: [],
@@ -43,6 +44,12 @@ export default function AddInput({ setFormData, formData }) {
   }
 
   function handleAddInput() {
+    if (!inputData?.title || !inputData?.type || !inputData?.description) {
+      console.log("Error toaster");
+      toast.error("All fields are required.");
+      return
+    }
+
     setFormData({
       ...formData,
       inputsData: [...formData.inputsData, inputData],
@@ -64,6 +71,7 @@ export default function AddInput({ setFormData, formData }) {
       <div className="flex w-full justify-around space-x-4">
         <div className="w-2/5">
           <Input
+            isRequired
             label="Title"
             size="sm"
             value={inputData?.title}
@@ -76,7 +84,7 @@ export default function AddInput({ setFormData, formData }) {
             className="w-full"
             label="Input Type"
             size="sm"
-            // selectedKeys={inputData.type}
+            selectedKeys={[inputData.type]}
             onChange={(e) =>
               setInputData({ ...inputData, type: e.target.value })
             }>
@@ -98,6 +106,7 @@ export default function AddInput({ setFormData, formData }) {
       </div>
       <div>
         <Input
+          isRequired
           label="Description"
           size="sm"
           value={inputData?.description}

@@ -11,9 +11,9 @@ import {
 } from "@nextui-org/react";
 
 export default function RenderInput({ inputData }) {
-  console.log("Input Data Render", inputData);
+//   console.log("Input Data Render", inputData);
   return (
-    <div>
+    <div className="my-4">
       {inputData?.type === "SINGLE-LINE" ? (
         <Card className="w-full h-auto p-3 ">
           <div className="pl-2">

@@ -143,7 +143,7 @@ export default function CreateForm() {
 
       <Card className="bg-neutral-100 w-3/5 my-5 p-5">
         {/* <RenderInput inputData={input}></RenderInput> */}
-        <div className="space-y-4 my-4">
+        <div className="">
           {formData?.inputsData?.map((item, index) => {
             return (
               <div key={index}>
@@ -152,7 +152,9 @@ export default function CreateForm() {
             );
           })}
         </div>
-        <AddInput className="my-4" setFormData={setFormData} formData={formData}></AddInput>
+        <div className="my-4">
+          <AddInput setFormData={setFormData} formData={formData}></AddInput>
+        </div>
       </Card>
     </div>
   );
