@@ -11,18 +11,23 @@ import {
 } from "@nextui-org/react";
 import AddInput from "../Input/AddInput";
 import RenderInput from "../Input/RenderInput";
+import toast from "react-hot-toast";
+import arrow from "../../assets/arrowthin.svg";
+import { useNavigate } from "react-router-dom";
 
 export default function CreateForm() {
   const [formData, setFormData] = useState();
   const [newInput, setNewInput] = useState();
+  const [isloading, setIsLoading] = useState();
+  const navigate = useNavigate();
 
-  const input = {
-    title: "Favorite Food",
-    type: "CHECKBOX",
-    description: "Check the food you like",
-    displayed: true,
-    options: ["Hamburguer", "Banana", "Hot Cakes", "Fruit"],
-  };
+  // const input = {
+  //   title: "Favorite Food",
+  //   type: "CHECKBOX",
+  //   description: "Check the food you like",
+  //   displayed: true,
+  //   options: ["Hamburguer", "Banana", "Hot Cakes", "Fruit"],
+  // };
 
   useEffect(() => {
     setFormData({
@@ -35,6 +40,39 @@ export default function CreateForm() {
       inputsData: [],
     });
   }, []);
+
+  // Post Méthod to create de Form
+  async function handleCreateForm() {
+    setIsLoading(true);
+    try {
+      const response = await fetch("https://api.com/endpoint", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(
+          errorData.message ||
+            `Error ${response.status}: ${response.statusText}`
+        );
+      }
+      // SuccesFully Response
+      const data = await response.json();
+      console.log("Response data:", data);
+
+      toast.success("Form created sucessfully!");
+      navigate("/create-form")
+    } catch (error) {
+      console.error("Fetch error:", error);
+      setErrorMessage(error.message || "An unexpected error occurred.");
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   // Handle Actions
 
@@ -124,7 +162,17 @@ export default function CreateForm() {
             </Card>
           </div>
         </div>
-        <div className="bg-neutral-100 row-start-2 col-start-1 border-radius2 flex items-center justify-center p-4"></div>
+        <div className="bg-neutral-100 row-start-2 col-start-1 border-radius2 flex items-center justify-center p-4">
+          <div className="flex w-full items-center">
+            <div className="w-1/2 text-right">CREATE FORM</div>
+            {/* <div className="w-1/2 flex"> */}
+            <button className="w-1/2 flex" onClick={handleCreateForm}>
+              <img src={arrow} className="h-auto object-contain" />
+            </button>
+            {/* </div> */}
+          </div>
+        </div>
+
         <div className="bg-neutral-100 row-start-2 col-start-2 border-radius2 flex items-center justify-center p-4">
           <Checkbox
             defaultSelected
@@ -136,10 +184,7 @@ export default function CreateForm() {
         </div>
       </div>
 
-      {/* <Card className="w-full h-24 my-3 rounded-3xl bg-neutral-500 flex justify-center items-center">
-        {" "}
-        Form Title
-      </Card> */}
+      {/* END HEADER */}
 
       <Card className="bg-neutral-100 w-3/5 my-5 p-5">
         {/* <RenderInput inputData={input}></RenderInput> */}

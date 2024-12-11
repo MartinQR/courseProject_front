@@ -1,21 +1,18 @@
 import { useState, useEffect } from "react";
 import { Card, CardBody, Button, ButtonGroup } from "@nextui-org/react";
-import { useNavigate } from 'react-router-dom';
-
-
+import { useNavigate } from "react-router-dom";
 
 export default function Header() {
   const [toggleBtn, setToggleBtn] = useState(false);
 
-  const navigate = useNavigate()
-
-
+  const navigate = useNavigate();
 
   // handleActions
-  function handleCreateForm(){
-    navigate("/create-form")
+  // function handleCreateForm() {
+  //   navigate("/create-form");
+  // }
 
-  }
+  
 
   return (
     <div className="flex  gap-1">
@@ -57,10 +54,12 @@ export default function Header() {
 
       {toggleBtn && (
         <div className="space-x-1 ml-2">
-          <Button className="h-12">Login</Button>
+          <Button className="h-12" onClick={()=>{navigate("/login")}}>Login</Button>
           <Button className="h-12">Sign Up</Button>
           <Button className="h-12">Join Form</Button>
-          <Button className="h-12" onClick={()=> handleCreateForm()}>Create Form</Button>
+          <Button className="h-12" onClick={() => {navigate("/create-form")}}>
+            Create Form
+          </Button>
         </div>
       )}
 
