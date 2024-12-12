@@ -12,8 +12,6 @@ export default function Header() {
   //   navigate("/create-form");
   // }
 
-  
-
   return (
     <div className="flex  gap-1">
       <div className="w-6 ">
@@ -31,11 +29,13 @@ export default function Header() {
         </Card>
       </div>
       <div>
-        <Card
-          className="h-12 w-28 rounded-3xl flex items-center justify-center font-semibold text-2xl bg-neutral-900 text-white"
-          size="md">
-          formo
-        </Card>
+        <button onClick={()=>{navigate("/")}}>
+          <Card
+            className="h-12 w-28 rounded-3xl flex items-center justify-center font-semibold text-2xl bg-neutral-900 text-white"
+            size="md">
+            formo
+          </Card>
+        </button>
       </div>
       {toggleBtn ? (
         <button
@@ -54,11 +54,34 @@ export default function Header() {
 
       {toggleBtn && (
         <div className="space-x-1 ml-2">
-          <Button className="h-12" onClick={()=>{navigate("/login")}}>Login</Button>
-          <Button className="h-12">Sign Up</Button>
+          <Button
+            className="h-12"
+            onClick={() => {
+              navigate("/login");
+            }}>
+            Login
+          </Button>
+          <Button
+            className="h-12"
+            onClick={() => {
+              navigate("/signup");
+            }}>
+            Sign Up
+          </Button>
           <Button className="h-12">Join Form</Button>
-          <Button className="h-12" onClick={() => {navigate("/create-form")}}>
+          <Button
+            className="h-12"
+            onClick={() => {
+              navigate("/create-form");
+            }}>
             Create Form
+          </Button>
+          <Button
+            className="h-12"
+            onClick={() => {
+              navigate("/dashboard");
+            }}>
+            Dashboard
           </Button>
         </div>
       )}

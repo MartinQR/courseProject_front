@@ -63,7 +63,7 @@ export default function Login() {
         <Header />
       </div>
 
-      <div className="flex items-center justify-center h-auto flex-col px-4 md:px-0 gray-background">
+      <div className="flex items-center justify-center h-auto flex-col px-4 md:px-0 ">
         <Card className="w-full max-w-xs md:max-w-md lg:max-w-lg h-auto flex items-center my-4 md:my-5 p-4 md:px-10 px-6 bg-neutral-500">
           <p className="mt-2 text-center text-xl sm:text-3xl text-white">
             LOGIN
@@ -78,7 +78,7 @@ export default function Login() {
                 isRequired
                 size="sm"
                 label="Email"
-                //   variant="bordered"
+                  variant="flat"
                 placeholder="Enter your email"
                 className="w-full text-sm sm:text-base"
               />
@@ -118,6 +118,8 @@ export default function Login() {
             Sign In
           </Button>
         </Card>
+      </div>
+      <div className="h-1/5 flex flex items-center justify-center ">
         <p className="text-xs text-center mt-4 sm:text-sm">
           Don't have an account?{" "}
           <Link
@@ -127,7 +129,6 @@ export default function Login() {
           </Link>
         </p>
       </div>
-      <div className="h-1/5 "></div>
     </div>
   );
 }
