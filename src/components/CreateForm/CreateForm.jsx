@@ -241,7 +241,12 @@ export default function CreateForm() {
           {formData?.inputsData?.map((item, index) => {
             return (
               <div key={index}>
-                <RenderInput inputData={item} />
+                <RenderInput 
+                  inputData={item} 
+                  index={index} 
+                  setFormData={setFormData}
+                  formData={formData}
+                />
               </div>
             );
           })}

@@ -10,14 +10,30 @@ import {
   Textarea,
 } from "@nextui-org/react";
 
-export default function RenderInput({ inputData }) {
-//   console.log("Input Data Render", inputData);
+export default function RenderInput({ inputData, index, setFormData, formData }) {
+
+  function handleDeleteInput() {
+    const newInputs = formData?.inputsData?.filter((_, i) => i !== index);
+    setFormData({ ...formData, inputsData: newInputs });
+  }
+  
+
   return (
     <div className="my-4">
       {inputData?.type === "SINGLE-LINE" ? (
         <Card className="w-full h-auto p-3 ">
           <div className="pl-2">
-            <p className="font-bold">{inputData?.title}</p>
+            <div className="flex justify-between">
+              <p className="font-bold">{inputData?.title}</p>
+              <Button 
+                size="sm"
+                variant="faded"
+                onClick={handleDeleteInput}
+              >
+                x
+              </Button>
+            </div>
+
             <p className="text-sm">{inputData?.description}</p>
           </div>
 
@@ -28,7 +44,16 @@ export default function RenderInput({ inputData }) {
       ) : inputData?.type === "MULTIPLE-LINE" ? (
         <Card className="w-full h-auto p-3 ">
           <div className="pl-2">
-            <p className="font-bold">{inputData?.title}</p>
+            <div className="flex justify-between">
+              <p className="font-bold">{inputData?.title}</p>
+              <Button 
+                size="sm"
+                variant="faded"
+                onClick={handleDeleteInput}
+              >
+                x
+              </Button>
+            </div>
             <p className="text-sm">{inputData?.description}</p>
           </div>
 
@@ -40,7 +65,16 @@ export default function RenderInput({ inputData }) {
       ) : inputData?.type === "INTEGER" ? (
         <Card className="w-full h-auto p-3 ">
           <div className="pl-2">
-            <p className="font-bold">{inputData?.title}</p>
+            <div className="flex justify-between">
+              <p className="font-bold">{inputData?.title}</p>
+              <Button 
+                size="sm"
+                variant="faded"
+                onClick={handleDeleteInput}
+              >
+                x
+              </Button>
+            </div>
             <p className="text-sm">{inputData?.description}</p>
           </div>
 
@@ -51,7 +85,16 @@ export default function RenderInput({ inputData }) {
       ) : inputData?.type === "CHECKBOX" ? (
         <Card className="w-full h-auto p-3 ">
           <div className="pl-2">
-            <p className="font-bold">{inputData?.title}</p>
+            <div className="flex justify-between">
+              <p className="font-bold">{inputData?.title}</p>
+              <Button 
+                size="sm"
+                variant="faded"
+                onClick={handleDeleteInput}
+              >
+                x
+              </Button>
+            </div>
             <p className="text-sm">{inputData?.description}</p>
           </div>
 
