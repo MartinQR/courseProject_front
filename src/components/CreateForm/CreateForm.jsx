@@ -19,21 +19,15 @@ export default function CreateForm() {
   const [formData, setFormData] = useState();
   const [newInput, setNewInput] = useState();
   const [isloading, setIsLoading] = useState();
+  const [topicsData, setTopicsData] = useState();
   const navigate = useNavigate();
-
-  // const input = {
-  //   title: "Favorite Food",
-  //   type: "CHECKBOX",
-  //   description: "Check the food you like",
-  //   displayed: true,
-  //   options: ["Hamburguer", "Banana", "Hot Cakes", "Fruit"],
-  // };
 
   useEffect(() => {
     setFormData({
+      userId: "9ac429f0-150b-4ab1-83f0-c6273eabaa42",
       title: "",
       description: "",
-      topic: "",
+      topicId: "",
       tags: [],
       isPublic: true,
       allowedUsers: [],
@@ -45,13 +39,16 @@ export default function CreateForm() {
   async function handleCreateForm() {
     setIsLoading(true);
     try {
-      const response = await fetch("https://api.com/endpoint", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      const response = await fetch(
+        "https://453ft22c-4000.usw3.devtunnels.ms/form/create",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -65,7 +62,7 @@ export default function CreateForm() {
       console.log("Response data:", data);
 
       toast.success("Form created sucessfully!");
-      navigate("/create-form")
+      navigate("/create-form");
     } catch (error) {
       console.error("Fetch error:", error);
       setErrorMessage(error.message || "An unexpected error occurred.");
@@ -73,6 +70,27 @@ export default function CreateForm() {
       setIsLoading(false);
     }
   }
+
+  // Get TopisID
+  async function fetchTopics() {
+    try {
+      const response = await fetch(
+        "https://453ft22c-4000.usw3.devtunnels.ms/topic/getAll"
+      );
+      if (!response.ok) {
+        throw new Error("Error fetching topics");
+      }
+      const data = await response.json();
+      setTopicsData(data);
+    } catch (error) {
+      console.error("Fetch error:", error);
+      setErrorMessage(error.message || "An unexpected error occurred.");
+    }
+  }
+
+  useEffect(() => {
+    fetchTopics();
+  }, []);
 
   // Handle Actions
 
@@ -84,14 +102,8 @@ export default function CreateForm() {
 
   // UTILS
 
-  const topics = [
-    { key: "EDUCATION", label: "Education" },
-    { key: "PERSONAL", label: "Personal" },
-    { key: "QUIZ", label: "Quiz" },
-    { key: "OTHER", label: "Other" },
-  ];
-
   console.log("Form Data", formData);
+  console.log("Topics Data", topicsData);
   return (
     <div className="gray-background w-full min-h-screen  px-3 py-3 flex items-center flex-col">
       {/* Header of Template */}
@@ -130,10 +142,10 @@ export default function CreateForm() {
             label="Topic "
             variant="bordered"
             onChange={(e) =>
-              setFormData({ ...formData, topic: e.target.value })
+              setFormData({ ...formData, topicId: e.target.value })
             }>
-            {topics.map((animal) => (
-              <SelectItem key={animal.key}>{animal.label}</SelectItem>
+            {topicsData?.map((topic) => (
+              <SelectItem key={topic.id}>{topic.name}</SelectItem>
             ))}
           </Select>
           {/* <p>Public</p> */}
