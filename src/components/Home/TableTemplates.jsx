@@ -7,16 +7,16 @@ export default function TableTemplates() {
         5 most popular templates
       </Card>
       <Card className="w-2/3 h-full bg-neutral-100 rounded-3xl flex flex-row ">
-        <div class="flex flex-col items-center justify-center h-96  w-1/3  ">
-          <div class="w-20 h-6 bg-amber-400 rounded-lg "></div>
+        <div className="flex flex-col items-center justify-center h-96  w-1/3  ">
+          <div className="w-20 h-6 bg-amber-400 rounded-lg "></div>
 
-          <div class="h-4"></div>
+          <div className="h-4"></div>
 
-          <div class="w-20 h-6 bg-amber-400 rounded-lg"></div>
+          <div className="w-20 h-6 bg-amber-400 rounded-lg"></div>
 
-          <div class="h-4"></div>
+          <div className="h-4"></div>
 
-          <div class="w-20 h-6 bg-amber-400 rounded-lg"></div>
+          <div className="w-20 h-6 bg-amber-400 rounded-lg"></div>
         </div>
         <div className="w-2/3 h-full flex items-center justify-center flex-col space-y-4 ">
           {/* Top 5 popular templates */}
