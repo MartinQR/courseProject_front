@@ -14,33 +14,57 @@ import RenderInput from "../Input/RenderInput";
 import toast from "react-hot-toast";
 import arrow from "../../assets/arrowthin.svg";
 import { useNavigate } from "react-router-dom";
+const APP_URL = import.meta.env.VITE_APP_URL;
+
 
 export default function CreateForm() {
-  const [formData, setFormData] = useState();
+  const initialFormData = {
+    userId: "9ac429f0-150b-4ab1-83f0-c6273eabaa42",
+    title: "",
+    description: "",
+    topicId: "",
+    tags: [],
+    isPublic: true,
+    allowedUsers: [],
+    inputsData: [],
+  };
+
+  const [formData, setFormData] = useState(initialFormData);
   const [newInput, setNewInput] = useState();
   const [isloading, setIsLoading] = useState();
   const [topicsData, setTopicsData] = useState();
+  
   const navigate = useNavigate();
 
-  useEffect(() => {
-    setFormData({
-      userId: "9ac429f0-150b-4ab1-83f0-c6273eabaa42",
-      title: "",
-      description: "",
-      topicId: "",
-      tags: [],
-      isPublic: true,
-      allowedUsers: [],
-      inputsData: [],
-    });
-  }, []);
+  function validateForm() {
+    if (!formData.title) {
+      toast.error("Title is required");
+      return false;
+    }
+    if (!formData.description) {
+      toast.error("Description is required");
+      return false;
+    }
+    if (!formData.topicId) {
+      toast.error("Topic is required");
+      return false;
+    }
+    if (!formData.inputsData.length) {
+      toast.error("At least one input is required");
+      return false;
+    }
+    return true;
+  }
 
-  // Post Méthod to create de Form
+
+  // Post Method to create a Form
   async function handleCreateForm() {
     setIsLoading(true);
     try {
+      if (!validateForm()) return;
+
       const response = await fetch(
-        "https://453ft22c-4000.usw3.devtunnels.ms/form/create",
+        `${APP_URL}/form/create`,
         {
           method: "POST",
           headers: {
@@ -59,13 +83,14 @@ export default function CreateForm() {
       }
       // SuccesFully Response
       const data = await response.json();
-      console.log("Response data:", data);
 
       toast.success("Form created sucessfully!");
+
       navigate("/create-form");
+
     } catch (error) {
       console.error("Fetch error:", error);
-      setErrorMessage(error.message || "An unexpected error occurred.");
+      
     } finally {
       setIsLoading(false);
     }
@@ -75,16 +100,17 @@ export default function CreateForm() {
   async function fetchTopics() {
     try {
       const response = await fetch(
-        "https://453ft22c-4000.usw3.devtunnels.ms/topic/getAll"
+        `${APP_URL}/topic/getAll`
       );
+      
       if (!response.ok) {
         throw new Error("Error fetching topics");
       }
       const data = await response.json();
+      
       setTopicsData(data);
     } catch (error) {
-      console.error("Fetch error:", error);
-      setErrorMessage(error.message || "An unexpected error occurred.");
+      console.error("Fetch error:", error); 
     }
   }
 
@@ -96,14 +122,15 @@ export default function CreateForm() {
 
   function handleAddTags(e) {
     const value = e.target.value;
-    const tagsArray = value.split(",").map((palabra) => palabra.trim());
+    const tagsArray = value?.split(",")
+      ?.map((tag) => tag?.trim())
+      ?.filter((tag) => tag);
+    
     setFormData({ ...formData, tags: tagsArray });
   }
 
   // UTILS
 
-  console.log("Form Data", formData);
-  console.log("Topics Data", topicsData);
   return (
     <div className="gray-background w-full min-h-screen  px-3 py-3 flex items-center flex-col">
       {/* Header of Template */}
@@ -118,7 +145,8 @@ export default function CreateForm() {
                 label="Title"
                 onChange={(e) => {
                   setFormData({ ...formData, title: e.target.value });
-                }}></Input>
+                }}
+              />
             </div>
             <div className="w-full h-2/3  flex items-center justify-center">
               <Textarea
@@ -126,7 +154,8 @@ export default function CreateForm() {
                 label="Description"
                 onChange={(e) =>
                   setFormData({ ...formData, description: e.target.value })
-                }></Textarea>
+                }
+              />
             </div>
           </div>
         </div>
@@ -134,7 +163,9 @@ export default function CreateForm() {
           <Input
             variant="bordered"
             label="#TAGS"
-            onChange={handleAddTags}></Input>
+            onChange={handleAddTags}
+            placeholder="tag1, tag2, tag3"
+          />
         </div>
         <div className="bg-neutral-100 border-radius2 flex items-center justify-center flex-col p-4">
           <Select
@@ -143,10 +174,12 @@ export default function CreateForm() {
             variant="bordered"
             onChange={(e) =>
               setFormData({ ...formData, topicId: e.target.value })
-            }>
+            }
+          >
             {topicsData?.map((topic) => (
-              <SelectItem key={topic.id}>{topic.name}</SelectItem>
-            ))}
+                <SelectItem key={topic?.id}>{topic?.name}</SelectItem>
+              ))
+            }
           </Select>
           {/* <p>Public</p> */}
         </div>
@@ -155,21 +188,24 @@ export default function CreateForm() {
           <div className="w-1/6 ">
             <Card
               className="h-full flex items-center justify-center font-semibold text-4xl bg-neutral-900 text-white border-radius3 "
-              size="md">
+              size="md"
+            >
               .
             </Card>
           </div>
           <div className="w-2/6">
             <Card
               className="h-full  flex items-center justify-center font-semibold text-4xl bg-neutral-900 text-white border-radius2"
-              size="md">
+              size="md"
+            >
               /
             </Card>
           </div>
           <div className="w-3/6">
             <Card
               className="h-full  flex items-center justify-center font-semibold text-4xl bg-neutral-900 text-white border-radius3"
-              size="md">
+              size="md"
+            >
               formo
             </Card>
           </div>
@@ -190,7 +226,8 @@ export default function CreateForm() {
             defaultSelected
             onChange={(e) => {
               setFormData({ ...formData, isPublic: e.target.checked });
-            }}>
+            }}
+          >
             Public
           </Checkbox>
         </div>
@@ -204,13 +241,13 @@ export default function CreateForm() {
           {formData?.inputsData?.map((item, index) => {
             return (
               <div key={index}>
-                <RenderInput inputData={item}></RenderInput>
+                <RenderInput inputData={item} />
               </div>
             );
           })}
         </div>
         <div className="my-4">
-          <AddInput setFormData={setFormData} formData={formData}></AddInput>
+          <AddInput setFormData={setFormData} formData={formData} />
         </div>
       </Card>
     </div>

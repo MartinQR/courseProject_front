@@ -39,23 +39,45 @@ export default function AddInput({ setFormData, formData }) {
   }
 
   function handleAddOption() {
-    setInputData({ ...inputData, options: [...inputData.options, newOption] });
+    if (!newOption?.trim()) {
+      toast.error("Option is required");
+      return;
+    }
+
+    setInputData({ ...inputData, options: [...inputData.options, newOption?.trim()] });
     setNewOption("");
   }
 
   function handleAddInput() {
-    if (!inputData?.title || !inputData?.type || !inputData?.description) {
-      console.log("Error toaster");
-      toast.error("All fields are required.");
-      return
+
+    console.log("Input Data", inputData);
+    if (!inputData?.title?.trim()) {
+      toast.error("Title is required");
+      return;
     }
 
+    if (!inputData?.type) {
+      toast.error("Type is required");
+      return;
+    }
+    
+    if (!inputData?.description?.trim()) {
+      toast.error("Description is required");
+      return;
+    }
+
+    if (inputData?.type === "CHECKBOX" && !inputData?.options?.length) {
+      toast.error("At least one option is required");
+      return;
+    }
+    
     setFormData({
       ...formData,
       inputsData: [...formData.inputsData, inputData],
     });
     clearInput();
   }
+  
   // UTILS - OTHERS
   const inputs = [
     { key: "SINGLE-LINE", label: "Single-line" },
@@ -63,9 +85,7 @@ export default function AddInput({ setFormData, formData }) {
     { key: "INTEGER", label: "Number" },
     { key: "CHECKBOX", label: "Checkbox" },
   ];
-
-  console.log("Input Data", inputData);
-  // console.log("New Option", newOption);
+  
   return (
     <Card className="w-full h-full p-2 space-y-4">
       <div className="flex w-full justify-around space-x-4">
@@ -77,7 +97,8 @@ export default function AddInput({ setFormData, formData }) {
             value={inputData?.title}
             onChange={(e) => {
               setInputData({ ...inputData, title: e.target.value });
-            }}></Input>
+            }}
+          />
         </div>
         <div className="w-2/5">
           <Select
@@ -87,9 +108,12 @@ export default function AddInput({ setFormData, formData }) {
             selectedKeys={[inputData.type]}
             onChange={(e) =>
               setInputData({ ...inputData, type: e.target.value })
-            }>
-            {inputs.map((input) => (
-              <SelectItem key={input.key}>{input.label}</SelectItem>
+            }
+          >
+            {inputs?.map((input, i) => (
+              <SelectItem key={input?.key || i}>
+                {input?.label}
+              </SelectItem>
             ))}
           </Select>
         </div>
@@ -99,7 +123,8 @@ export default function AddInput({ setFormData, formData }) {
             onChange={(e) =>
               //   console.log("Checkbox Event",e)
               setInputData({ ...inputData, displayed: e.target.checked })
-            }>
+            }
+          >
             Visible
           </Checkbox>
         </div>
@@ -112,7 +137,8 @@ export default function AddInput({ setFormData, formData }) {
           value={inputData?.description}
           onChange={(e) => {
             setInputData({ ...inputData, description: e.target.value });
-          }}></Input>
+          }}
+        />
       </div>
       {/* Div for answers depending of input  */}
       <div>
@@ -120,20 +146,20 @@ export default function AddInput({ setFormData, formData }) {
           <Input
             label="Single line answer"
             variant="underlined"
-            disabled="true"
+            disabled
             size="sm"></Input>
         ) : inputData?.type === "MULTIPLE-LINE" ? (
           <Textarea
             className="max-w-xs"
             label="Multiple line answer"
             variant="underlined"
-            disabled="true"
+            disabled
           />
         ) : inputData?.type === "INTEGER" ? (
           <Input
             label="Integer"
             variant="underlined"
-            disabled="true"
+            disabled
             size="sm"></Input>
         ) : (
           inputData?.type === "CHECKBOX" && (
@@ -150,7 +176,7 @@ export default function AddInput({ setFormData, formData }) {
                   return (
                     <div className="flex items-center ml-4 " key={index}>
                       <div>
-                        <Checkbox isDisabled size="sm"></Checkbox>
+                        <Checkbox isDisabled size="sm" />
                       </div>
                       <p className="text-xs">{item}</p>
                     </div>
@@ -164,8 +190,8 @@ export default function AddInput({ setFormData, formData }) {
                   label="Add Option"
                   size="sm"
                   value={newOption}
-                  onChange={(e) => setNewOption(e.target.value)}>
-                  sdfsdf
+                  onChange={(e) => setNewOption(e.target.value)}
+                >
                 </Input>
                 <Button className="text-3xl" onClick={handleAddOption}>
                   +
