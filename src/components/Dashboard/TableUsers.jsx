@@ -14,7 +14,6 @@ import {
   Button,
   TimeInput,
 } from "@nextui-org/react";
-import { Time } from "@internationalized/date";
 import { useLocation, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
@@ -23,6 +22,9 @@ const statusColorMap = {
   paused: "danger",
   vacation: "warning",
 };
+
+
+const AP_URL = import.meta.env.VITE_APP_URL;
 
 export default function TableUsers() {
   const [selectedKeys, setSelectedKeys] = useState([]);
@@ -35,33 +37,23 @@ export default function TableUsers() {
 
 
 
-  // Get data from DataBase
+  // Get Users Data
   const fetchUsers = async () => {
     try {
       const response = await fetch(
-        "https://task4-backend-ebgi.onrender.com/api/users/users"
+        `${AP_URL}/user/getAll`,
       );
       if (!response.ok) {
         throw new Error("Error fetching users");
       }
       const data = await response.json();
-      setDataUsers(sortByLastLogin(data));
+      setDataUsers(data);
     } catch (error) {
       console.error("Error fetching users:", error);
     }
   };
 
-  // Function to sort by last_login date
-  function sortByLastLogin(data) {
-    return data.sort((a, b) => {
-      if (a.last_login === null && b.last_login === null) return 0;
 
-      if (a.last_login === null) return 1;
-      if (b.last_login === null) return -1;
-
-      return new Date(b.last_login) - new Date(a.last_login);
-    });
-  }
 
   //Delete users
   const deleteUsers = async (selectedUserIds) => {
@@ -175,7 +167,9 @@ export default function TableUsers() {
 
     switch (columnKey) {
       case "name":
-        return <User name={user.first_name}></User>;
+        const userName = `${user?.firstName} ${user?.lastName}`;
+        console.log("User Name", userName);
+        return <User name={userName}></User>;
       case "email":
         return (
           <div className="flex flex-col">
@@ -191,39 +185,39 @@ export default function TableUsers() {
             color={statusColorMap[user?.status]}
             size="sm"
             variant="flat">
-            {user?.status}
+            {user?.isBlocked ? "Blocked" : }
           </Chip>
         );
-      case "createdAt":
-        return (
-          <div className="flex flex-row align-center justify-center">
-            <div className="flex items-center justify-center ">
-              <p>
-                {user?.created_at?.split("T")[0]}{" "}
-                {user?.created_at?.split("T")[1].substring(0, 5)}
-              </p>
-            </div>
-          </div>
-        );
-      case "lastLogin":
-        return (
-          <div className="flex flex-row align-center justify-center">
-            <div className="flex items-center justify-center ">
-              <div>
-                {user?.last_login == null ? (
-                  <Chip color="warning" variant="bordered">
-                    No Data
-                  </Chip>
-                ) : (
-                  <p>
-                    {user?.last_login?.split("T")[0]}{" "}
-                    {user?.last_login?.split("T")[1].substring(0, 5)}
-                  </p>
-                )}
-              </div>
-            </div>
-          </div>
-        );
+    //   case "createdAt":
+    //     return (
+    //       <div className="flex flex-row align-center justify-center">
+    //         <div className="flex items-center justify-center ">
+    //           <p>
+    //             {user?.created_at?.split("T")[0]}{" "}
+    //             {user?.created_at?.split("T")[1].substring(0, 5)}
+    //           </p>
+    //         </div>
+    //       </div>
+    //     );
+    //   case "lastLogin":
+    //     return (
+    //       <div className="flex flex-row align-center justify-center">
+    //         <div className="flex items-center justify-center ">
+    //           <div>
+    //             {user?.last_login == null ? (
+    //               <Chip color="warning" variant="bordered">
+    //                 No Data
+    //               </Chip>
+    //             ) : (
+    //               <p>
+    //                 {user?.last_login?.split("T")[0]}{" "}
+    //                 {user?.last_login?.split("T")[1].substring(0, 5)}
+    //               </p>
+    //             )}
+    //           </div>
+    //         </div>
+    //       </div>
+    //     );
 
       default:
         return cellValue;
@@ -238,11 +232,14 @@ const columns = [
 
     {name:"NAME", uid:"name"},
     {name:"E-MAIL", uid:"email"},
-    
+    {name:"STATUS", uid:"status"},
+    {name:"ADMIN", uid:"admin"},
+
 ]
 
+console.log("Data Users", dataUsers);
   return (
-    <div className="flex items-center justify-center items-center flex-col ">
+    <div className="flex items-center justify-center flex-col space-y-3 ">
       <div className="w-4/5 flex items-center justify-center flex-col">
         <div className="flex space-x-2 w-auto  ml-4 mt-8 ">
           <Button
@@ -292,16 +289,17 @@ const columns = [
           <Button
             className="ml-20"
             size="sm"
-            variant="bordered"
+            variant="shadow"
             onClick={() => navigate("/")}>
             Log Out
           </Button>
         </div>
-        <div className="flex my-3 ml-6 w-auto">
-          <span className="text-default-400 text-small">
+        {/* <div className="flex my-2 ml-6 w-auto">
+          <span className="">
             Total {dataUsers.length} users - Welcome {email}
+        
           </span>
-        </div>
+        </div> */}
       </div>
       {/* Container for the Table */}
       <div className="w-1/2  sm:w-9/12 md:w-11/12 lg:w-full mb-10">

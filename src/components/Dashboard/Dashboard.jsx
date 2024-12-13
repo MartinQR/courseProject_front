@@ -157,17 +157,14 @@ export default function Dashboard() {
         "Otra Opcion"
       )}
       {/* Body Div */}
-      <div className="w-full h-auto py-3">
-        <div className="w-auto ml-8 ">
+      <div className="w-full h-auto py-3 flex flex-col items-center">
+        <div className="w-auto ml-8 mt-4 ">
           <p className="text-4xl">DASHBOARD</p>
         </div>
 
-        <div>{/* Table Managment User */}
-
-
-<TableUsers />
-
-
+        <div className="w-2/3">
+          {/* Table Managment User */}
+          <TableUsers />
         </div>
       </div>
     </div>
