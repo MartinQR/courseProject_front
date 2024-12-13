@@ -1,13 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Card, Input, Button } from "@nextui-org/react";
 import { EyeFilledIcon } from "../../assets/EyeFilledIcon";
 import { EyeSlashFilledIcon } from "../../assets/EyeSlashFilledIcon";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import Header from "../Home/Header";
-import { div } from "framer-motion/client";
+import { AuthContext } from "../../contexts/AuthContext";
+
+
+const AP_URL = import.meta.env.VITE_APP_URL;
 
 export default function Login() {
+  const { setAuthData, authData } = useContext(AuthContext);
   const [isVisible, setIsVisible] = useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
   const [userForm, setUserForm] = useState();
@@ -26,9 +30,8 @@ export default function Login() {
 
   const handleLogin = async () => {
     try {
-      // const response = await fetch("https://task4-backend-ebgi.onrender.com/api/users/login",
       const response = await fetch(
-        "https://task4-backend-ebgi.onrender.com/api/users/login",
+        `${AP_URL}/user/login`,
         {
           method: "POST",
           headers: {
@@ -46,8 +49,9 @@ export default function Login() {
       if (response.ok) {
         console.log("Successful login: " + JSON.stringify(data));
         toast.success("Successsfully Login!");
+        setAuthData(data);
 
-        navigate("/table", { state: { email: userForm.email } });
+        navigate("/", { state: { email: userForm.email } });
       } else {
         console.log("Error: " + data.message);
         toast.error("Error: " + data.message);

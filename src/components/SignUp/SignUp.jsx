@@ -6,6 +6,7 @@ import { EyeSlashFilledIcon } from "../../assets/EyeSlashFilledIcon";
 import Header from "../Home/Header";
 import toast from "react-hot-toast";
 import "../../index.css";
+const AP_URL = import.meta.env.VITE_APP_URL;
 
 export default function SignUp() {
   const [isVisible, setIsVisible] = useState(false);
@@ -41,17 +42,16 @@ export default function SignUp() {
 
   const handleSubmit = async () => {
     try {
-      // const response = await fetch("http://localhost:5000/api/users/register",
       const response = await fetch(
-        "https://task4-backend-ebgi.onrender.com/api/users/register",
+        `${AP_URL}/user/register`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            first_name: user.firstName,
-            last_name: user.lastName,
+            firstName: user.firstName,
+            lastName: user.lastName,
             email: user.email,
             password: user.password,
           }),
