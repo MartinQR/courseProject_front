@@ -77,6 +77,18 @@ export default function AddInput({ setFormData, formData }) {
     });
     clearInput();
   }
+
+  function hanldeChangeSelect(e) {
+    const value = e.target.value;
+    const totalInputsWithSameType = formData?.inputsData?.filter((input) => input?.type === value).length;
+    
+    if (totalInputsWithSameType >= 4) {
+      toast.error("You can't add more than four input with the same type");
+      return
+    }
+    
+    setInputData({ ...inputData, type: e.target.value });
+  }
   
   // UTILS - OTHERS
   const inputs = [
@@ -85,6 +97,7 @@ export default function AddInput({ setFormData, formData }) {
     { key: "INTEGER", label: "Number" },
     { key: "CHECKBOX", label: "Checkbox" },
   ];
+
   
   return (
     <Card className="w-full h-full p-2 space-y-4">
@@ -106,9 +119,7 @@ export default function AddInput({ setFormData, formData }) {
             label="Input Type"
             size="sm"
             selectedKeys={[inputData.type]}
-            onChange={(e) =>
-              setInputData({ ...inputData, type: e.target.value })
-            }
+            onChange={hanldeChangeSelect}
           >
             {inputs?.map((input, i) => (
               <SelectItem key={input?.key || i}>

@@ -136,8 +136,6 @@ export default function CreateForm() {
 
   // UTILS
 
-  console.log("Auth DATA", authData);
-
   return (
     <div className="gray-background w-full min-h-screen  px-3 py-3 flex items-center flex-col">
       {/* ----------------- START HEADER ----------------- */}
