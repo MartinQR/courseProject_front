@@ -154,7 +154,7 @@ export default function Dashboard() {
           <Card className="w-full h-20"></Card>
         </div>
       ) : (
-        "Otra Opcion"
+        "No resize window"
       )}
       {/* Body Div */}
       <div className="w-full h-auto py-3 flex flex-col items-center">
