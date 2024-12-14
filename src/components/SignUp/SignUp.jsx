@@ -13,6 +13,7 @@ export default function SignUp() {
   const toggleVisibility = () => setIsVisible(!isVisible);
   const [user, setUser] = useState();
   const navigate = useNavigate();
+  const [isLoading,setIsLoading] = useState();
 
   // Handle Functions
 
@@ -41,6 +42,7 @@ export default function SignUp() {
   }
 
   const handleSubmit = async () => {
+    setIsLoading(true)
     try {
       const response = await fetch(
         `${AP_URL}/user/register`,
@@ -63,13 +65,15 @@ export default function SignUp() {
       if (response.ok) {
         console.log("Successfully registered user: " + JSON.stringify(data));
         toast.success("Successfully registered user!");
-        navigate("/");
+        navigate("/login");
       } else {
-        console.log("Error: " + data.message);
-        toast.error("Error: " + data.message);
+        console.log("Error: " + data.error);
+        toast.error("Error: " + data.error);
       }
     } catch (error) {
       console.error("Request error:", error);
+    } finally{
+      setIsLoading(false)
     }
   };
   console.log("User", user);
@@ -148,7 +152,7 @@ export default function SignUp() {
               />
             </div>
           </div>
-          <Button onClick={handleSubmit} className="w-40 my-2.5 bg-amber-400 text-white font-semibold" size="sm">
+          <Button isLoading={isLoading} onClick={handleSubmit} className="w-40 my-2.5 bg-amber-400 text-white font-semibold" size="sm">
             Create Account
           </Button>
         </Card>

@@ -17,12 +17,11 @@ import {
 import { useLocation, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
-const statusColorMap = {
-  active: "success",
-  paused: "danger",
-  vacation: "warning",
-};
-
+// const statusColorMap = {
+//   active: "success",
+//   paused: "danger",
+//   vacation: "warning",
+// };
 
 const AP_URL = import.meta.env.VITE_APP_URL;
 
@@ -35,14 +34,10 @@ export default function TableUsers() {
 
   const navigate = useNavigate();
 
-
-
   // Get Users Data
   const fetchUsers = async () => {
     try {
-      const response = await fetch(
-        `${AP_URL}/user/getAll`,
-      );
+      const response = await fetch(`${AP_URL}/user/getAll`);
       if (!response.ok) {
         throw new Error("Error fetching users");
       }
@@ -53,19 +48,56 @@ export default function TableUsers() {
     }
   };
 
+  //Block  / Unlock Users
 
+  const blockUnlockUsers = async (selectedUserIds, action) => {
+    try {
+      const response = await fetch(`${AP_URL}/user/updateBlockedStatus`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          adminId: "e089f675-c5f2-4d25-bc22-eb34fbeb6b3a",
+          usersId: selectedUserIds,
+          action: action,
+        }),
+      });
+
+      if (!response.ok) {
+        if (response.status === 403 || response.status === 404) {
+          toast.error(
+            "Your account is blocked or does not exist. Please log in again."
+          );
+          navigate("/");
+          return;
+        }
+        throw new Error("Error blocking users");
+      }
+
+      const result = await response.json();
+      toast.success("Users successfully blocked!", result.message);
+
+      fetchUsers();
+    } catch (error) {
+      toast.error("Error blocking users: " + error);
+    }
+  };
 
   //Delete users
   const deleteUsers = async (selectedUserIds) => {
     try {
       const response = await fetch(
-        "https://task4-backend-ebgi.onrender.com/api/users/delete",
+        `${AP_URL}/user/delete`,
         {
-          method: "DELETE",
+          method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ email: email, ids: selectedUserIds }),
+          body: JSON.stringify({
+            adminId: "40d15f47-4779-45c4-ae40-55456de18862",
+            usersId: selectedUserIds,
+          }),
         }
       );
 
@@ -88,53 +120,22 @@ export default function TableUsers() {
     }
   };
 
-  //Block Users
+  //   MAKE/REMOVE ADMIN
 
-  const blockUsers = async (selectedUserIds) => {
+  const makeRemoveAdmin = async (selectedUserIds, action) => {
     try {
       const response = await fetch(
-        "https://task4-backend-ebgi.onrender.com/api/users/block",
+        `${AP_URL}/user/updateAdminStatus`,
         {
-          method: "PUT",
+          method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ email: email, ids: selectedUserIds }),
-        }
-      );
-
-      if (!response.ok) {
-        if (response.status === 403 || response.status === 404) {
-          toast.error(
-            "Your account is blocked or does not exist. Please log in again."
-          );
-          navigate("/");
-          return;
-        }
-        throw new Error("Error blocking users");
-      }
-
-      const result = await response.json();
-      toast.success("Users successfully blocked!", result.message);
-
-      fetchUsers();
-    } catch (error) {
-      toast.error("Error blocking users: " + error);
-    }
-  };
-
-  // Unblock Users
-
-  const unblockUsers = async (selectedUserIds) => {
-    try {
-      const response = await fetch(
-        "https://task4-backend-ebgi.onrender.com/api/users/unblock",
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email: email, ids: selectedUserIds }),
+          body: JSON.stringify({
+            adminId: "40d15f47-4779-45c4-ae40-55456de18862",
+            usersId: selectedUserIds,
+            action: action,
+          }),
         }
       );
 
@@ -182,42 +183,19 @@ export default function TableUsers() {
         return (
           <Chip
             className="capitalize"
-            color={statusColorMap[user?.status]}
+            // color={statusColorMap[user?.status]}
+            color={user?.isBlocked ? "danger" : "success"}
             size="sm"
             variant="flat">
-            {user?.isBlocked ? "Blocked" : }
+            {user?.isBlocked ? "Blocked" : "Active"}
           </Chip>
         );
-    //   case "createdAt":
-    //     return (
-    //       <div className="flex flex-row align-center justify-center">
-    //         <div className="flex items-center justify-center ">
-    //           <p>
-    //             {user?.created_at?.split("T")[0]}{" "}
-    //             {user?.created_at?.split("T")[1].substring(0, 5)}
-    //           </p>
-    //         </div>
-    //       </div>
-    //     );
-    //   case "lastLogin":
-    //     return (
-    //       <div className="flex flex-row align-center justify-center">
-    //         <div className="flex items-center justify-center ">
-    //           <div>
-    //             {user?.last_login == null ? (
-    //               <Chip color="warning" variant="bordered">
-    //                 No Data
-    //               </Chip>
-    //             ) : (
-    //               <p>
-    //                 {user?.last_login?.split("T")[0]}{" "}
-    //                 {user?.last_login?.split("T")[1].substring(0, 5)}
-    //               </p>
-    //             )}
-    //           </div>
-    //         </div>
-    //       </div>
-    //     );
+      case "admin":
+        return (
+          <Chip className={user?.isAdmin ? "YES" : "NO"}>
+            {user?.isAdmin ? "YES" : "NO"}
+          </Chip>
+        );
 
       default:
         return cellValue;
@@ -226,18 +204,17 @@ export default function TableUsers() {
 
   const selectedUsers = Array.from(selectedKeys);
 
-//   UTILS
+  //   UTILS
 
-const columns = [
+  const columns = [
+    { name: "NAME", uid: "name" },
+    { name: "E-MAIL", uid: "email" },
+    { name: "STATUS", uid: "status" },
+    { name: "ADMIN", uid: "admin" },
+  ];
 
-    {name:"NAME", uid:"name"},
-    {name:"E-MAIL", uid:"email"},
-    {name:"STATUS", uid:"status"},
-    {name:"ADMIN", uid:"admin"},
-
-]
-
-console.log("Data Users", dataUsers);
+  console.log("Data Users", dataUsers);
+  console.log("Selected Users", selectedUsers);
   return (
     <div className="flex items-center justify-center flex-col space-y-3 ">
       <div className="w-4/5 flex items-center justify-center flex-col">
@@ -245,7 +222,7 @@ console.log("Data Users", dataUsers);
           <Button
             className="bg-foreground text-background"
             size="sm"
-            onClick={() => blockUsers(selectedUsers)}>
+            onClick={() => blockUnlockUsers(selectedUsers, "BLOCK_USERS")}>
             <div className="w-3">
               <svg
                 fill="white"
@@ -261,7 +238,7 @@ console.log("Data Users", dataUsers);
           <Button
             size="sm"
             variant="flat"
-            onClick={() => unblockUsers(selectedUsers)}>
+            onClick={() => blockUnlockUsers(selectedUsers, "UNLOCK_USERS")}>
             <div className="w-3">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -275,7 +252,7 @@ console.log("Data Users", dataUsers);
           <Button
             size="sm"
             variant="flat"
-            onClick={() => deleteUsers(Array.from(selectedKeys))}>
+            onClick={() => deleteUsers(selectedUsers)}>
             <div className="w-3">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -287,12 +264,27 @@ console.log("Data Users", dataUsers);
             </div>
           </Button>
           <Button
+            size="sm"
+            onClick={() => {
+              makeRemoveAdmin(selectedUsers, "MAKE");
+            }}>
+            Make Admin
+          </Button>
+          <Button
+            size="sm"
+            onClick={() => {
+              makeRemoveAdmin(selectedUsers, "REMOVE");
+            }}>
+            Remove Admin
+          </Button>
+
+          {/* <Button
             className="ml-20"
             size="sm"
             variant="shadow"
             onClick={() => navigate("/")}>
             Log Out
-          </Button>
+          </Button> */}
         </div>
         {/* <div className="flex my-2 ml-6 w-auto">
           <span className="">

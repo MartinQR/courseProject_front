@@ -7,7 +7,6 @@ import toast from "react-hot-toast";
 import Header from "../Home/Header";
 import { AuthContext } from "../../contexts/AuthContext";
 
-
 const AP_URL = import.meta.env.VITE_APP_URL;
 
 export default function Login() {
@@ -15,6 +14,7 @@ export default function Login() {
   const [isVisible, setIsVisible] = useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
   const [userForm, setUserForm] = useState();
+  const [isloading, setIsLoading] = useState();
 
   const navigate = useNavigate();
 
@@ -29,20 +29,18 @@ export default function Login() {
   }
 
   const handleLogin = async () => {
+    setIsLoading(true);
     try {
-      const response = await fetch(
-        `${AP_URL}/user/login`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email: userForm.email,
-            password: userForm.password,
-          }),
-        }
-      );
+      const response = await fetch(`${AP_URL}/user/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: userForm.email,
+          password: userForm.password,
+        }),
+      });
 
       const data = await response.json();
 
@@ -53,11 +51,13 @@ export default function Login() {
 
         navigate("/", { state: { email: userForm.email } });
       } else {
-        console.log("Error: " + data.message);
-        toast.error("Error: " + data.message);
+        console.log("Error: " + data.error);
+        toast.error("Error: " + data.error);
       }
     } catch (error) {
       console.error("Request error:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -82,7 +82,7 @@ export default function Login() {
                 isRequired
                 size="sm"
                 label="Email"
-                  variant="flat"
+                variant="flat"
                 placeholder="Enter your email"
                 className="w-full text-sm sm:text-base"
               />
@@ -118,6 +118,7 @@ export default function Login() {
           <Button
             className="w-full md:w-40 bg-amber-400 text-white font-semibold"
             size="md"
+            isLoading={isloading}
             onClick={handleLogin}>
             Sign In
           </Button>

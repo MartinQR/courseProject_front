@@ -1,5 +1,5 @@
 import "../../index.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect,useContext } from "react";
 import {
   Card,
   Button,
@@ -15,11 +15,16 @@ import toast from "react-hot-toast";
 import arrow from "../../assets/arrowthin.svg";
 import { useNavigate } from "react-router-dom";
 const APP_URL = import.meta.env.VITE_APP_URL;
-
+import { AuthContext } from "../../contexts/AuthContext";
 
 export default function CreateForm() {
+  const [newInput, setNewInput] = useState();
+  const [isloading, setIsLoading] = useState();
+  const [topicsData, setTopicsData] = useState();
+  const { authData, setAuthData } = useContext(AuthContext);
+
   const initialFormData = {
-    userId: "9ac429f0-150b-4ab1-83f0-c6273eabaa42",
+    userId: authData?.id,
     title: "",
     description: "",
     topicId: "",
@@ -30,10 +35,7 @@ export default function CreateForm() {
   };
 
   const [formData, setFormData] = useState(initialFormData);
-  const [newInput, setNewInput] = useState();
-  const [isloading, setIsLoading] = useState();
-  const [topicsData, setTopicsData] = useState();
-  
+
   const navigate = useNavigate();
 
   function validateForm() {
@@ -56,23 +58,19 @@ export default function CreateForm() {
     return true;
   }
 
-
   // Post Method to create a Form
   async function handleCreateForm() {
     setIsLoading(true);
     try {
       if (!validateForm()) return;
 
-      const response = await fetch(
-        `${APP_URL}/form/create`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        }
-      );
+      const response = await fetch(`${APP_URL}/form/create`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -87,10 +85,8 @@ export default function CreateForm() {
       toast.success("Form created sucessfully!");
 
       navigate("/create-form");
-
     } catch (error) {
       console.error("Fetch error:", error);
-      
     } finally {
       setIsLoading(false);
     }
@@ -99,18 +95,16 @@ export default function CreateForm() {
   // Get TopisID
   async function fetchTopics() {
     try {
-      const response = await fetch(
-        `${APP_URL}/topic/getAll`
-      );
-      
+      const response = await fetch(`${APP_URL}/topic/getAll`);
+
       if (!response.ok) {
         throw new Error("Error fetching topics");
       }
       const data = await response.json();
-      
+
       setTopicsData(data);
     } catch (error) {
-      console.error("Fetch error:", error); 
+      console.error("Fetch error:", error);
     }
   }
 
@@ -122,14 +116,18 @@ export default function CreateForm() {
 
   function handleAddTags(e) {
     const value = e.target.value;
-    const tagsArray = value?.split(",")
+    const tagsArray = value
+      ?.split(",")
       ?.map((tag) => tag?.trim())
       ?.filter((tag) => tag);
-    
+
     setFormData({ ...formData, tags: tagsArray });
   }
 
   // UTILS
+
+
+  console.log("Auth DATA",authData)
 
   return (
     <div className="gray-background w-full min-h-screen  px-3 py-3 flex items-center flex-col">
@@ -174,12 +172,10 @@ export default function CreateForm() {
             variant="bordered"
             onChange={(e) =>
               setFormData({ ...formData, topicId: e.target.value })
-            }
-          >
+            }>
             {topicsData?.map((topic) => (
-                <SelectItem key={topic?.id}>{topic?.name}</SelectItem>
-              ))
-            }
+              <SelectItem key={topic?.id}>{topic?.name}</SelectItem>
+            ))}
           </Select>
           {/* <p>Public</p> */}
         </div>
@@ -188,24 +184,21 @@ export default function CreateForm() {
           <div className="w-1/6 ">
             <Card
               className="h-full flex items-center justify-center font-semibold text-4xl bg-neutral-900 text-white border-radius3 "
-              size="md"
-            >
+              size="md">
               .
             </Card>
           </div>
           <div className="w-2/6">
             <Card
               className="h-full  flex items-center justify-center font-semibold text-4xl bg-neutral-900 text-white border-radius2"
-              size="md"
-            >
+              size="md">
               /
             </Card>
           </div>
           <div className="w-3/6">
             <Card
               className="h-full  flex items-center justify-center font-semibold text-4xl bg-neutral-900 text-white border-radius3"
-              size="md"
-            >
+              size="md">
               formo
             </Card>
           </div>
@@ -226,8 +219,7 @@ export default function CreateForm() {
             defaultSelected
             onChange={(e) => {
               setFormData({ ...formData, isPublic: e.target.checked });
-            }}
-          >
+            }}>
             Public
           </Checkbox>
         </div>
@@ -241,9 +233,9 @@ export default function CreateForm() {
           {formData?.inputsData?.map((item, index) => {
             return (
               <div key={index}>
-                <RenderInput 
-                  inputData={item} 
-                  index={index} 
+                <RenderInput
+                  inputData={item}
+                  index={index}
                   setFormData={setFormData}
                   formData={formData}
                 />
