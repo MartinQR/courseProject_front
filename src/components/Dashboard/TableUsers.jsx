@@ -163,7 +163,6 @@ export default function TableUsers() {
     switch (columnKey) {
       case "name":
         const userName = `${user?.firstName} ${user?.lastName}`;
-        console.log("User Name", userName);
         return <User name={userName}></User>;
       case "email":
         return (
@@ -207,8 +206,6 @@ export default function TableUsers() {
     { name: "ADMIN", uid: "admin" },
   ];
 
-  console.log("Data Users", dataUsers);
-  console.log("Selected Users", selectedUsers);
   return (
     <div className="flex items-center justify-center flex-col space-y-3 ">
       <div className="w-4/5 flex items-center justify-center flex-col">
