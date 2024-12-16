@@ -4,10 +4,13 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Card } from "@nextui-org/react";
 import useWindowSize from "../../Hooks.jsx/UseWindowSize.js";
 import { div } from "framer-motion/client";
+import { useNavigate } from "react-router-dom";
 import TableUsers from "./TableUsers.jsx";
+import { TemplatesManagment } from "./TemplatesManagment.jsx";
 
 export default function Dashboard() {
   const size = useWindowSize();
+  const navigate = useNavigate();
 
   return (
     <div className="gray-background w-full min-h-screen  px-3 py-3 flex items-center flex-col">
@@ -50,11 +53,14 @@ export default function Dashboard() {
               </Card>
             </div>
             <div className="w-3/6">
-              <Card
-                className="h-full  flex items-center justify-center font-semibold text-4xl bg-neutral-900 text-white border-radius3"
-                size="md">
+              <button
+                className="h-full w-full  flex items-center justify-center font-semibold text-4xl bg-neutral-900 text-white border-radius3"
+                size="md"
+                onClick={() => {
+                  navigate("/");
+                }}>
                 formo
-              </Card>
+              </button>
             </div>
             {/* Termina Div 9 */}
           </div>
@@ -100,11 +106,14 @@ export default function Dashboard() {
                 </Card>
               </div>
               <div className="w-3/6">
-                <Card
-                  className="h-full  flex items-center justify-center font-semibold text-xl bg-neutral-900 text-white rounded-xl"
-                  size="md">
+                <button
+                  className="h-full w-full  flex items-center justify-center font-semibold text-xl bg-neutral-900 text-white rounded-xl"
+                  size="md"
+                  onClick={() => {
+                    navigate("/");
+                  }}>
                   formo
-                </Card>
+                </button>
               </div>
             </div>
           </div>
@@ -143,11 +152,14 @@ export default function Dashboard() {
                 </Card>
               </div>
               <div className="w-3/6">
-                <Card
-                  className="h-full  flex items-center justify-center font-semibold text-4xl bg-neutral-900 text-white rounded-3xl"
-                  size="md">
+                <button
+                  className="h-full w-full flex items-center justify-center font-semibold text-4xl bg-neutral-900 text-white rounded-3xl"
+                  size="md"
+                  onClick={() => {
+                    navigate("/");
+                  }}>
                   formo
-                </Card>
+                </button>
               </div>
             </div>
           </div>
@@ -161,10 +173,15 @@ export default function Dashboard() {
         <div className="w-auto ml-8 mt-4 ">
           <p className="text-4xl">DASHBOARD</p>
         </div>
-
-        <div className="w-2/3">
-          {/* Table Managment User */}
+        {/* Table Managment */}
+        <div className="w-full px-10">
           <TableUsers />
+        </div>
+
+        {/* Templates and Forms Managment */}
+        <div className="mt-4 w-full flex flex-col items-center px-10">
+          <p className="text-3xl">Templates Managment</p>
+          <TemplatesManagment></TemplatesManagment>
         </div>
       </div>
     </div>

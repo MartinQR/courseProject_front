@@ -8,6 +8,12 @@ import {
   SelectItem,
   Textarea,
   Checkbox,
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  useDisclosure,
 } from "@nextui-org/react";
 import AddInput from "../Input/AddInput";
 import RenderInput from "../Input/RenderInput";
@@ -21,6 +27,7 @@ import useWindowSize from "../../Hooks.jsx/UseWindowSize.js";
 export default function CreateForm() {
   const [newInput, setNewInput] = useState();
   const [isloading, setIsLoading] = useState();
+  const [openModal, setOpenModal] = useState(false);
   const [topicsData, setTopicsData] = useState();
   const { authData, setAuthData } = useContext(AuthContext);
 
@@ -86,8 +93,8 @@ export default function CreateForm() {
       const data = await response.json();
 
       toast.success("Form created sucessfully!");
-
-      navigate("/create-form");
+      setOpenModal(true);
+      // navigate("/create-form");
     } catch (error) {
       console.error("Fetch error:", error);
     } finally {
@@ -198,11 +205,14 @@ export default function CreateForm() {
               </Card>
             </div>
             <div className="w-3/6">
-              <Card
-                className="h-full  flex items-center justify-center font-semibold text-4xl bg-neutral-900 text-white border-radius3"
-                size="md">
+              <button
+                className="h-full w-full  flex items-center justify-center font-semibold text-4xl bg-neutral-900 text-white border-radius3"
+                size="md"
+                onClick={() => {
+                  navigate("/");
+                }}>
                 formo
-              </Card>
+              </button>
             </div>
           </div>
           <div className="bg-neutral-100 row-start-2 col-start-1 border-radius2 flex items-center justify-center p-4">
@@ -257,11 +267,14 @@ export default function CreateForm() {
                 </Card>
               </div>
               <div className="w-3/6">
-                <Card
-                  className="h-full  flex items-center justify-center font-semibold text-xl bg-neutral-900 text-white rounded-xl"
-                  size="md">
+                <button
+                  className="h-full w-full flex items-center justify-center font-semibold text-xl bg-neutral-900 text-white rounded-xl"
+                  size="md"
+                  onClick={() => {
+                    navigate("/");
+                  }}>
                   formo
-                </Card>
+                </button>
               </div>
             </div>
           </div>
@@ -365,11 +378,14 @@ export default function CreateForm() {
                 </Card>
               </div>
               <div className="w-3/6">
-                <Card
-                  className="h-full  flex items-center justify-center font-semibold text-4xl bg-neutral-900 text-white rounded-3xl"
-                  size="md">
+                <button
+                  className="h-full w-full  flex items-center justify-center font-semibold text-4xl bg-neutral-900 text-white rounded-3xl"
+                  size="md"
+                  onClick={() => {
+                    navigate("/");
+                  }}>
                   formo
-                </Card>
+                </button>
               </div>
             </div>
           </div>
@@ -458,6 +474,67 @@ export default function CreateForm() {
           <AddInput setFormData={setFormData} formData={formData} />
         </div>
       </Card>
+
+      {/* Confirmation Modal */}
+
+      <Modal
+        isOpen={openModal}
+        onClose={() => {
+          setOpenModal(false);
+        }}
+        size="lg">
+        <ModalContent>
+          <ModalHeader className="flex items-center">
+            <p>Form created sucessfully!</p>
+            <div className="w-6 h-auto ml-2">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                <path
+                  fill="#32CD32"
+                  d="M256 48a208 208 0 1 1 0 416 208 208 0 1 1 0-416zm0 464A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-111 111-47-47c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l64 64c9.4 9.4 24.6 9.4 33.9 0L369 209z"
+                />
+              </svg>
+            </div>
+          </ModalHeader>
+          <ModalBody className="m-2">
+            <div>
+              Your form has been created successfully. Share the link below so
+              others can respond to it, or provide the generated Form ID.
+            </div>
+            <div className="text-sm space-y-21">
+              <div>
+                <span className="font-bold">Form Link: </span>
+                http://localhost:4000/234234234234{" "}
+              </div>
+              <div>
+                <span className="font-bold">Form ID: </span> 12341241234124124
+              </div>
+            </div>
+          </ModalBody>
+          <ModalFooter>
+            <Button
+              variant="flat"
+              onClick={() => {
+                navigate("/dashboard");
+              }}>
+              My Forms
+            </Button>
+            <Button
+              variant="flat"
+              onClick={() => {
+                setOpenModal(false);
+              }}>
+              New Form
+            </Button>
+            <Button
+              variant="shadow"
+              onClick={() => {
+                navigate("/");
+              }}>
+              Home
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </div>
   );
 }
