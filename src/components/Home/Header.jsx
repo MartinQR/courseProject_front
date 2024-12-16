@@ -14,7 +14,12 @@ export default function Header() {
   //   navigate("/create-form");
   // }
 
-  console.log("Auth Data", authData);
+  function logOut() {
+    setAuthData(null);
+    localStorage.removeItem("authData");
+    navigate("/");
+  }
+
   return (
     <div className="flex items-center justify-between ">
       <div className="flex  gap-1">
@@ -61,37 +66,53 @@ export default function Header() {
 
         {toggleBtn && (
           <div className="space-x-1 ml-2">
-            <Button
-              className="h-12"
-              onClick={() => {
-                navigate("/login");
-              }}>
-              Login
-            </Button>
-            <Button
-              className="h-12"
-              onClick={() => {
-                navigate("/signup");
-              }}>
-              Sign Up
-            </Button>
-            {authData && (
+            
+            {authData ? (
               <>
                 <Button
                   className="h-12"
                   onClick={() => {
                     navigate("/create-form");
-                  }}>
+                  }}
+                >
                   Create Form
                 </Button>
+
                 <Button className="h-12">Join Form</Button>
+
                 <Button
                   className="h-12"
                   onClick={() => {
                     navigate("/dashboard");
-                  }}>
+                  }}
+                >
                   Dashboard
                 </Button>
+
+                <Button
+                  className="h-12"
+                  onClick={logOut}
+                >
+                  Log out
+                </Button>
+              </>
+            )
+            :(
+              <>
+              <Button
+                className="h-12"
+                onClick={() => {
+                  navigate("/login");
+                }}>
+                Login
+              </Button>
+              <Button
+                className="h-12"
+                onClick={() => {
+                  navigate("/signup");
+                }}>
+                Sign Up
+              </Button>
               </>
             )}
           </div>

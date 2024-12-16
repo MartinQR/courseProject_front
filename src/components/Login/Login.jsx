@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Card, Input, Button } from "@nextui-org/react";
 import { EyeFilledIcon } from "../../assets/EyeFilledIcon";
 import { EyeSlashFilledIcon } from "../../assets/EyeSlashFilledIcon";
@@ -10,7 +10,7 @@ import { AuthContext } from "../../contexts/AuthContext";
 const AP_URL = import.meta.env.VITE_APP_URL;
 
 export default function Login() {
-  const { setAuthData, authData } = useContext(AuthContext);
+  const { setAuthData } = useContext(AuthContext);
   const [isVisible, setIsVisible] = useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
   const [userForm, setUserForm] = useState();
@@ -45,13 +45,12 @@ export default function Login() {
       const data = await response.json();
 
       if (response.ok) {
-        console.log("Successful login: " + JSON.stringify(data));
         toast.success("Successsfully Login!");
         setAuthData(data);
-
+        localStorage.setItem("authData", JSON.stringify(data));
         navigate("/", { state: { email: userForm.email } });
+
       } else {
-        console.log("Error: " + data.error);
         toast.error("Error: " + data.error);
       }
     } catch (error) {
