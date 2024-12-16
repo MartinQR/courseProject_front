@@ -49,8 +49,6 @@ export default function AddInput({ setFormData, formData }) {
   }
 
   function handleAddInput() {
-
-    console.log("Input Data", inputData);
     if (!inputData?.title?.trim()) {
       toast.error("Title is required");
       return;

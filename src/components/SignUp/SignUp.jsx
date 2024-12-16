@@ -63,7 +63,6 @@ export default function SignUp() {
       const data = await response.json();
 
       if (response.ok) {
-        console.log("Successfully registered user: " + JSON.stringify(data));
         toast.success("Successfully registered user!");
         navigate("/login");
       } else {
@@ -76,7 +75,8 @@ export default function SignUp() {
       setIsLoading(false)
     }
   };
-  console.log("User", user);
+
+
   return (
     <div className="gray-background px-3 py-3 h-screen ">
       <div className="h-1/6">

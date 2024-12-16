@@ -3,14 +3,37 @@ import {
   ButtonGroup,
   Card,
   CardHeader,
-  CardBody,
-  CardFooter,
 } from "@nextui-org/react";
-import { useScroll } from "framer-motion";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../../contexts/AuthContext";
+const APP_URL = import.meta.env.VITE_APP_URL;
 
 export function TemplatesManagment() {
+  const { authData } = useContext(AuthContext);
   const [btnSelection, setBtnSelection] = useState(true);
+
+  const getUserTemplates = async (userId) => {
+    try {
+      const response = await fetch(`${APP_URL}/form/getFormsByUserId?userId=${userId}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const data = await response.json();
+
+      console.log(data);
+      
+      
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+  
+  useEffect(() => {
+    getUserTemplates(authData?.id);
+  }, []);
 
   return (
     <div className="w-full  flex flex-col space-y-4 items-center justify-center my-4">

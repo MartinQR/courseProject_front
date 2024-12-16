@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Toaster } from "react-hot-toast";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Card } from "@nextui-org/react";
@@ -7,8 +7,12 @@ import { div } from "framer-motion/client";
 import { useNavigate } from "react-router-dom";
 import TableUsers from "./TableUsers.jsx";
 import { TemplatesManagment } from "./TemplatesManagment.jsx";
+import { AuthContext } from "../../contexts/AuthContext.jsx";
 
 export default function Dashboard() {
+  const { authData } = useContext(AuthContext);
+  console.log(authData);
+  
   const size = useWindowSize();
   const navigate = useNavigate();
 
@@ -174,14 +178,19 @@ export default function Dashboard() {
           <p className="text-4xl">DASHBOARD</p>
         </div>
         {/* Table Managment */}
-        <div className="w-full px-10">
-          <TableUsers />
-        </div>
+        {authData?.isAdmin 
+          ? (
+              <div className="w-full px-10">
+                <TableUsers />
+              </div>
+            )
+          : null
+        }
 
         {/* Templates and Forms Managment */}
         <div className="mt-4 w-full flex flex-col items-center px-10">
           <p className="text-3xl">Templates Managment</p>
-          <TemplatesManagment></TemplatesManagment>
+          <TemplatesManagment />
         </div>
       </div>
     </div>
