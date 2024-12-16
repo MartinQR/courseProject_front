@@ -80,26 +80,23 @@ export default function TableUsers() {
 
       fetchUsers();
     } catch (error) {
-      toast.error("Error blocking users: " + error);
+      // toast.error("Error blocking users ",error);
     }
   };
 
   //Delete users
   const deleteUsers = async (selectedUserIds) => {
     try {
-      const response = await fetch(
-        `${AP_URL}/user/delete`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            adminId: "40d15f47-4779-45c4-ae40-55456de18862",
-            usersId: selectedUserIds,
-          }),
-        }
-      );
+      const response = await fetch(`${AP_URL}/user/delete`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          adminId: "40d15f47-4779-45c4-ae40-55456de18862",
+          usersId: selectedUserIds,
+        }),
+      });
 
       if (!response.ok) {
         if (response.status === 403 || response.status === 404) {
@@ -124,20 +121,17 @@ export default function TableUsers() {
 
   const makeRemoveAdmin = async (selectedUserIds, action) => {
     try {
-      const response = await fetch(
-        `${AP_URL}/user/updateAdminStatus`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            adminId: "40d15f47-4779-45c4-ae40-55456de18862",
-            usersId: selectedUserIds,
-            action: action,
-          }),
-        }
-      );
+      const response = await fetch(`${AP_URL}/user/updateAdminStatus`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          adminId: "40d15f47-4779-45c4-ae40-55456de18862",
+          usersId: selectedUserIds,
+          action: action,
+        }),
+      });
 
       if (!response.ok) {
         if (response.status === 403 || response.status === 404) {
@@ -294,7 +288,9 @@ export default function TableUsers() {
         </div> */}
       </div>
       {/* Container for the Table */}
-      <div className="w-1/2  sm:w-9/12 md:w-11/12 lg:w-full mb-10">
+      <div className="w-full">
+        {/* // className="w-1/2 sm:w-9/12 md:w-11/12 lg:w-full mb-10" */}
+
         <Table
           selectionMode="multiple"
           onSelectionChange={setSelectedKeys}

@@ -205,11 +205,14 @@ export default function CreateForm() {
               </Card>
             </div>
             <div className="w-3/6">
-              <Card
-                className="h-full  flex items-center justify-center font-semibold text-4xl bg-neutral-900 text-white border-radius3"
-                size="md">
+              <button
+                className="h-full w-full  flex items-center justify-center font-semibold text-4xl bg-neutral-900 text-white border-radius3"
+                size="md"
+                onClick={() => {
+                  navigate("/");
+                }}>
                 formo
-              </Card>
+              </button>
             </div>
           </div>
           <div className="bg-neutral-100 row-start-2 col-start-1 border-radius2 flex items-center justify-center p-4">
@@ -264,11 +267,14 @@ export default function CreateForm() {
                 </Card>
               </div>
               <div className="w-3/6">
-                <Card
-                  className="h-full  flex items-center justify-center font-semibold text-xl bg-neutral-900 text-white rounded-xl"
-                  size="md">
+                <button
+                  className="h-full w-full flex items-center justify-center font-semibold text-xl bg-neutral-900 text-white rounded-xl"
+                  size="md"
+                  onClick={() => {
+                    navigate("/");
+                  }}>
                   formo
-                </Card>
+                </button>
               </div>
             </div>
           </div>
@@ -372,11 +378,14 @@ export default function CreateForm() {
                 </Card>
               </div>
               <div className="w-3/6">
-                <Card
-                  className="h-full  flex items-center justify-center font-semibold text-4xl bg-neutral-900 text-white rounded-3xl"
-                  size="md">
+                <button
+                  className="h-full w-full  flex items-center justify-center font-semibold text-4xl bg-neutral-900 text-white rounded-3xl"
+                  size="md"
+                  onClick={() => {
+                    navigate("/");
+                  }}>
                   formo
-                </Card>
+                </button>
               </div>
             </div>
           </div>
@@ -502,7 +511,13 @@ export default function CreateForm() {
             </div>
           </ModalBody>
           <ModalFooter>
-            <Button variant="flat" onClick={()=>{navigate("/dashboard")}}>My Forms</Button>
+            <Button
+              variant="flat"
+              onClick={() => {
+                navigate("/dashboard");
+              }}>
+              My Forms
+            </Button>
             <Button
               variant="flat"
               onClick={() => {
