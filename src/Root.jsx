@@ -4,6 +4,7 @@ import CreateForm from "./components/CreateForm/CreateForm.jsx";
 import Login from "./components/Login/Login.jsx";
 import SignUp from "./components/SignUp/SignUp.jsx";
 import Dashboard from "./components/Dashboard/Dashboard.jsx";
+import FillForm from "./components/FillForm/FillForm.jsx";
 import { Toaster } from "react-hot-toast";
 
 export default function Root() {
@@ -16,6 +17,7 @@ export default function Root() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/fill-form" element={<FillForm />} />
       </Routes>
     </Router>
   );

@@ -78,7 +78,7 @@ export default function Header() {
                   Create Form
                 </Button>
 
-                <Button className="h-12">Join Form</Button>
+                <Button className="h-12" onClick={()=>{navigate("/fill-form")}}>Fill out form</Button>
 
                 <Button
                   className="h-12"
