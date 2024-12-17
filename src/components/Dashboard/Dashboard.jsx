@@ -11,7 +11,6 @@ import { AuthContext } from "../../contexts/AuthContext.jsx";
 
 export default function Dashboard() {
   const { authData } = useContext(AuthContext);
-  console.log(authData);
   
   const size = useWindowSize();
   const navigate = useNavigate();
