@@ -23,7 +23,7 @@ import toast from "react-hot-toast";
 //   vacation: "warning",
 // };
 
-const AP_URL = import.meta.env.VITE_APP_URL;
+const APP_URL = import.meta.env.VITE_APP_URL;
 
 export default function TableUsers() {
   const [selectedKeys, setSelectedKeys] = useState([]);
@@ -37,7 +37,7 @@ export default function TableUsers() {
   // Get Users Data
   const fetchUsers = async () => {
     try {
-      const response = await fetch(`${AP_URL}/user/getAll`);
+      const response = await fetch(`${APP_URL}/user/getAll`);
       if (!response.ok) {
         throw new Error("Error fetching users");
       }
@@ -52,7 +52,7 @@ export default function TableUsers() {
 
   const blockUnlockUsers = async (selectedUserIds, action) => {
     try {
-      const response = await fetch(`${AP_URL}/user/updateBlockedStatus`, {
+      const response = await fetch(`${APP_URL}/user/updateBlockedStatus`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -87,7 +87,7 @@ export default function TableUsers() {
   //Delete users
   const deleteUsers = async (selectedUserIds) => {
     try {
-      const response = await fetch(`${AP_URL}/user/delete`, {
+      const response = await fetch(`${APP_URL}/user/delete`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -121,7 +121,7 @@ export default function TableUsers() {
 
   const makeRemoveAdmin = async (selectedUserIds, action) => {
     try {
-      const response = await fetch(`${AP_URL}/user/updateAdminStatus`, {
+      const response = await fetch(`${APP_URL}/user/updateAdminStatus`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
