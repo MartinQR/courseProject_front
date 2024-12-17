@@ -20,24 +20,40 @@ import { useNavigate } from "react-router-dom";
 const APP_URL = import.meta.env.VITE_APP_URL;
 import { AuthContext } from "../../contexts/AuthContext";
 import useWindowSize from "../../Hooks.jsx/UseWindowSize.js";
+import RenderInputFill from "../Input/RenderInputFill.jsx";
 
 export default function FillForm() {
   const { authData, setAuthData } = useContext(AuthContext);
+  const [formData, setFormData] = useState({});
+  const [filledForm, setFilledForm] = useState({});
   const size = useWindowSize();
 
+  useEffect(() => {
+    setFilledForm({
+      formId: "sdsdsd",
+      userId: "sdfsf",
+      answers: [],
+    });
+  }, []);
   // Get template to fill
-  const fetchForm = async () => {
+  const fetchForm = async (formId) => {
     try {
-      const response = await fetch(`${AP_URL}/user/getAll`);
+      const response = await fetch(`${APP_URL}/form/getFormById?id=${formId}`);
       if (!response.ok) {
-        throw new Error("Error fetching users");
+        throw new Error("Error gettin Form");
       }
       const data = await response.json();
-      setDataUsers(data);
+      setFormData(data);
     } catch (error) {
-      console.error("Error fetching users:", error);
+      console.error("Error gettinf Form:", error);
     }
   };
+
+  useEffect(() => {
+    fetchForm("d7b32ba4-b8af-4cb2-8ae7-b3d0f75207f5");
+  }, []);
+
+  console.log("Form Data", formData);
 
   return (
     <div className="gray-background w-full min-h-screen  px-3 py-3 flex items-center flex-col">
@@ -53,14 +69,25 @@ export default function FillForm() {
           <div className="bg-amber-400 border-radius2 flex items-center justify-center">
             2
           </div>
-          <div className="row-span-2 bg-neutral-100 border-radius2 flex items-center justify-center ">
-            3
+          <div className="row-span-2 bg-neutral-100 border-radius2 flex items-center justify-center flex-col p-4 ">
+            <div className="text-center font-bold text-sm h-1/3">
+              {formData?.title}
+            </div>
+            <div className="text-center text-xs h-2/3">
+              {formData?.description}
+            </div>
           </div>
-          <div className="bg-neutral-100 border-radius2 flex items-center justify-center p-4">
-            4
+          <div className="bg-neutral-100 border-radius2 p-4">
+            {formData?.tags?.map((item, index) => {
+              return (
+                <p key={index} className="text-xs">
+                  #{item}
+                </p>
+              );
+            })}
           </div>
           <div className="bg-neutral-100 border-radius2 flex items-center justify-center flex-col p-4">
-            5
+            {formData?.topic?.name}
           </div>
 
           <div className="col-span-2 col-start-4 flex space-x-1 ">
@@ -196,8 +223,13 @@ export default function FillForm() {
         "No resize window"
       )}
       {/* Body Div */}
-      <div className="mt-4 w-full flex items-center justify-center px-10">
+      <div className="mt-4 w-full flex items-center flex-col justify-center px-10 space-y-2">
         <p className="text-4xl">PLEASE FILL OUT THE FORM</p>
+        <Card className="bg-neutral-100 w-full md:w-3/5 my-5 p-5">
+          {formData?.inputs?.map((item) => (
+            <RenderInputFill inputData={item} />
+          ))}
+        </Card>
       </div>
     </div>
   );
