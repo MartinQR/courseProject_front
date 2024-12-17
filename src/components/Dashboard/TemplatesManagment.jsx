@@ -23,11 +23,7 @@ export function TemplatesManagment() {
         },
       });
       const data = await response.json();
-
-      console.log(data);
-
       setTemplates(data);
-      
       
     } catch (error) {
       throw new Error(error);
@@ -35,7 +31,6 @@ export function TemplatesManagment() {
   };
   
   useEffect(() => {
-    console.log(authData);
     if (authData?.id) {
       getUserTemplates(authData?.id);
     }
