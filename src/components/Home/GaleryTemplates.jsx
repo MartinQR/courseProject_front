@@ -22,7 +22,6 @@ export default function GalleryTemplates() {
       setLoading(true);
       const response = await fetch(`${APP_URL}/form/getLastFivePublicForms`);
       const data = await response.json();
-      console.log("data", data);
       
       setLastFivePublicTemplate(data);
       setLoading(false);
@@ -61,6 +60,16 @@ export default function GalleryTemplates() {
                   <p>
                     {template?.description}
                   </p>
+
+
+                  <div className="flex justify-between items-center mt-4">
+                    <p className="text-sm text-gray-500 mt-4">
+                      {template?.topic?.name}
+                    </p>
+                    <p className="text-sm text-gray-500 mt-4">
+                      {template?.user?.email}
+                    </p>
+                  </div>
                 </div>
               </Card>
             )
