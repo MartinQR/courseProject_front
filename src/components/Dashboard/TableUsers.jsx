@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useContext } from "react";
 import {
   Card,
   Table,
@@ -16,6 +16,7 @@ import {
 } from "@nextui-org/react";
 import { useLocation, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { AuthContext } from "../../contexts/AuthContext";
 
 // const statusColorMap = {
 //   active: "success",
@@ -26,6 +27,7 @@ import toast from "react-hot-toast";
 const APP_URL = import.meta.env.VITE_APP_URL;
 
 export default function TableUsers() {
+  const { authData } = useContext(AuthContext);
   const [selectedKeys, setSelectedKeys] = useState([]);
   const [dataUsers, setDataUsers] = useState([]);
   const [reload, setReload] = useState();
@@ -58,21 +60,15 @@ export default function TableUsers() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          adminId: "e089f675-c5f2-4d25-bc22-eb34fbeb6b3a",
+          adminId: authData?.id,
           usersId: selectedUserIds,
           action: action,
         }),
       });
 
       if (!response.ok) {
-        if (response.status === 403 || response.status === 404) {
-          toast.error(
-            "Your account is blocked or does not exist. Please log in again."
-          );
-          navigate("/");
-          return;
-        }
-        throw new Error("Error blocking users");
+        const errorMessage = await response.json()
+        throw new Error(errorMessage?.error);
       }
 
       const result = await response.json();
@@ -80,7 +76,7 @@ export default function TableUsers() {
 
       fetchUsers();
     } catch (error) {
-      // toast.error("Error blocking users ",error);
+      toast.error(error?.message);
     }
   };
 
@@ -93,27 +89,21 @@ export default function TableUsers() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          adminId: "40d15f47-4779-45c4-ae40-55456de18862",
+          adminId: authData?.id,
           usersId: selectedUserIds,
         }),
       });
 
       if (!response.ok) {
-        if (response.status === 403 || response.status === 404) {
-          toast.error(
-            "Your account is blocked or does not exist. Please log in again."
-          );
-          navigate("/");
-          return;
-        }
-        throw new Error("Error deleting users");
+        const errorMessage = await response.json()
+        throw new Error(errorMessage?.error);
       }
 
       const result = await response.json();
       toast.success("Successfully deleted users!", result);
       fetchUsers();
     } catch (error) {
-      toast.error("Error: " + error);
+      toast.error(error?.message);
     }
   };
 
@@ -127,21 +117,16 @@ export default function TableUsers() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          adminId: "40d15f47-4779-45c4-ae40-55456de18862",
+          adminId: authData?.id,
           usersId: selectedUserIds,
           action: action,
         }),
       });
 
       if (!response.ok) {
-        if (response.status === 403 || response.status === 404) {
-          toast.error(
-            "Your account is blocked or does not exist. Please log in again."
-          );
-          navigate("/");
-          return;
-        }
-        throw new Error("Error blocking users");
+        const errorMessage = await response.json();
+        
+        throw new Error(errorMessage?.error);
       }
 
       const result = await response.json();
@@ -149,6 +134,7 @@ export default function TableUsers() {
 
       fetchUsers();
     } catch (error) {
+      toast.error(error.message);
       console.error("Error unlocked users:", error);
     }
   };
