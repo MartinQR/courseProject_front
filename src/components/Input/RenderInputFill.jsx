@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Card,
   Button,
@@ -9,17 +9,36 @@ import {
   CheckboxGroup,
   Textarea,
 } from "@nextui-org/react";
+import { input } from "framer-motion/m";
 
 export default function RenderInputFill({
   inputData,
-  //   index,
+  answersForm,
+  setAnswersForm,
+  filledForm,
+  setFilledForm,
 }) {
-  //   function handleDeleteInput() {
-  //     const newInputs = formData?.inputsData?.filter((_, i) => i !== index);
-  //     setFormData({ ...formData, inputsData: newInputs });
-  //   }
+  const [selected, setSelected] = useState([]);
 
-  console.log("Input Data", inputData);
+  //   Handle Action to add Answer to an input
+
+  function handleAnswer(value) {
+    const newAnswers = filledForm?.answers?.map((item) => {
+      if (item?.inputId === inputData?.id) {
+        return {
+          ...item,
+          value: inputData?.type === "CHECKBOX" ? value : [value],
+        };
+      } else {
+        return item;
+      }
+    });
+
+    setFilledForm({ ...filledForm, answers: newAnswers });
+  }
+
+  //   console.log("Selected", selected);
+
   return (
     <div className="my-2">
       {inputData?.type === "SINGLE-LINE" ? (
@@ -33,7 +52,13 @@ export default function RenderInputFill({
           </div>
 
           <div>
-            <Input label="Answer" variant="underlined" size="sm"></Input>
+            <Input
+              label="Answer"
+              variant="underlined"
+              size="sm"
+              onChange={(e) => {
+                handleAnswer(e.target.value);
+              }}></Input>
           </div>
         </Card>
       ) : inputData?.type === "MULTIPLE-LINE" ? (
@@ -47,7 +72,13 @@ export default function RenderInputFill({
 
           <div>
             {" "}
-            <Textarea label="Answer" variant="underlined" size="sm"></Textarea>
+            <Textarea
+              label="Answer"
+              variant="underlined"
+              size="sm"
+              onChange={(e) => {
+                handleAnswer(e.target.value);
+              }}></Textarea>
           </div>
         </Card>
       ) : inputData?.type === "INTEGER" ? (
@@ -60,7 +91,13 @@ export default function RenderInputFill({
           </div>
 
           <div>
-            <Input label="Answer" variant="underlined" size="sm"></Input>
+            <Input
+              label="Answer"
+              variant="underlined"
+              size="sm"
+              onChange={(e) => {
+                handleAnswer(e.target.value);
+              }}></Input>
           </div>
         </Card>
       ) : inputData?.type === "CHECKBOX" ? (
@@ -73,11 +110,21 @@ export default function RenderInputFill({
           </div>
 
           <div className="ml-4 my-2 ">
-            <CheckboxGroup>
+            <CheckboxGroup
+              label="Select one or more options"
+              value={selected}
+              onValueChange={(newValues) => {
+                setSelected(newValues);
+                handleAnswer(newValues);
+              }}
+              //   onChange={() => {
+              //     handleAnswer(selected);
+              //   }}
+            >
               {inputData?.values?.map((item, index) => {
                 return (
                   <div key={index} className="">
-                    <Checkbox size="sm" value={item}>
+                    <Checkbox value={item} size="sm">
                       {item}
                     </Checkbox>
                   </div>

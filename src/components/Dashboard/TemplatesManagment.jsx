@@ -31,8 +31,8 @@ export function TemplatesManagment() {
   };
   
   useEffect(() => {
-    if (authData?.id) {
-      getUserTemplates(authData?.id);
+    if (authData?.userId) {
+      getUserTemplates(authData?.userId);
     }
   }, [authData]);
 

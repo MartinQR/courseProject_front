@@ -60,14 +60,14 @@ export default function TableUsers() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          adminId: authData?.id,
+          adminId: authData?.userId,
           usersId: selectedUserIds,
           action: action,
         }),
       });
 
       if (!response.ok) {
-        const errorMessage = await response.json()
+        const errorMessage = await response.json();
         throw new Error(errorMessage?.error);
       }
 
@@ -89,13 +89,13 @@ export default function TableUsers() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          adminId: authData?.id,
+          adminId: authData?.userId,
           usersId: selectedUserIds,
         }),
       });
 
       if (!response.ok) {
-        const errorMessage = await response.json()
+        const errorMessage = await response.json();
         throw new Error(errorMessage?.error);
       }
 
@@ -117,7 +117,7 @@ export default function TableUsers() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          adminId: authData?.id,
+          adminId: authData?.userId,
           usersId: selectedUserIds,
           action: action,
         }),
@@ -125,7 +125,7 @@ export default function TableUsers() {
 
       if (!response.ok) {
         const errorMessage = await response.json();
-        
+
         throw new Error(errorMessage?.error);
       }
 

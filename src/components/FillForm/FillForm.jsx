@@ -2,6 +2,7 @@ import "../../index.css";
 import { useState, useEffect, useContext } from "react";
 import {
   Card,
+  Spinner,
   Button,
   Input,
   Select,
@@ -21,20 +22,50 @@ const APP_URL = import.meta.env.VITE_APP_URL;
 import { AuthContext } from "../../contexts/AuthContext";
 import useWindowSize from "../../Hooks.jsx/UseWindowSize.js";
 import RenderInputFill from "../Input/RenderInputFill.jsx";
+import arrow from "../../assets/arrowthin.svg";
 
 export default function FillForm() {
   const { authData, setAuthData } = useContext(AuthContext);
   const [formData, setFormData] = useState({});
   const [filledForm, setFilledForm] = useState({});
+  const [answersForm, setAnswersForm] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const size = useWindowSize();
 
-  useEffect(() => {
-    setFilledForm({
-      formId: "sdsdsd",
-      userId: "sdfsf",
-      answers: [],
-    });
-  }, []);
+  const navigate = useNavigate();
+  // SUBMIT DE FORM
+
+  async function handleSubmitForm() {
+    setIsLoading(true);
+    try {
+      const response = await fetch(`${APP_URL}/form/filloutForm`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(filledForm),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(
+          errorData.message ||
+            `Error ${response.status}: ${response.statusText}`
+        );
+      }
+      // SuccesFully Response
+      const data = await response.json();
+
+      toast.success("Form created sucessfully!");
+      setOpenModal(true);
+      // navigate("/create-form");
+    } catch (error) {
+      console.error("Fetch error:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
   // Get template to fill
   const fetchForm = async (formId) => {
     try {
@@ -53,7 +84,23 @@ export default function FillForm() {
     fetchForm("d7b32ba4-b8af-4cb2-8ae7-b3d0f75207f5");
   }, []);
 
-  console.log("Form Data", formData);
+  useEffect(() => {
+    const answersForm = formData?.inputs?.map((item) => {
+      return { inputId: item?.id };
+    });
+
+    console.log("Answers Form", answersForm);
+    setFilledForm({
+      formId: formData?.id,
+      userId: authData?.userId,
+      answers: answersForm,
+    });
+  }, [formData]);
+
+  // console.log("Form Data", formData);
+  // console.log("Answers Form", answersForm);
+  console.log("Filled Form", filledForm);
+  console.log("authData", authData);
 
   return (
     <div className="gray-background w-full min-h-screen  px-3 py-3 flex items-center flex-col">
@@ -119,12 +166,33 @@ export default function FillForm() {
             {/* Termina Div 9 */}
           </div>
           <div className="bg-neutral-100 row-start-2 col-start-1 border-radius2 flex items-center justify-center p-4">
-            6
+            <div className="flex w-full items-center justify-center">
+              {isLoading ? (
+                <Spinner size="lg" color="warning" />
+              ) : (
+                <>
+                  {" "}
+                  <div className="w-1/2 text-right">SUBMIT</div>
+                  <button
+                    isLoading={isLoading}
+                    className="w-1/2 flex "
+                    onClick={handleSubmitForm}>
+                    <img src={arrow} className="h-auto object-contain" />
+                  </button>
+                </>
+              )}
+            </div>
           </div>
 
           <div className="bg-neutral-100 row-start-2 col-start-2 border-radius2 flex items-center justify-center p-4">
-            {" "}
-            7
+            <Checkbox
+              defaultSelected
+              // onChange={(e) => {
+              //   setFormData({ ...formData, isPublic: e.target.checked });
+              // }}
+            >
+              Public
+            </Checkbox>
           </div>
         </div>
       ) : size?.width <= 468 ? (
@@ -227,7 +295,13 @@ export default function FillForm() {
         <p className="text-4xl">PLEASE FILL OUT THE FORM</p>
         <Card className="bg-neutral-100 w-full md:w-3/5 my-5 p-5">
           {formData?.inputs?.map((item) => (
-            <RenderInputFill inputData={item} />
+            <RenderInputFill
+              filledForm={filledForm}
+              setFilledForm={setFilledForm}
+              answersForm={answersForm}
+              setAnswersForm={setAnswersForm}
+              inputData={item}
+            />
           ))}
         </Card>
       </div>

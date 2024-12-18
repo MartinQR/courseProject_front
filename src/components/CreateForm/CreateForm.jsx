@@ -34,7 +34,7 @@ export default function CreateForm() {
   const size = useWindowSize();
 
   const initialFormData = {
-    userId: authData?.id,
+    userId: authData?.userId,
     title: "",
     description: "",
     topicId: "",
