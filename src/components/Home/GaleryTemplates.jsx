@@ -67,7 +67,7 @@ export default function GalleryTemplates() {
                       {template?.topic?.name}
                     </p>
                     <p className="text-sm text-gray-500 mt-4">
-                      {template?.user?.email}
+                      {template?.creator?.email}
                     </p>
                   </div>
                 </div>
