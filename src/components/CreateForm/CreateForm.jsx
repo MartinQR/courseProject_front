@@ -21,6 +21,7 @@ import toast from "react-hot-toast";
 import arrow from "../../assets/arrowthin.svg";
 import { useNavigate } from "react-router-dom";
 const APP_URL = import.meta.env.VITE_APP_URL;
+const APP_FRONT = import.meta.env.VTE_APP_FRONT;
 import { AuthContext } from "../../contexts/AuthContext";
 import useWindowSize from "../../Hooks.jsx/UseWindowSize.js";
 
@@ -29,22 +30,36 @@ export default function CreateForm() {
   const [isloading, setIsLoading] = useState();
   const [openModal, setOpenModal] = useState(false);
   const [topicsData, setTopicsData] = useState();
+  const [formResponse, setFormResponse] = useState();
   const { authData, setAuthData } = useContext(AuthContext);
+  const [formData, setFormData] = useState({});
 
   const size = useWindowSize();
 
-  const initialFormData = {
-    userId: authData?.userId,
-    title: "",
-    description: "",
-    topicId: "",
-    tags: [],
-    isPublic: true,
-    allowedUsers: [],
-    inputsData: [],
-  };
+  useEffect(() => {
+    setFormData({
+      userId: authData?.userId,
+      title: "",
+      description: "",
+      topicId: "",
+      tags: [],
+      isPublic: true,
+      allowedUsers: [],
+      inputsData: [],
+    });
+  }, [authData]);
+  // const initialFormData = {
+  //   userId: authData?.userId,
+  //   title: "",
+  //   description: "",
+  //   topicId: "",
+  //   tags: [],
+  //   isPublic: true,
+  //   allowedUsers: [],
+  //   inputsData: [],
+  // };
 
-  const [formData, setFormData] = useState(initialFormData);
+  // const [formData, setFormData] = useState(initialFormData);
 
   const navigate = useNavigate();
 
@@ -71,6 +86,7 @@ export default function CreateForm() {
   // Post Method to create a Form
   async function handleCreateForm() {
     setIsLoading(true);
+    console.log("Form Data", formData);
     try {
       if (!validateForm()) return;
 
@@ -91,6 +107,8 @@ export default function CreateForm() {
       }
       // SuccesFully Response
       const data = await response.json();
+      console.log("Data Response", data);
+      setFormResponse(data);
 
       toast.success("Form created sucessfully!");
       setOpenModal(true);
@@ -135,6 +153,8 @@ export default function CreateForm() {
   }
 
   // UTILS
+  console.log("User id", authData);
+  console.log("FormData", formData);
 
   return (
     <div className="gray-background w-full min-h-screen  px-3 py-3 flex items-center flex-col">
@@ -503,10 +523,10 @@ export default function CreateForm() {
             <div className="text-sm space-y-21">
               <div>
                 <span className="font-bold">Form Link: </span>
-                http://localhost:4000/234234234234{" "}
+                {`${APP_FRONT}/fill-form?idTemplate=${formResponse?.id}`}
               </div>
               <div>
-                <span className="font-bold">Form ID: </span> 12341241234124124
+                <span className="font-bold">Form ID: </span> {formResponse?.id}
               </div>
             </div>
           </ModalBody>

@@ -24,6 +24,7 @@ import { AuthContext } from "../../contexts/AuthContext";
 import useWindowSize from "../../Hooks.jsx/UseWindowSize.js";
 import RenderInputFill from "../Input/RenderInputFill.jsx";
 import arrow from "../../assets/arrowthin.svg";
+import { useSearchParams } from "react-router-dom";
 
 export default function FillForm() {
   const { authData, setAuthData } = useContext(AuthContext);
@@ -31,7 +32,15 @@ export default function FillForm() {
   const [filledForm, setFilledForm] = useState({});
   const [answersForm, setAnswersForm] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [searchParams] = useSearchParams();
   const size = useWindowSize();
+  const idTemplate = searchParams.get("idTemplate");
+
+  useEffect(() => {
+    if (idTemplate) {
+      getTemplate(idTemplate);
+    }
+  }, [idTemplate]);
 
   const navigate = useNavigate();
   // SUBMIT DE FORM
@@ -68,7 +77,7 @@ export default function FillForm() {
   }
 
   // Get template to fill
-  const fetchForm = async (formId) => {
+  const getTemplate = async (formId) => {
     try {
       const response = await fetch(`${APP_URL}/form/getFormById?id=${formId}`);
       if (!response.ok) {
@@ -81,9 +90,9 @@ export default function FillForm() {
     }
   };
 
-  useEffect(() => {
-    fetchForm("9aa22cd6-c676-4630-959c-ad683284fc92");
-  }, []);
+  // useEffect(() => {
+  //   fetchForm("2852440d-01d5-4e5d-9293-eae559737df3");
+  // }, []);
 
   useEffect(() => {
     const answersForm = formData?.inputs?.map((item) => {
@@ -350,7 +359,11 @@ export default function FillForm() {
       {/* Body Div */}
       <div className="mt-4 w-full flex items-center flex-col justify-center px-10 space-y-2">
         <p className="text-4xl">PLEASE FILL OUT THE FORM</p>
-        <p className="text-sm"> Created by: {formData?.creator?.firstName}{" "}{formData?.creator?.lastName}</p>
+        <p className="text-sm">
+          {" "}
+          Created by: {formData?.creator?.firstName}{" "}
+          {formData?.creator?.lastName}
+        </p>
         <Card className="bg-neutral-100 w-full md:w-3/5 my-5 p-5">
           {formData?.inputs?.map((item) => (
             <RenderInputFill

@@ -1,8 +1,11 @@
 import { Card, Button } from "@nextui-org/react";
 import "../../index.css";
 import imgPhone from "../../assets/undraw_mobile_ux_re_59hr.svg";
+import { useNavigate } from "react-router-dom";
 
 export default function MainCard() {
+
+  const navigate = useNavigate();
   return (
     <>
       <Card className="w-full h-96 my-4 bg-neutral-500 rounded-full border-radius flex flex-row">
@@ -18,7 +21,7 @@ export default function MainCard() {
             efficient, and customizable for any need.
           </div>
           <div className="">
-            <Button color="primary">START BUILDING!</Button>
+            <Button color="primary" onClick={()=>{navigate("/create-form")}}>START BUILDING!</Button>
           </div>
         </div>
       </Card>
