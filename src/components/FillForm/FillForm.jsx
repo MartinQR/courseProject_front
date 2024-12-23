@@ -99,7 +99,7 @@ export default function FillForm() {
       return { inputId: item?.id };
     });
 
-    console.log("Answers Form", answersForm);
+
     setFilledForm({
       formId: formData?.id,
       userId: authData?.userId,
@@ -107,10 +107,6 @@ export default function FillForm() {
     });
   }, [formData]);
 
-  console.log("Form Data", formData);
-  // console.log("Answers Form", answersForm);
-  // console.log("Filled Form", filledForm);
-  // console.log("authData", authData);
 
   return (
     <div className="gray-background w-full min-h-screen  px-3 py-3 flex items-center flex-col">

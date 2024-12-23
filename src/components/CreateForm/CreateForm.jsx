@@ -14,6 +14,7 @@ import {
   ModalBody,
   ModalFooter,
   useDisclosure,
+  Spinner,
 } from "@nextui-org/react";
 import AddInput from "../Input/AddInput";
 import RenderInput from "../Input/RenderInput";
@@ -86,7 +87,7 @@ export default function CreateForm() {
   // Post Method to create a Form
   async function handleCreateForm() {
     setIsLoading(true);
-    console.log("Form Data", formData);
+
     try {
       if (!validateForm()) return;
 
@@ -107,7 +108,6 @@ export default function CreateForm() {
       }
       // SuccesFully Response
       const data = await response.json();
-      console.log("Data Response", data);
       setFormResponse(data);
 
       toast.success("Form created sucessfully!");
@@ -151,10 +151,6 @@ export default function CreateForm() {
 
     setFormData({ ...formData, tags: tagsArray });
   }
-
-  // UTILS
-  console.log("User id", authData);
-  console.log("FormData", formData);
 
   return (
     <div className="gray-background w-full min-h-screen  px-3 py-3 flex items-center flex-col">
@@ -236,12 +232,16 @@ export default function CreateForm() {
             </div>
           </div>
           <div className="bg-neutral-100 row-start-2 col-start-1 border-radius2 flex items-center justify-center p-4">
-            <div className="flex w-full items-center">
-              <div className="w-1/2 text-right">CREATE FORM</div>
+            {isloading ? (
+              <Spinner />
+            ) : (
               <button className="w-1/2 flex" onClick={handleCreateForm}>
-                <img src={arrow} className="h-auto object-contain" />
+                <div className="flex w-full items-center">
+                  <div className="w-1/2 text-right">CREATE FORM</div>
+                  <img src={arrow} className="h-auto object-contain" />
+                </div>
               </button>
-            </div>
+            )}
           </div>
 
           <div className="bg-neutral-100 row-start-2 col-start-2 border-radius2 flex items-center justify-center p-4">
@@ -354,14 +354,19 @@ export default function CreateForm() {
                   Public
                 </Checkbox>
               </div>
-              <button
-                className="flex w-1/2 items-center"
-                onClick={handleCreateForm}>
-                <div className="w-3/5 text-right">CREATE FORM</div>
-                <div className="w-1/5 flex">
-                  <img src={arrow} className="w-auto object-contain" />
-                </div>
-              </button>
+              {isloading ? (
+                <Spinner />
+              ) : (
+                <button
+                  className="flex w-1/2 items-center"
+                  onClick={handleCreateForm}
+                >
+                  <div className="w-3/5 text-right">CREATE FORM</div>
+                  <div className="w-1/5 flex">
+                    <img src={arrow} className="w-auto object-contain" />
+                  </div>
+                </button>
+              )}
             </div>
           </Card>
         </div>
@@ -461,10 +466,16 @@ export default function CreateForm() {
               </div>
             </div>
             <div className="flex flex-col items-center justify-center w-1/5 ">
-              <div className="w-1/2 text-right">CREATE FORM</div>
-              <button className="w-full flex" onClick={handleCreateForm}>
-                <img src={arrow} className="h-auto object-contain" />
-              </button>
+            {isloading ? (
+              <Spinner />
+            ) : (
+              <div>
+                <div className="w-1/2 text-right">CREATE FORM</div>
+                <button className="w-full flex" onClick={handleCreateForm}>
+                  <img src={arrow} className="h-auto object-contain" />
+                </button>
+              </div>
+            )}
             </div>
           </Card>
         </div>

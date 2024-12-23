@@ -37,8 +37,6 @@ export default function RenderInputFill({
     setFilledForm({ ...filledForm, answers: newAnswers });
   }
 
-  //   console.log("Selected", selected);
-
   return (
     <div className="my-2">
       {inputData?.type === "SINGLE-LINE" ? (
