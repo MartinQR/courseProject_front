@@ -130,7 +130,6 @@ export default function AddInput({ setFormData, formData }) {
           <Checkbox
             defaultSelected
             onChange={(e) =>
-              //   console.log("Checkbox Event",e)
               setInputData({ ...inputData, displayed: e.target.checked })
             }
           >

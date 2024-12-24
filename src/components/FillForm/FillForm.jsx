@@ -99,7 +99,7 @@ export default function FillForm() {
       return { inputId: item?.id };
     });
 
-    console.log("Answers Form", answersForm);
+
     setFilledForm({
       formId: formData?.id,
       userId: authData?.userId,
@@ -107,10 +107,6 @@ export default function FillForm() {
     });
   }, [formData]);
 
-  console.log("Form Data", formData);
-  // console.log("Answers Form", answersForm);
-  // console.log("Filled Form", filledForm);
-  // console.log("authData", authData);
 
   return (
     <div className="gray-background w-full min-h-screen  px-3 py-3 flex items-center flex-col">
@@ -199,9 +195,7 @@ export default function FillForm() {
           <div className="bg-neutral-100 row-start-2 col-start-2 border-radius2 flex items-center justify-center p-4">
             <Checkbox
               defaultSelected
-              // onChange={(e) => {
-              //   setFormData({ ...formData, isPublic: e.target.checked });
-              // }}
+              isDisabled
             >
               Public
             </Checkbox>
@@ -360,9 +354,7 @@ export default function FillForm() {
       <div className="mt-4 w-full flex items-center flex-col justify-center px-10 space-y-2">
         <p className="text-4xl">PLEASE FILL OUT THE FORM</p>
         <p className="text-sm">
-          {" "}
-          Created by: {formData?.creator?.firstName}{" "}
-          {formData?.creator?.lastName}
+          Created by: {formData?.creator?.firstName}{" "}{formData?.creator?.lastName}
         </p>
         <Card className="bg-neutral-100 w-full md:w-3/5 my-5 p-5">
           {formData?.inputs?.map((item) => (

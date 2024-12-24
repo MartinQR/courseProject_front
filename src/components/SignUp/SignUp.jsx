@@ -66,7 +66,6 @@ export default function SignUp() {
         toast.success("Successfully registered user!");
         navigate("/login");
       } else {
-        console.log("Error: " + data.error);
         toast.error("Error: " + data.error);
       }
     } catch (error) {

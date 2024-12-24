@@ -14,6 +14,7 @@ import {
   ModalBody,
   ModalFooter,
   useDisclosure,
+  Spinner,
 } from "@nextui-org/react";
 import AddInput from "../Input/AddInput";
 import RenderInput from "../Input/RenderInput";
@@ -26,13 +27,14 @@ import { AuthContext } from "../../contexts/AuthContext";
 import useWindowSize from "../../Hooks.jsx/UseWindowSize.js";
 
 export default function CreateForm() {
-  const [newInput, setNewInput] = useState();
+  const navigate = useNavigate();
   const [isloading, setIsLoading] = useState();
   const [openModal, setOpenModal] = useState(false);
   const [topicsData, setTopicsData] = useState();
   const [formResponse, setFormResponse] = useState();
   const { authData, setAuthData } = useContext(AuthContext);
   const [formData, setFormData] = useState({});
+  const [tagValue, setTagValue] = useState("");
 
   const size = useWindowSize();
 
@@ -48,20 +50,19 @@ export default function CreateForm() {
       inputsData: [],
     });
   }, [authData]);
-  // const initialFormData = {
-  //   userId: authData?.userId,
-  //   title: "",
-  //   description: "",
-  //   topicId: "",
-  //   tags: [],
-  //   isPublic: true,
-  //   allowedUsers: [],
-  //   inputsData: [],
-  // };
 
-  // const [formData, setFormData] = useState(initialFormData);
+  console.log("Form Data", formData);
+  const initialFormData = {
+    userId: authData?.userId,
+    title: "",
+    description: "",
+    topicId: "",
+    tags: [],
+    isPublic: true,
+    allowedUsers: [],
+    inputsData: [],
+  };
 
-  const navigate = useNavigate();
 
   function validateForm() {
     if (!formData.title) {
@@ -86,7 +87,7 @@ export default function CreateForm() {
   // Post Method to create a Form
   async function handleCreateForm() {
     setIsLoading(true);
-    console.log("Form Data", formData);
+
     try {
       if (!validateForm()) return;
 
@@ -107,12 +108,13 @@ export default function CreateForm() {
       }
       // SuccesFully Response
       const data = await response.json();
-      console.log("Data Response", data);
       setFormResponse(data);
+      setFormData(initialFormData);
+      setTagValue("");
 
       toast.success("Form created sucessfully!");
       setOpenModal(true);
-      // navigate("/create-form");
+      
     } catch (error) {
       console.error("Fetch error:", error);
     } finally {
@@ -144,17 +146,48 @@ export default function CreateForm() {
 
   function handleAddTags(e) {
     const value = e.target.value;
+    
+    setTagValue(value);
+
     const tagsArray = value
       ?.split(",")
       ?.map((tag) => tag?.trim())
       ?.filter((tag) => tag);
 
     setFormData({ ...formData, tags: tagsArray });
-  }
+  };
 
-  // UTILS
-  console.log("User id", authData);
-  console.log("FormData", formData);
+  const InputTag = (
+    <Input
+      variant="bordered"
+      label="#TAGS"
+      onChange={handleAddTags}
+      placeholder="tag1, tag2, tag3"
+      value={tagValue}
+    />
+  );
+
+  const titleInput = (
+    <Input
+      variant="bordered"
+      label="Title"
+      onChange={(e) => {
+        setFormData({ ...formData, title: e.target.value });
+      }}
+      value={formData?.title}
+    />
+  );
+
+  const descriptionInput = (
+    <Textarea
+      variant="bordered"
+      label="Description"
+      onChange={(e) =>
+        setFormData({ ...formData, description: e.target.value })
+      }
+      value={formData?.description}
+    />
+  );
 
   return (
     <div className="gray-background w-full min-h-screen  px-3 py-3 flex items-center flex-col">
@@ -167,32 +200,15 @@ export default function CreateForm() {
           <div className="row-span-2 bg-neutral-100 border-radius2 flex items-center justify-center ">
             <div className="w-full h-full p-4">
               <div className="w-full h-1/3 flex items-center justify-center">
-                <Input
-                  variant="bordered"
-                  label="Title"
-                  onChange={(e) => {
-                    setFormData({ ...formData, title: e.target.value });
-                  }}
-                />
+                {titleInput}
               </div>
               <div className="w-full h-2/3  flex items-center justify-center">
-                <Textarea
-                  variant="bordered"
-                  label="Description"
-                  onChange={(e) =>
-                    setFormData({ ...formData, description: e.target.value })
-                  }
-                />
+                {descriptionInput}
               </div>
             </div>
           </div>
           <div className="bg-neutral-100 border-radius2 flex items-center justify-center p-4">
-            <Input
-              variant="bordered"
-              label="#TAGS"
-              onChange={handleAddTags}
-              placeholder="tag1, tag2, tag3"
-            />
+            {InputTag}
           </div>
           <div className="bg-neutral-100 border-radius2 flex items-center justify-center flex-col p-4">
             <Select
@@ -201,7 +217,8 @@ export default function CreateForm() {
               variant="bordered"
               onChange={(e) =>
                 setFormData({ ...formData, topicId: e.target.value })
-              }>
+              }
+            >
               {topicsData?.map((topic) => (
                 <SelectItem key={topic?.id}>{topic?.name}</SelectItem>
               ))}
@@ -236,12 +253,16 @@ export default function CreateForm() {
             </div>
           </div>
           <div className="bg-neutral-100 row-start-2 col-start-1 border-radius2 flex items-center justify-center p-4">
-            <div className="flex w-full items-center">
-              <div className="w-1/2 text-right">CREATE FORM</div>
+            {isloading ? (
+              <Spinner />
+            ) : (
               <button className="w-1/2 flex" onClick={handleCreateForm}>
-                <img src={arrow} className="h-auto object-contain" />
+                <div className="flex w-full items-center">
+                  <div className="w-1/2 text-right">CREATE FORM</div>
+                  <img src={arrow} className="h-auto object-contain" />
+                </div>
               </button>
-            </div>
+            )}
           </div>
 
           <div className="bg-neutral-100 row-start-2 col-start-2 border-radius2 flex items-center justify-center p-4">
@@ -301,33 +322,15 @@ export default function CreateForm() {
           <Card className="w-full h-auto p-4 space-y-2">
             <div className="w-2/5 space-y-2 w-full">
               <div className="w-full flex items-center justify-center">
-                <Input
-                  variant="bordered"
-                  label="Title"
-                  onChange={(e) => {
-                    setFormData({ ...formData, title: e.target.value });
-                  }}
-                />
+                {titleInput}
               </div>
               <div className="w-full   flex items-center justify-center">
-                <Textarea
-                  variant="bordered"
-                  label="Description"
-                  minRows={6}
-                  onChange={(e) =>
-                    setFormData({ ...formData, description: e.target.value })
-                  }
-                />
+                {descriptionInput}
               </div>
             </div>
             <div className="w-2/5 space-x-2 w-full flex items-center justify-center flex-row  ">
               <div className="w-1/2">
-                <Input
-                  variant="bordered"
-                  label="#TAGS"
-                  onChange={handleAddTags}
-                  placeholder="tag1, tag2, tag3"
-                />
+                {InputTag}
               </div>
 
               <div className="w-1/2">
@@ -354,14 +357,19 @@ export default function CreateForm() {
                   Public
                 </Checkbox>
               </div>
-              <button
-                className="flex w-1/2 items-center"
-                onClick={handleCreateForm}>
-                <div className="w-3/5 text-right">CREATE FORM</div>
-                <div className="w-1/5 flex">
-                  <img src={arrow} className="w-auto object-contain" />
-                </div>
-              </button>
+              {isloading ? (
+                <Spinner />
+              ) : (
+                <button
+                  className="flex w-1/2 items-center"
+                  onClick={handleCreateForm}
+                >
+                  <div className="w-3/5 text-right">CREATE FORM</div>
+                  <div className="w-1/5 flex">
+                    <img src={arrow} className="w-auto object-contain" />
+                  </div>
+                </button>
+              )}
             </div>
           </Card>
         </div>
@@ -412,32 +420,14 @@ export default function CreateForm() {
           <Card className="w-full h-auto p-4 flex flex-row space-x-2">
             <div className="w-2/5 space-y-2">
               <div className="w-full flex items-center justify-center">
-                <Input
-                  variant="bordered"
-                  label="Title"
-                  onChange={(e) => {
-                    setFormData({ ...formData, title: e.target.value });
-                  }}
-                />
+                {titleInput}
               </div>
               <div className="w-full   flex items-center justify-center">
-                <Textarea
-                  variant="bordered"
-                  label="Description"
-                  minRows={6}
-                  onChange={(e) =>
-                    setFormData({ ...formData, description: e.target.value })
-                  }
-                />
+                {descriptionInput}
               </div>
             </div>
             <div className="w-2/5 space-y-2 h-full flex flex-col ">
-              <Input
-                variant="bordered"
-                label="#TAGS"
-                onChange={handleAddTags}
-                placeholder="tag1, tag2, tag3"
-              />
+              {InputTag}
 
               <Select
                 className="max-w-xs"
@@ -461,10 +451,16 @@ export default function CreateForm() {
               </div>
             </div>
             <div className="flex flex-col items-center justify-center w-1/5 ">
-              <div className="w-1/2 text-right">CREATE FORM</div>
-              <button className="w-full flex" onClick={handleCreateForm}>
-                <img src={arrow} className="h-auto object-contain" />
-              </button>
+            {isloading ? (
+              <Spinner />
+            ) : (
+              <div>
+                <div className="w-1/2 text-right">CREATE FORM</div>
+                <button className="w-full flex" onClick={handleCreateForm}>
+                  <img src={arrow} className="h-auto object-contain" />
+                </button>
+              </div>
+            )}
             </div>
           </Card>
         </div>
