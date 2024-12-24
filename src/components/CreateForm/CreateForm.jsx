@@ -167,6 +167,28 @@ export default function CreateForm() {
     />
   );
 
+  const titleInput = (
+    <Input
+      variant="bordered"
+      label="Title"
+      onChange={(e) => {
+        setFormData({ ...formData, title: e.target.value });
+      }}
+      value={formData?.title}
+    />
+  );
+
+  const descriptionInput = (
+    <Textarea
+      variant="bordered"
+      label="Description"
+      onChange={(e) =>
+        setFormData({ ...formData, description: e.target.value })
+      }
+      value={formData?.description}
+    />
+  );
+
   return (
     <div className="gray-background w-full min-h-screen  px-3 py-3 flex items-center flex-col">
       {/* ----------------- START HEADER ----------------- */}
@@ -178,24 +200,10 @@ export default function CreateForm() {
           <div className="row-span-2 bg-neutral-100 border-radius2 flex items-center justify-center ">
             <div className="w-full h-full p-4">
               <div className="w-full h-1/3 flex items-center justify-center">
-                <Input
-                  variant="bordered"
-                  label="Title"
-                  onChange={(e) => {
-                    setFormData({ ...formData, title: e.target.value });
-                  }}
-                  value={formData?.title}
-                />
+                {titleInput}
               </div>
               <div className="w-full h-2/3  flex items-center justify-center">
-                <Textarea
-                  variant="bordered"
-                  label="Description"
-                  onChange={(e) =>
-                    setFormData({ ...formData, description: e.target.value })
-                  }
-                  value={formData?.description}
-                />
+                {descriptionInput}
               </div>
             </div>
           </div>
@@ -314,23 +322,10 @@ export default function CreateForm() {
           <Card className="w-full h-auto p-4 space-y-2">
             <div className="w-2/5 space-y-2 w-full">
               <div className="w-full flex items-center justify-center">
-                <Input
-                  variant="bordered"
-                  label="Title"
-                  onChange={(e) => {
-                    setFormData({ ...formData, title: e.target.value });
-                  }}
-                />
+                {titleInput}
               </div>
               <div className="w-full   flex items-center justify-center">
-                <Textarea
-                  variant="bordered"
-                  label="Description"
-                  minRows={6}
-                  onChange={(e) =>
-                    setFormData({ ...formData, description: e.target.value })
-                  }
-                />
+                {descriptionInput}
               </div>
             </div>
             <div className="w-2/5 space-x-2 w-full flex items-center justify-center flex-row  ">
@@ -425,23 +420,10 @@ export default function CreateForm() {
           <Card className="w-full h-auto p-4 flex flex-row space-x-2">
             <div className="w-2/5 space-y-2">
               <div className="w-full flex items-center justify-center">
-                <Input
-                  variant="bordered"
-                  label="Title"
-                  onChange={(e) => {
-                    setFormData({ ...formData, title: e.target.value });
-                  }}
-                />
+                {titleInput}
               </div>
               <div className="w-full   flex items-center justify-center">
-                <Textarea
-                  variant="bordered"
-                  label="Description"
-                  minRows={6}
-                  onChange={(e) =>
-                    setFormData({ ...formData, description: e.target.value })
-                  }
-                />
+                {descriptionInput}
               </div>
             </div>
             <div className="w-2/5 space-y-2 h-full flex flex-col ">
