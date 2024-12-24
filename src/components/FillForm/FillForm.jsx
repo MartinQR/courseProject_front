@@ -25,6 +25,7 @@ import useWindowSize from "../../Hooks.jsx/UseWindowSize.js";
 import RenderInputFill from "../Input/RenderInputFill.jsx";
 import arrow from "../../assets/arrowthin.svg";
 import { useSearchParams } from "react-router-dom";
+import Comments from "../Comments/Comments.jsx";
 
 export default function FillForm() {
   const { authData, setAuthData } = useContext(AuthContext);
@@ -106,6 +107,7 @@ export default function FillForm() {
       answers: answersForm,
     });
   }, [formData]);
+  
 
 
   return (
@@ -367,6 +369,10 @@ export default function FillForm() {
             />
           ))}
         </Card>
+
+        <Comments 
+          formId={formData?.id}
+        />
       </div>
     </div>
   );
