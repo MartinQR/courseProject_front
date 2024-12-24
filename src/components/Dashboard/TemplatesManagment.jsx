@@ -1,41 +1,48 @@
-import {
-  Button,
-  ButtonGroup,
-  Card,
-  CardHeader,
-} from "@nextui-org/react";
-import { CardBody, CardFooter, Image} from "@nextui-org/react";
+import { Button, ButtonGroup, Card, CardHeader } from "@nextui-org/react";
+import { CardBody, CardFooter, Image } from "@nextui-org/react";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 const APP_URL = import.meta.env.VITE_APP_URL;
 
 export function TemplatesManagment() {
   const { authData } = useContext(AuthContext);
   const [templates, setTemplates] = useState([]);
   const [btnSelection, setBtnSelection] = useState(true);
+  const navigate = useNavigate();
 
   const getUserTemplates = async (userId) => {
     try {
-      const response = await fetch(`${APP_URL}/form/getFormsByUserId?userId=${userId}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        `${APP_URL}/form/getFormsByUserId?userId=${userId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       const data = await response.json();
       setTemplates(data);
-      
     } catch (error) {
       throw new Error(error);
     }
   };
-  
+
+  // Handle Actions
+
+  function handleViewTemplate(templateId) {
+    console.log("View Template");
+    navigate(`/view-template?idTemplate=${templateId}`);
+  }
+
   useEffect(() => {
     if (authData?.userId) {
       getUserTemplates(authData?.userId);
     }
   }, [authData]);
 
+  console.log("Templates", templates);
   return (
     <div className="w-full  flex flex-col space-y-4 items-center justify-center my-4">
       <ButtonGroup className="w-2/5 ">
@@ -71,7 +78,7 @@ export function TemplatesManagment() {
         ) : (
           <>
             <CardHeader>
-            <div className="flex items-center justify-center w-full space-x-4">
+              <div className="flex items-center justify-center w-full space-x-4">
                 <p>Filled Forms</p>
                 <div>
                   <Button>Create New + </Button>
@@ -83,7 +90,14 @@ export function TemplatesManagment() {
         <div className="gap-2 grid grid-cols-2 sm:grid-cols-4">
           {templates?.map((item, index) => (
             /* eslint-disable no-console */
-            <Card key={index} isPressable shadow="sm" className="mx-3" onPress={() => console.log("item pressed")}>
+            <Card
+              key={index}
+              isPressable
+              shadow="sm"
+              className="mx-3"
+              onPress={() => {
+                handleViewTemplate(item?.id);
+              }}>
               <CardBody className="overflow-visible p-0">
                 <div className="flex items-center justify-center">
                   <b>{item.title}</b>
@@ -95,7 +109,6 @@ export function TemplatesManagment() {
             </Card>
           ))}
         </div>
-        
       </Card>
     </div>
   );

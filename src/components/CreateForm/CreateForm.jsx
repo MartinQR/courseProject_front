@@ -22,7 +22,7 @@ import toast from "react-hot-toast";
 import arrow from "../../assets/arrowthin.svg";
 import { useNavigate } from "react-router-dom";
 const APP_URL = import.meta.env.VITE_APP_URL;
-const APP_FRONT = import.meta.env.VTE_APP_FRONT;
+const APP_FRONT = import.meta.env.VITE_APP_FRONT;
 import { AuthContext } from "../../contexts/AuthContext";
 import useWindowSize from "../../Hooks.jsx/UseWindowSize.js";
 

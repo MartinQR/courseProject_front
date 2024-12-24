@@ -5,7 +5,7 @@ import Login from "./components/Login/Login.jsx";
 import SignUp from "./components/SignUp/SignUp.jsx";
 import Dashboard from "./components/Dashboard/Dashboard.jsx";
 import FillForm from "./components/FillForm/FillForm.jsx";
-import ViewTemplate from "./components/ViewTemplate/ViewTemplate.jsx"
+import ViewTemplate from "./components/ViewTemplate/ViewTemplate.jsx";
 import { Toaster } from "react-hot-toast";
 
 export default function Root() {
