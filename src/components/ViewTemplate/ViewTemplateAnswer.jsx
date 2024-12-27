@@ -23,33 +23,41 @@ import { useNavigate } from "react-router-dom";
 const APP_URL = import.meta.env.VITE_APP_URL;
 import { AuthContext } from "../../contexts/AuthContext";
 import useWindowSize from "../../Hooks.jsx/UseWindowSize.js";
-import RenderInputFill from "../Input/RenderInputFill.jsx";
-import EditInput from "../Input/EditInput.jsx";
 import arrow from "../../assets/arrowthin.svg";
 import { useSearchParams } from "react-router-dom";
 import { formatDateTime } from "../../Utils/utils.js";
+import { div, form } from "framer-motion/m";
+import EditInput from "../Input/EditInput.jsx";
 
-export default function ViewTemplate() {
+export default function ViewTemplateAnswer() {
   const { authData, setAuthData } = useContext(AuthContext);
   const [formData, setFormData] = useState({});
-  const [filledForm, setFilledForm] = useState({});
-  const [answersForm, setAnswersForm] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [searchParams] = useSearchParams();
-  const [btnSelection, setBtnSelection] = useState(false);
-  const [btnSelection2, setBtnSelection2] = useState(false);
+  const [btnEditAnswer, setBtnEditAnswer] = useState(false);
+  const [formEditAnswers, setFormEditAnswers] = useState([]);
   const size = useWindowSize();
-  const idTemplate = searchParams.get("idTemplate");
-  const [templateModifications, setTemplateModifications] = useState([]);
-  const [filledOutForms, setFilledOutForms] = useState([]);
+  const idTemplate = searchParams.get("templateId");
+  const idUser = searchParams.get("userId");
 
-  // const [editInput, setEditInput] = useState();
-  // const [editAnswer, setEditAnswwer] = useState();
+  const fetchTemplateResponseByUser = async (userId, formId) => {
+    try {
+      const response = await fetch(
+        `${APP_URL}/form/getFilledOutFormByUserId?userId=${userId}&formId=${formId}`
+      );
+      if (!response.ok) {
+        throw new Error("Error gettin Form");
+      }
+      const data = await response.json();
+      setFormData(data);
+    } catch (error) {
+      console.error("Error gettinf Form:", error);
+    }
+  };
 
   useEffect(() => {
-    if (idTemplate) {
-      getTemplate(idTemplate);
-      getFilledForms(idTemplate);
+    if (idTemplate && idUser) {
+      fetchTemplateResponseByUser(idUser, idTemplate);
     }
   }, [idTemplate]);
 
@@ -57,39 +65,47 @@ export default function ViewTemplate() {
 
   useEffect(() => {
     const copyInputs = formData?.inputs?.map((item) => {
-      return {
-        id: item?.id,
-        title: item?.title,
-        type: item?.type,
-        description: item?.description,
-        displayed: item?.display,
-        options: item?.values,
-      };
+      return item;
     });
 
-    setTemplateModifications(copyInputs);
+    setFormEditAnswers(copyInputs);
 
-    // console.log("Copy Inputs", copyInputs);
+    console.log("Copy Inputs", copyInputs);
   }, [formData]);
 
   const navigate = useNavigate();
 
-  // SUBMIT THE EDITED TEMPLATE
-  async function handleSubitEditedTemplate() {
-    const templateEditData = {
-      formId: idTemplate,
-      inputsData: templateModifications,
-      userId: authData?.userId,
+  //   Handle Actions
+
+  function submitNewAnswers() {
+    const newAnswers = formEditAnswers?.map((item) => {
+      return {
+        id: item?.id,
+        answer: item?.answer,
+      };
+    });
+
+    const formNewAnswers = {
+      formId: formData?.id,
+      userId: formData?.userId,
+      inputs: newAnswers,
     };
 
+    console.log("form newAnswers", formNewAnswers);
+    submitUpdateAnswers(formNewAnswers);
+  }
+
+  async function submitUpdateAnswers(newAnswers) {
     setIsLoading(true);
+    console.log("Entra");
     try {
-      const response = await fetch(`${APP_URL}/form/update`, {
+
+      const response = await fetch(`${APP_URL}/form/updateFilledOutForm`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(templateEditData),
+        body: JSON.stringify(newAnswers),
       });
 
       if (!response.ok) {
@@ -103,65 +119,11 @@ export default function ViewTemplate() {
       const data = await response.json();
 
       toast.success("Form created sucessfully!");
-      setOpenModal(true);
-      // navigate("/create-form");
     } catch (error) {
       console.error("Fetch error:", error);
     } finally {
       setIsLoading(false);
     }
-  }
-
-  // Get template to fill
-  const getTemplate = async (formId) => {
-    try {
-      const response = await fetch(`${APP_URL}/form/getFormById?id=${formId}`);
-      if (!response.ok) {
-        throw new Error("Error gettin Form");
-      }
-      const data = await response.json();
-      setFormData(data);
-    } catch (error) {
-      console.error("Error gettinf Form:", error);
-    }
-  };
-
-  // GET A LIST OF ALL THE FILLED OUT FORMS OF A TEMPLATE
-  const getFilledForms = async (templateId) => {
-    try {
-      const response = await fetch(
-        `${APP_URL}/formResponse/getAllFilledOutFormsByFormId?formId=${templateId}`
-      );
-      if (!response.ok) {
-        throw new Error("Error gettin Form");
-      }
-      const data = await response.json();
-      setFilledOutForms(data);
-    } catch (error) {
-      console.error("Error gettinf Form:", error);
-    }
-  };
-
-  // useEffect(() => {
-  //   fetchForm("2852440d-01d5-4e5d-9293-eae559737df3");
-  // }, []);
-
-  useEffect(() => {
-    const answersForm = formData?.inputs?.map((item) => {
-      return { inputId: item?.id };
-    });
-
-    setFilledForm({
-      formId: formData?.id,
-      userId: authData?.userId,
-      answers: answersForm,
-    });
-  }, [formData]);
-
-  // Handle Actions
-  function handleViewTemplateAnswer(templateId, userId) {
-    console.log("TemplateId",templateId)
-    navigate(`/view-templateAnswer?templateId=${templateId}&userId=${userId}`);
   }
 
   // console.log("Form Data", formData);
@@ -170,7 +132,8 @@ export default function ViewTemplate() {
   // console.log("authData", authData);
   // console.log("Form Data", formData);
   // console.log("Template Modifications",templateModifications)
-  console.log("List Filled Forms", filledOutForms);
+  console.log("Form Data", formData);
+  //   console.log("Form Edit Answers", formEditAnswers);
 
   return (
     <div className="gray-background w-full min-h-screen  px-3 py-3 flex items-center flex-col">
@@ -416,73 +379,47 @@ export default function ViewTemplate() {
       ) : (
         "No resize window"
       )}
+
       {/* Body Div */}
       <div className="mt-4 w-full flex items-center flex-col justify-center px-10 space-y-2">
-        <ButtonGroup className="w-2/5 ">
-          <Button
-            className="w-1/2"
-            color={btnSelection ? "primary" : "default"}
-            onClick={() => {
-              setBtnSelection(true);
-              setBtnSelection2(false);
-            }}>
-            Modify Template
-          </Button>
-          <Button
-            className="w-1/2"
-            color={btnSelection2 ? "primary" : "default"}
-            onClick={() => {
-              setBtnSelection(false);
-              setBtnSelection2(true);
-            }}>
-            View Responses
-          </Button>
-        </ButtonGroup>
-        {btnSelection && (
-          <div>
-            <Button onClick={handleSubitEditedTemplate}>
-              Submit Template Modifications
+        <Button
+          color={btnEditAnswer ? "primary" : "default"}
+          onClick={() => {
+            setBtnEditAnswer(true);
+          }}>
+          Edit Answers
+        </Button>
+        {btnEditAnswer && (
+          <ButtonGroup>
+            <Button onClick={submitNewAnswers}>Submit</Button>
+            <Button
+              onClick={() => {
+                setBtnEditAnswer(false);
+              }}>
+              Cancel
             </Button>
+          </ButtonGroup>
+        )}
+        <Card className="bg-neutral-100 w-full md:w-3/5 my-5 p-5 space-y-2">
+          <div className="flex  flex-col items-center space-y-2">
+            <div>
+              Form completed by {formData?.user?.firstName}{" "}
+              {formData?.user?.lastName}
+            </div>
+            <div>{formData?.user?.email}</div>
           </div>
-        )}
 
-        <p className="text-sm">
-          {" "}
-          Created by: {formData?.creator?.firstName}{" "}
-          {formData?.creator?.lastName}
-        </p>
-        {btnSelection2 ? (
-          <Card className="bg-neutral-100 w-full md:w-3/5 my-5 p-5 space-y-2">
-            <p className="text-center my-2">Filled Forms</p>
-            {filledOutForms?.map((item, index) => (
-              <Card
-                className="py-2 text-sm flex flex-row justify-around"
-                isPressable
-                onPress={() => {
-                  handleViewTemplateAnswer(item?.formId, item?.user?.id);
-                }}>
-                <div>
-                  {item?.user?.firstName} {item?.user?.lastName}
-                </div>
-                <div>{formatDateTime(item?.createdAt)}</div>
-              </Card>
-            ))}
-          </Card>
-        ) : (
-          <Card className="bg-neutral-100 w-full md:w-3/5 my-5 p-5">
-            {templateModifications?.map((item, index) => (
-              <EditInput
-                inputData={item}
-                filledForm={filledForm}
-                editInput={btnSelection}
-                editAnswer={false}
-                templateModifications={templateModifications}
-                setTemplateModifications={setTemplateModifications}
-                index={index}
-              />
-            ))}
-          </Card>
-        )}
+          {/* Render of answers */}
+
+          {formEditAnswers?.map((item, index) => (
+            <EditInput
+              inputData={item}
+              viewAnswers={true}
+              editAnswer={btnEditAnswer}
+              formEditAnswers={formEditAnswers}
+              setFormEditAnswers={setFormEditAnswers}></EditInput>
+          ))}
+        </Card>
       </div>
     </div>
   );

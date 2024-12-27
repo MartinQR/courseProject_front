@@ -16,8 +16,11 @@ export default function EditInput({
   filledForm,
   editInput,
   editAnswer,
+  viewAnswers,
   templateModifications,
-  setTemplateModifications,
+  setTemplateModifications = () => {},
+  formEditAnswers,
+  setFormEditAnswers = () => {},
   index,
 }) {
   const [selected, setSelected] = useState([]);
@@ -84,20 +87,22 @@ export default function EditInput({
     setTemplateModifications(newInputs);
     setCheckboxOption("");
   }
-  //   function handleAnswer(value) {
-  //     const newAnswers = filledForm?.answers?.map((item) => {
-  //       if (item?.inputId === inputData?.id) {
-  //         return {
-  //           ...item,
-  //           value: inputData?.type === "CHECKBOX" ? value : [value],
-  //         };
-  //       } else {
-  //         return item;
-  //       }
-  //     });
+  function handleEditAnswer(value) {
+    console.log("Value",value)
+    const newAnswers = formEditAnswers?.map((item) => {
+      if (item?.id === inputData?.id) {
+        console.log("COINDICEEEEEE")
+        return {
+          ...item,
+          answer: inputData?.type === "CHECKBOX" ? value : [value],
+        };
+      } else {
+        return item;
+      }
+    });
 
-  //     setFilledForm({ ...filledForm, answers: newAnswers });
-  //   }
+    setFormEditAnswers(newAnswers);
+  }
 
   //   console.log("Input Data", inputData);
   //   console.log("filledForm", filledForm);
@@ -143,9 +148,10 @@ export default function EditInput({
               label="Answer"
               variant="underlined"
               size="sm"
+              value={viewAnswers ? inputData?.answer[0] : ""}
               disabled={!editAnswer}
               onChange={(e) => {
-                handleAnswer(e.target.value);
+                handleEditAnswer(e.target.value);
               }}></Input>
           </div>
         </Card>
@@ -187,10 +193,11 @@ export default function EditInput({
             <Textarea
               label="Answer"
               variant="underlined"
+              value={viewAnswers ? inputData?.answer[0] : ""}
               size="sm"
               disabled={!editAnswer}
               onChange={(e) => {
-                handleAnswer(e.target.value);
+                handleEditAnswer(e.target.value);
               }}></Textarea>
           </div>
         </Card>
@@ -232,9 +239,10 @@ export default function EditInput({
               label="Answer"
               variant="underlined"
               size="sm"
+              value={viewAnswers ? inputData?.answer[0] : ""}
               disabled={!editAnswer}
               onChange={(e) => {
-                handleAnswer(e.target.value);
+                handleEditAnswer(e.target.value);
               }}></Input>
           </div>
         </Card>
@@ -312,6 +320,29 @@ export default function EditInput({
                   </Button>
                 </div>
               </div>
+            ) : viewAnswers ? (
+              <CheckboxGroup
+                label="Select one or more options"
+                value={inputData?.answer}
+                disabled={true}
+                onValueChange={(newValues) => {
+                  setSelected(newValues);
+                  handleEditAnswer(newValues);
+                }}
+                //   onChange={() => {
+                //     handleEditAnswer(selected);
+                //   }}
+              >
+                {inputData?.values?.map((item, index) => {
+                  return (
+                    <div key={index} className="">
+                      <Checkbox isDisabled={!editAnswer} value={item} size="sm">
+                        {item}
+                      </Checkbox>
+                    </div>
+                  );
+                })}
+              </CheckboxGroup>
             ) : (
               <CheckboxGroup
                 label="Select one or more options"
@@ -319,10 +350,10 @@ export default function EditInput({
                 disabled={true}
                 onValueChange={(newValues) => {
                   setSelected(newValues);
-                  handleAnswer(newValues);
+                  handleEditAnswer(newValues);
                 }}
                 //   onChange={() => {
-                //     handleAnswer(selected);
+                //     handleEditAnswer(selected);
                 //   }}
               >
                 {inputData?.options?.map((item, index) => {

@@ -7,6 +7,8 @@ import Dashboard from "./components/Dashboard/Dashboard.jsx";
 import FillForm from "./components/FillForm/FillForm.jsx";
 import ViewTemplate from "./components/ViewTemplate/ViewTemplate.jsx";
 import { Toaster } from "react-hot-toast";
+import ViewTemplateAnswer from "./components/ViewTemplate/ViewTemplateAnswer.jsx";
+
 
 export default function Root() {
   return (
@@ -20,6 +22,7 @@ export default function Root() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/fill-form" element={<FillForm />} />
         <Route path="/view-template" element={<ViewTemplate />} />
+        <Route path="/view-templateAnswer" element={<ViewTemplateAnswer />} />
       </Routes>
     </Router>
   );

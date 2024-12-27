@@ -32,7 +32,6 @@ export function TemplatesManagment() {
   // Handle Actions
 
   function handleViewTemplate(templateId) {
-    console.log("View Template");
     navigate(`/view-template?idTemplate=${templateId}`);
   }
 
@@ -89,7 +88,6 @@ export function TemplatesManagment() {
         )}
         <div className="gap-2 grid grid-cols-2 sm:grid-cols-4">
           {templates?.map((item, index) => (
-            /* eslint-disable no-console */
             <Card
               key={index}
               isPressable
