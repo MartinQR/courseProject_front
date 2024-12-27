@@ -68,7 +68,12 @@ export default function Comments({formId}) {
   return (
     // <div className="">
       <Card className="bg-neutral-100 w-full md:w-3/5 my-5 p-5" >
-        {/* <Card> */}
+        
+        <div className="text-center font-bold text-2xl h-1/3">
+          Comments
+        </div>
+
+        <div>
           {
             comments?.map((comment) => (
               <Card key={comment?.id} className="bg-neutral-100 my-1 flex items-center justify-between p-2">
@@ -84,7 +89,7 @@ export default function Comments({formId}) {
               </Card>
             ))
           }
-        {/* </Card> */}
+        </div>
         
 
         <Card  className="mt-5">
