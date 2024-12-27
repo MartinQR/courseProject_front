@@ -82,7 +82,7 @@ export default function EditInput({
     });
 
     setTemplateModifications(newInputs);
-    setCheckboxOption("")
+    setCheckboxOption("");
   }
   //   function handleAnswer(value) {
   //     const newAnswers = filledForm?.answers?.map((item) => {
