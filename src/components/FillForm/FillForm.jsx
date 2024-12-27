@@ -26,6 +26,7 @@ import RenderInputFill from "../Input/RenderInputFill.jsx";
 import arrow from "../../assets/arrowthin.svg";
 import { useSearchParams } from "react-router-dom";
 import Comments from "../Comments/Comments.jsx";
+import Likes from "../Likes/Likes.jsx";
 
 export default function FillForm() {
   const { authData, setAuthData } = useContext(AuthContext);
@@ -361,6 +362,7 @@ export default function FillForm() {
         <Card className="bg-neutral-100 w-full md:w-3/5 my-5 p-5">
           {formData?.inputs?.map((item) => (
             <RenderInputFill
+              key={item?.id}
               filledForm={filledForm}
               setFilledForm={setFilledForm}
               answersForm={answersForm}
@@ -370,6 +372,11 @@ export default function FillForm() {
           ))}
         </Card>
 
+
+        <Likes 
+          formId={formData?.id}
+        />
+        
         <Comments 
           formId={formData?.id}
         />
