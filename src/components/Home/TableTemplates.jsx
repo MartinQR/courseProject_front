@@ -1,13 +1,15 @@
-import { Button, Card } from "@nextui-org/react";
+import { Button, Card, Skeleton } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function TableTemplates() {
   const APP_URL = import.meta.env.VITE_APP_URL;
   const [templates, setTemplates] = useState([]);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const getMostRespondedForms = async () => {
+    setLoading(true);
     try {
       const response = await fetch(`${APP_URL}/form/getMostRespondedForms`, {
         method: "GET",
@@ -24,6 +26,8 @@ export default function TableTemplates() {
       setTemplates(data);
     } catch (error) {
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -52,23 +56,37 @@ export default function TableTemplates() {
         <div className="w-2/3 h-full flex items-center justify-center flex-col p-3 space-y-2 sm:space-y-4  ">
           {/* Top 5 popular templates */}
 
-          {templates?.map((template, i) => (
-            <div key={template?.id} className="flex justify-between items-center w-full">
-              <div>
-                <p className="font-bold">{template?.title}</p>
-                <p className="font-mono">{template?.description}</p>
-              </div>
-              <Button
-                className="bg-amber-400"
-                onClick={() => {
-                  navigate(`/fill-form?idTemplate=${template?.id}`);
-                  setOpen(false);
-                }}
-              >
-                View
-              </Button>
+          {loading ? (
+            <>
+            <Skeleton className="h-80 bg-neutral-100 rounded-3xl flex justify-between items-center w-full" />
+            <Skeleton className="h-80 bg-neutral-100 rounded-3xl flex justify-between items-center w-full" />
+            <Skeleton className="h-80 bg-neutral-100 rounded-3xl flex justify-between items-center w-full" />
+            <Skeleton className="h-80 bg-neutral-100 rounded-3xl flex justify-between items-center w-full" />
+            <Skeleton className="h-80 bg-neutral-100 rounded-3xl flex justify-between items-center w-full" />
+            </>
+          ) : (
+            <div>
+              {templates?.map((template, i) => (
+                <div key={template?.id} className="flex justify-between items-center w-full">
+                  <div>
+                    <p className="font-bold">{template?.title}</p>
+                    <p className="font-mono">{template?.description}</p>
+                  </div>
+                  <Button
+                    className="bg-amber-400"
+                    onClick={() => {
+                      navigate(`/fill-form?idTemplate=${template?.id}`);
+                      setOpen(false);
+                    }}
+                  >
+                    View
+                  </Button>
+                </div>
+              ))}
             </div>
-          ))}
+          )}
+
+          
         </div>
       </Card>
     </div>
