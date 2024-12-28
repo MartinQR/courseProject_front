@@ -59,10 +59,6 @@ export default function TableTemplates() {
           {loading ? (
             <>
             <Skeleton className="h-80 bg-neutral-100 rounded-3xl flex justify-between items-center w-full" />
-            <Skeleton className="h-80 bg-neutral-100 rounded-3xl flex justify-between items-center w-full" />
-            <Skeleton className="h-80 bg-neutral-100 rounded-3xl flex justify-between items-center w-full" />
-            <Skeleton className="h-80 bg-neutral-100 rounded-3xl flex justify-between items-center w-full" />
-            <Skeleton className="h-80 bg-neutral-100 rounded-3xl flex justify-between items-center w-full" />
             </>
           ) : (
             <div>
