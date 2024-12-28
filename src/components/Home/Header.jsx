@@ -2,10 +2,12 @@ import { useState, useEffect, useContext } from "react";
 import { Card, CardBody, Button, ButtonGroup, Avatar } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
+import { SearchTemplateModal } from "../SearchTemplateModal/SearchTemplateModal";
 
 export default function Header() {
   const [toggleBtn, setToggleBtn] = useState(false);
   const { authData, setAuthData } = useContext(AuthContext);
+  const [open, setOpen] = useState(false);
 
   const navigate = useNavigate();
 
@@ -189,6 +191,17 @@ export default function Header() {
           )}
         </div>
       </div>
+
+      <Button onClick={() => {
+          setOpen(true)
+        }} 
+      >
+        Search
+      </Button>
+      <SearchTemplateModal 
+        open={open}
+        setOpen={setOpen}
+      />
     </>
   );
 }
