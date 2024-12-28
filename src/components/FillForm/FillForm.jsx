@@ -73,9 +73,9 @@ export default function FillForm() {
       // SuccesFully Response
       const data = await response.json();
 
-      toast.success("Form created sucessfully!");
+      toast.success("Form submitted successfully!");
       setOpenModal(true);
-      // navigate("/create-form");
+      navigate("/");
     } catch (error) {
       console.error("Fetch error:", error);
     } finally {
