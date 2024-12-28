@@ -373,7 +373,7 @@ export default function FillForm() {
         </Card>
 
         <Likes formId={formData?.id} />
-        <div className="w-full sm:w-4/5 lg:w-3/5 my-5 p-5">
+        <div className="w-full sm:w-4/5 lg:w-3/5 my-5">
           <Comments formId={formData?.id} />
         </div>
 
