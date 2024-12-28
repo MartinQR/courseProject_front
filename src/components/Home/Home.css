@@ -6,6 +6,15 @@
   border-radius: 9rem;
 }
 
+.border-radius-m {
+  border-radius: 9rem;
+}
+
+@media (max-width: 639px) {
+  .border-radius-m {
+    border-radius: 4rem; 
+  }
+}
 /* ScrolL Bar */
 
 .custom-scrollbar::-webkit-scrollbar {
