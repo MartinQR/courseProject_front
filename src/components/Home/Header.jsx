@@ -56,13 +56,13 @@ export default function Header() {
             {toggleBtn ? (
               <button
                 onClick={() => setToggleBtn(!toggleBtn)}
-                className="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center bg-neutral-300">
+                className="w-12 h-12  rounded-full flex items-center justify-center bg-neutral-300">
                 <div className="w-8 h-0.5 bg-white absolute bg-black"></div>{" "}
               </button>
             ) : (
               <button
                 onClick={() => setToggleBtn(!toggleBtn)}
-                className="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center bg-neutral-300">
+                className="w-12 h-12  rounded-full flex items-center justify-center bg-neutral-300">
                 <div className="w-0.5 h-8 bg-white absolute bg-black"></div>{" "}
                 <div className="w-8 h-0.5 bg-white absolute bg-black"></div>{" "}
               </button>
