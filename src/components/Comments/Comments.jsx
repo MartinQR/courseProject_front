@@ -38,15 +38,18 @@ export default function Comments({formId}) {
   }, [formId]);
   
   useEffect(() => {
+    console.log("formId", formId);
+    
     const intervalId = setInterval(() => {
       if (formId) {
+        console.log("useEffect");
         getComments();
 
       }
     }, 3000);
 
     return () => clearInterval(intervalId);
-  }, []);
+  }, [formId]);
 
   const postComment = async() => {
     setLoadingPost(true);
