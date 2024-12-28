@@ -44,7 +44,10 @@ export default function AddInput({ setFormData, formData }) {
       return;
     }
 
-    setInputData({ ...inputData, options: [...inputData.options, newOption?.trim()] });
+    setInputData({
+      ...inputData,
+      options: [...inputData.options, newOption?.trim()],
+    });
     setNewOption("");
   }
 
@@ -58,7 +61,7 @@ export default function AddInput({ setFormData, formData }) {
       toast.error("Type is required");
       return;
     }
-    
+
     if (!inputData?.description?.trim()) {
       toast.error("Description is required");
       return;
@@ -68,7 +71,7 @@ export default function AddInput({ setFormData, formData }) {
       toast.error("At least one option is required");
       return;
     }
-    
+
     setFormData({
       ...formData,
       inputsData: [...formData.inputsData, inputData],
@@ -78,16 +81,18 @@ export default function AddInput({ setFormData, formData }) {
 
   function hanldeChangeSelect(e) {
     const value = e.target.value;
-    const totalInputsWithSameType = formData?.inputsData?.filter((input) => input?.type === value).length;
-    
+    const totalInputsWithSameType = formData?.inputsData?.filter(
+      (input) => input?.type === value
+    ).length;
+
     if (totalInputsWithSameType >= 4) {
       toast.error("You can't add more than four input with the same type");
-      return
+      return;
     }
-    
+
     setInputData({ ...inputData, type: e.target.value });
   }
-  
+
   // UTILS - OTHERS
   const inputs = [
     { key: "SINGLE-LINE", label: "Single-line" },
@@ -96,45 +101,44 @@ export default function AddInput({ setFormData, formData }) {
     { key: "CHECKBOX", label: "Checkbox" },
   ];
 
-  
   return (
     <Card className="w-full h-full p-2 space-y-4">
-      <div className="flex w-full justify-around space-x-4">
-        <div className="w-2/5">
-          <Input
-            isRequired
-            label="Title"
-            size="sm"
-            value={inputData?.title}
-            onChange={(e) => {
-              setInputData({ ...inputData, title: e.target.value });
-            }}
-          />
+      <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0">
+        <div className="flex w-full justify-around space-x-4">
+          <div className="w-2/5">
+            <Input
+              isRequired
+              label="Title"
+              size="sm"
+              value={inputData?.title}
+              onChange={(e) => {
+                setInputData({ ...inputData, title: e.target.value });
+              }}
+            />
+          </div>
+          <div className="w-2/5">
+            <Select
+              className="w-full"
+              label="Input Type"
+              size="sm"
+              selectedKeys={[inputData.type]}
+              onChange={hanldeChangeSelect}>
+              {inputs?.map((input, i) => (
+                <SelectItem key={input?.key || i}>{input?.label}</SelectItem>
+              ))}
+            </Select>
+          </div>
         </div>
-        <div className="w-2/5">
-          <Select
-            className="w-full"
-            label="Input Type"
-            size="sm"
-            selectedKeys={[inputData.type]}
-            onChange={hanldeChangeSelect}
-          >
-            {inputs?.map((input, i) => (
-              <SelectItem key={input?.key || i}>
-                {input?.label}
-              </SelectItem>
-            ))}
-          </Select>
-        </div>
-        <div className="flex items-center w-1/5 ">
-          <Checkbox
-            defaultSelected
-            onChange={(e) =>
-              setInputData({ ...inputData, displayed: e.target.checked })
-            }
-          >
-            Visible
-          </Checkbox>
+        <div>
+          <div className="flex items-center w-1/5 ml-4 sm:ml-0 ">
+            <Checkbox
+              defaultSelected
+              onChange={(e) =>
+                setInputData({ ...inputData, displayed: e.target.checked })
+              }>
+              Visible
+            </Checkbox>
+          </div>
         </div>
       </div>
       <div>
@@ -198,9 +202,7 @@ export default function AddInput({ setFormData, formData }) {
                   label="Add Option"
                   size="sm"
                   value={newOption}
-                  onChange={(e) => setNewOption(e.target.value)}
-                >
-                </Input>
+                  onChange={(e) => setNewOption(e.target.value)}></Input>
                 <Button className="text-3xl" onClick={handleAddOption}>
                   +
                 </Button>
