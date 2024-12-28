@@ -34,19 +34,24 @@ export default function FillForm() {
   const [filledForm, setFilledForm] = useState({});
   const [answersForm, setAnswersForm] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isloading2,setIsLoading2]= useState(false);
+  const [openModal, setOpenModal] = useState(false);
   const [searchParams] = useSearchParams();
+  const [templateIdModal, setTemplateIdModal] = useState("");
   const size = useWindowSize();
   const idTemplate = searchParams.get("idTemplate");
 
   useEffect(() => {
     if (idTemplate) {
       getTemplate(idTemplate);
+    } else {
+      setOpenModal(true);
     }
   }, [idTemplate]);
 
   const navigate = useNavigate();
-  // SUBMIT DE FORM
 
+  // SUBMIT DE FORM
   async function handleSubmitForm() {
     setIsLoading(true);
     try {
@@ -80,6 +85,7 @@ export default function FillForm() {
 
   // Get template to fill
   const getTemplate = async (formId) => {
+    setIsLoading2(true)
     try {
       const response = await fetch(`${APP_URL}/form/getFormById?id=${formId}`);
       if (!response.ok) {
@@ -87,20 +93,20 @@ export default function FillForm() {
       }
       const data = await response.json();
       setFormData(data);
+      setOpenModal(false)
     } catch (error) {
       console.error("Error gettinf Form:", error);
+    }finally {
+      setIsLoading2(false);
     }
   };
 
-  // useEffect(() => {
-  //   fetchForm("2852440d-01d5-4e5d-9293-eae559737df3");
-  // }, []);
+ 
 
   useEffect(() => {
     const answersForm = formData?.inputs?.map((item) => {
       return { inputId: item?.id };
     });
-
 
     setFilledForm({
       formId: formData?.id,
@@ -108,8 +114,6 @@ export default function FillForm() {
       answers: answersForm,
     });
   }, [formData]);
-  
-
 
   return (
     <div className="gray-background w-full min-h-screen  px-3 py-3 flex items-center flex-col">
@@ -196,10 +200,7 @@ export default function FillForm() {
           </div>
 
           <div className="bg-neutral-100 row-start-2 col-start-2 border-radius2 flex items-center justify-center p-4">
-            <Checkbox
-              defaultSelected
-              isDisabled
-            >
+            <Checkbox defaultSelected isDisabled>
               Public
             </Checkbox>
           </div>
@@ -354,12 +355,13 @@ export default function FillForm() {
         "No resize window"
       )}
       {/* Body Div */}
-      <div className="mt-4 w-full flex items-center flex-col justify-center px-10 space-y-2">
-        <p className="text-4xl">PLEASE FILL OUT THE FORM</p>
+      <div className="mt-4 w-full flex items-center flex-col justify-center space-y-2">
+        <p className="text-4xl text-center">PLEASE FILL OUT THE FORM</p>
         <p className="text-sm">
-          Created by: {formData?.creator?.firstName}{" "}{formData?.creator?.lastName}
+          Created by: {formData?.creator?.firstName}{" "}
+          {formData?.creator?.lastName}
         </p>
-        <Card className="bg-neutral-100 w-full md:w-3/5 my-5 p-5">
+        <Card className="bg-neutral-100 w-full sm:w-4/5 lg:w-3/5 my-5 p-5">
           {formData?.inputs?.map((item) => (
             <RenderInputFill
               key={item?.id}
@@ -372,14 +374,34 @@ export default function FillForm() {
           ))}
         </Card>
 
+        <Likes formId={formData?.id} />
 
-        <Likes 
-          formId={formData?.id}
-        />
-        
-        <Comments 
-          formId={formData?.id}
-        />
+        <Comments formId={formData?.id} />
+        <Modal
+          isOpen={openModal}
+          onClose={() => {
+            setOpenModal(false);
+          }}>
+          <ModalContent className="p-4">
+            <ModalHeader>
+              <p>Enter the template ID to fill out.</p>
+            </ModalHeader>
+            <ModalBody>
+              <Input
+                value={templateIdModal}
+                onChange={(e) => {
+                  setTemplateIdModal(e.target.value);
+                }}
+                label="Form ID"></Input>
+              <Button
+                isLoading={isloading2}
+                onClick={() => getTemplate(templateIdModal)}
+                className="bg-orange-600 text-white m-2">
+                Fill out Form!
+              </Button>
+            </ModalBody>
+          </ModalContent>
+        </Modal>
       </div>
     </div>
   );
