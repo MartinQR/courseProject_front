@@ -34,7 +34,7 @@ export default function FillForm() {
   const [filledForm, setFilledForm] = useState({});
   const [answersForm, setAnswersForm] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [isloading2,setIsLoading2]= useState(false);
+  const [isloading2, setIsLoading2] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [searchParams] = useSearchParams();
   const [templateIdModal, setTemplateIdModal] = useState("");
@@ -85,7 +85,7 @@ export default function FillForm() {
 
   // Get template to fill
   const getTemplate = async (formId) => {
-    setIsLoading2(true)
+    setIsLoading2(true);
     try {
       const response = await fetch(`${APP_URL}/form/getFormById?id=${formId}`);
       if (!response.ok) {
@@ -93,15 +93,13 @@ export default function FillForm() {
       }
       const data = await response.json();
       setFormData(data);
-      setOpenModal(false)
+      setOpenModal(false);
     } catch (error) {
       console.error("Error gettinf Form:", error);
-    }finally {
+    } finally {
       setIsLoading2(false);
     }
   };
-
- 
 
   useEffect(() => {
     const answersForm = formData?.inputs?.map((item) => {
@@ -375,8 +373,10 @@ export default function FillForm() {
         </Card>
 
         <Likes formId={formData?.id} />
+        <div className="w-full sm:w-4/5 lg:w-3/5 my-5 p-5">
+          <Comments formId={formData?.id} />
+        </div>
 
-        <Comments formId={formData?.id} />
         <Modal
           isOpen={openModal}
           onClose={() => {
