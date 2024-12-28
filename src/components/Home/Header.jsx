@@ -2,10 +2,12 @@ import { useState, useEffect, useContext } from "react";
 import { Card, CardBody, Button, ButtonGroup, Avatar } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
+import { SearchTemplateModal } from "../SearchTemplateModal/SearchTemplateModal";
 
 export default function Header() {
   const [toggleBtn, setToggleBtn] = useState(false);
   const { authData, setAuthData } = useContext(AuthContext);
+  const [open, setOpen] = useState(false);
 
   const navigate = useNavigate();
 
@@ -54,13 +56,13 @@ export default function Header() {
             {toggleBtn ? (
               <button
                 onClick={() => setToggleBtn(!toggleBtn)}
-                className="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center bg-neutral-300">
+                className="w-12 h-12  rounded-full flex items-center justify-center bg-neutral-300">
                 <div className="w-8 h-0.5 bg-white absolute bg-black"></div>{" "}
               </button>
             ) : (
               <button
                 onClick={() => setToggleBtn(!toggleBtn)}
-                className="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center bg-neutral-300">
+                className="w-12 h-12  rounded-full flex items-center justify-center bg-neutral-300">
                 <div className="w-0.5 h-8 bg-white absolute bg-black"></div>{" "}
                 <div className="w-8 h-0.5 bg-white absolute bg-black"></div>{" "}
               </button>
@@ -189,6 +191,17 @@ export default function Header() {
           )}
         </div>
       </div>
+
+      <Button onClick={() => {
+          setOpen(true)
+        }} 
+      >
+        Search
+      </Button>
+      <SearchTemplateModal 
+        open={open}
+        setOpen={setOpen}
+      />
     </>
   );
 }
