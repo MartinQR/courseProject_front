@@ -25,9 +25,11 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import arrow from "../../assets/arrowthin.svg";
+import { SearchTemplateModal } from "../SearchTemplateModal/SearchTemplateModal.jsx";
 
 export default function Dashboard() {
   const { authData, setAuthData } = useContext(AuthContext);
+  const [openSearch, setOpenSearch] = useState(false);
 
   const size = useWindowSize();
   const navigate = useNavigate();
@@ -37,11 +39,25 @@ export default function Dashboard() {
       {size?.width >= 768 ? (
         <div className="grid grid-cols-5  gap-2 w-full auto-rows-[6rem]">
           <div className="bg-orange-600 border-radius2 flex items-center justify-center ">
-            <button className=" space-y-0.5">
+            <div className="w-16">
+              <button
+                onClick={() => {
+                  setOpenSearch(true);
+                }}>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 512 512"
+                  height="100"
+                  width="100%">
+                  <path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" />
+                </svg>
+              </button>
+            </div>
+            {/* <button className=" space-y-0.5">
               <div className="w-20 h-5 bg-neutral-900 rounded-t-lg"></div>
               <div className="w-20 h-5 bg-neutral-900"></div>
               <div className="w-20 h-5 bg-neutral-900 rounded-b-lg"></div>
-            </button>
+            </button> */}
           </div>
           <div className="bg-amber-400 border-radius2 flex items-center justify-center">
             <div className="flex flex-col items-center justify-center space-x-2 mr-2 ">
@@ -57,7 +73,10 @@ export default function Dashboard() {
           <div className="bg-neutral-100 border-radius2 flex items-center justify-center p-4 text-4xl">
             formo
           </div>
-          <div className="bg-neutral-100 border-radius2 flex items-center justify-center flex-col p-4 text-4xl "> - -</div>
+          <div className="bg-neutral-100 border-radius2 flex items-center justify-center flex-col p-4 text-4xl ">
+            {" "}
+            - -
+          </div>
 
           <div className="col-span-2 col-start-4 flex space-x-1 ">
             {/* Inicia Div 8 */}
@@ -123,12 +142,25 @@ export default function Dashboard() {
             <div className="flex w-2/6  space-x-2">
               <div className="bg-orange-600 rounded-xl flex items-center justify-center w-1/2">
                 {/* Hamburguer Menu */}
-
-                <button className=" space-y-0.5">
+                <div className="w-7">
+                  <button
+                    onClick={() => {
+                      setOpenSearch(true);
+                    }}>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 512 512"
+                      height="100"
+                      width="100%">
+                      <path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" />
+                    </svg>
+                  </button>
+                </div>
+                {/* <button className=" space-y-0.5">
                   <div className="w-8 h-2 bg-neutral-900 rounded-t-lg"></div>
                   <div className="w-8 h-2 bg-neutral-900"></div>
                   <div className="w-8 h-2 bg-neutral-900 rounded-b-lg"></div>
-                </button>
+                </button> */}
               </div>
               <div className="bg-amber-400 rounded-xl flex text-center items-center justify-center w-1/2 text-xs">
                 {authData?.firstName} {authData?.lastName}
@@ -171,12 +203,25 @@ export default function Dashboard() {
             <div className="flex w-2/6  space-x-2">
               <div className="bg-orange-600 rounded-3xl flex items-center justify-center w-1/2">
                 {/* Hamburguer Menu */}
-
-                <button className=" space-y-0.5">
+                <div className="w-11">
+                  <button
+                    onClick={() => {
+                      setOpenSearch(true);
+                    }}>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 512 512"
+                      height="100"
+                      width="100%">
+                      <path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" />
+                    </svg>
+                  </button>
+                </div>
+                {/* <button className=" space-y-0.5">
                   <div className="w-12 h-3 bg-neutral-900 rounded-t-lg"></div>
                   <div className="w-12 h-3 bg-neutral-900"></div>
                   <div className="w-12 h-3 bg-neutral-900 rounded-b-lg"></div>
-                </button>
+                </button> */}
               </div>
               <div className="bg-amber-400 rounded-3xl flex items-center justify-center w-1/2">
                 <div className="flex flex-col items-center justify-center space-x-2 mr-2 ">
@@ -239,6 +284,9 @@ export default function Dashboard() {
           <TemplatesManagment />
         </div>
       </div>
+      <SearchTemplateModal
+        open={openSearch}
+        setOpen={setOpenSearch}></SearchTemplateModal>
     </div>
   );
 }
