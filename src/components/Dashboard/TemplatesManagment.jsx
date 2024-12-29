@@ -158,7 +158,7 @@ export function TemplatesManagment() {
                   }}>
                   <CardBody className="overflow-visible p-0 space-y-2">
                     <div className="h-2/5 flex text-center items-center justify-center">
-                      <b className="text-center text-sm">{item?.form?.title}</b>
+                      <b className="text-center text-sm">{item?.form?.title} , By: {item?.form?.creator?.firstName} {item?.form?.creator?.lastName}</b>
                     </div>
 
                     <div className="h-2/5 text-center px-1 overflow-y-auto ">
