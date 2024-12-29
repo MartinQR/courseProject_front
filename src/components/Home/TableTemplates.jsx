@@ -72,7 +72,6 @@ export default function TableTemplates() {
                     className="bg-amber-400"
                     onClick={() => {
                       navigate(`/fill-form?idTemplate=${template?.id}`);
-                      setOpen(false);
                     }}
                   >
                     View
