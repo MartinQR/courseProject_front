@@ -481,9 +481,10 @@ export default function CreateForm() {
       )}
 
       {/* ------------------ END HEADER ----------------- */}
-
-      <Card className="bg-neutral-100  w-full sm:w-4/5 lg:w-3/5  my-5 p-5">
+      <p className="text-center text-3xl my-5">CREATE A NEW FORM</p>
+      <Card className="bg-neutral-100  w-full sm:w-4/5 lg:w-3/5  mb-5 p-5">
         {/* <RenderInput inputData={input}></RenderInput> */}
+
         <div className="">
           {formData?.inputsData?.map((item, index) => {
             return (

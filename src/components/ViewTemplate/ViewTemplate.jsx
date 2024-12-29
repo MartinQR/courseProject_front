@@ -160,7 +160,7 @@ export default function ViewTemplate() {
 
   // Handle Actions
   function handleViewTemplateAnswer(templateId, userId) {
-    console.log("TemplateId",templateId)
+    console.log("TemplateId", templateId);
     navigate(`/view-templateAnswer?templateId=${templateId}&userId=${userId}`);
   }
 
@@ -242,17 +242,19 @@ export default function ViewTemplate() {
           </div>
           <div className="bg-neutral-100 row-start-2 col-start-1 border-radius2 flex items-center justify-center p-4">
             <div className="flex w-full items-center justify-center">
-              {isLoading ? (
-                <Spinner size="lg" color="warning" />
-              ) : (
-                <>
-                  {" "}
-                  <div className="w-1/2 text-right">SUBMIT</div>
-                  <button className="w-1/2 flex ">
-                    <img src={arrow} className="h-auto object-contain" />
-                  </button>
-                </>
-              )}
+              <>
+                {" "}
+                <button
+                  className="w-2/3 flex "
+                  onClick={() => {
+                    navigate(-1);
+                  }}>
+                  <img
+                    src={arrow}
+                    className="h-auto object-contain transform rotate-180"
+                  />
+                </button>
+              </>
             </div>
           </div>
 
@@ -315,7 +317,7 @@ export default function ViewTemplate() {
             <div className=" text-center font-bold text-xl">
               {formData?.title}
             </div>
-            <div className="h-auto">{formData?.description}</div>
+            <div className="h-auto text-center">{formData?.description}</div>
             <Card className="text-center">
               {formData?.tags?.map((item, index) => {
                 return (
@@ -330,7 +332,7 @@ export default function ViewTemplate() {
               <div>
                 <Checkbox defaultSelected>Public</Checkbox>
               </div>
-              <Button>SUBMIT</Button>
+              {/* <Button>SUBMIT</Button> */}
             </div>
           </Card>
         </div>
@@ -383,7 +385,7 @@ export default function ViewTemplate() {
             </div>
           </div>
           <Card className="w-full h-auto p-4 flex flex-row space-x-2">
-            <div className="w-4/5 flex flex-col items-center space-y-2">
+            <div className="w-full flex flex-col items-center space-y-2">
               <div className="h-1/6 font-bold text-xl">{formData?.title}</div>
               <div className="h-auto">{formData?.description}</div>
               <div className="w-full flex space-x-4">
@@ -405,20 +407,20 @@ export default function ViewTemplate() {
               </div>
             </div>
 
-            <div className="flex flex-col items-center justify-center w-1/5 ">
+            {/* <div className="flex flex-col items-center justify-center w-1/5 ">
               <div className="w-1/2 text-right">SUBMIT</div>
               <button className="w-full flex">
                 <img src={arrow} className="h-auto object-contain" />
               </button>
-            </div>
+            </div> */}
           </Card>
         </div>
       ) : (
         "No resize window"
       )}
       {/* Body Div */}
-      <div className="mt-4 w-full flex items-center flex-col justify-center px-10 space-y-2">
-        <ButtonGroup className="w-2/5 ">
+      <div className="mt-4 w-full flex items-center flex-col justify-center space-y-2">
+        <ButtonGroup className="w-full sm:px-0 sm:w-3/5 md:w-2/5 ">
           <Button
             className="w-1/2"
             color={btnSelection ? "primary" : "default"}
@@ -445,14 +447,16 @@ export default function ViewTemplate() {
             </Button>
           </div>
         )}
+        {btnSelection && (
+          <p className="text-sm">
+            {" "}
+            Created by: {formData?.creator?.firstName}{" "}
+            {formData?.creator?.lastName}
+          </p>
+        )}
 
-        <p className="text-sm">
-          {" "}
-          Created by: {formData?.creator?.firstName}{" "}
-          {formData?.creator?.lastName}
-        </p>
         {btnSelection2 ? (
-          <Card className="bg-neutral-100 w-full md:w-3/5 my-5 p-5 space-y-2">
+          <Card className="bg-neutral-100 w-full sm:w-4/5 lg:w-3/5 my-5 p-5 space-y-2">
             <p className="text-center my-2">Filled Forms</p>
             {filledOutForms?.map((item, index) => (
               <Card
@@ -460,16 +464,18 @@ export default function ViewTemplate() {
                 isPressable
                 onPress={() => {
                   handleViewTemplateAnswer(item?.formId, item?.user?.id);
-                }}>
-                <div>
+                }}
+                
+              >
+                <div className="w-1/2">
                   {item?.user?.firstName} {item?.user?.lastName}
                 </div>
-                <div>{formatDateTime(item?.createdAt)}</div>
+                <div className="w-1/2">{formatDateTime(item?.createdAt)}</div>
               </Card>
             ))}
           </Card>
         ) : (
-          <Card className="bg-neutral-100 w-full md:w-3/5 my-5 p-5">
+          <Card className="bg-neutral-100 w-full sm:w-4/5 lg:w-3/5 my-5 p-5">
             {templateModifications?.map((item, index) => (
               <EditInput
                 inputData={item}

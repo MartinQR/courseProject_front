@@ -193,85 +193,77 @@ export default function TableUsers() {
   ];
 
   return (
-    <div className="flex items-center justify-center flex-col space-y-3 ">
-      <div className="w-4/5 flex items-center justify-center flex-col">
-        <div className="flex space-x-2 w-auto  ml-4 mt-8 ">
-          <Button
-            className="bg-foreground text-background"
-            size="sm"
-            onClick={() => blockUnlockUsers(selectedUsers, "BLOCK_USERS")}>
-            <div className="w-3">
-              <svg
-                fill="white"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 448 512"
-                height="100"
-                width="100%">
-                <path d="M144 144l0 48 160 0 0-48c0-44.2-35.8-80-80-80s-80 35.8-80 80zM80 192l0-48C80 64.5 144.5 0 224 0s144 64.5 144 144l0 48 16 0c35.3 0 64 28.7 64 64l0 192c0 35.3-28.7 64-64 64L64 512c-35.3 0-64-28.7-64-64L0 256c0-35.3 28.7-64 64-64l16 0z" />
-              </svg>
-            </div>
-            <div>Block</div>
-          </Button>
-          <Button
-            size="sm"
-            variant="flat"
-            onClick={() => blockUnlockUsers(selectedUsers, "UNLOCK_USERS")}>
-            <div className="w-3">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 448 512"
-                height="100"
-                width="100%">
-                <path d="M144 144c0-44.2 35.8-80 80-80c31.9 0 59.4 18.6 72.3 45.7c7.6 16 26.7 22.8 42.6 15.2s22.8-26.7 15.2-42.6C331 33.7 281.5 0 224 0C144.5 0 80 64.5 80 144l0 48-16 0c-35.3 0-64 28.7-64 64L0 448c0 35.3 28.7 64 64 64l320 0c35.3 0 64-28.7 64-64l0-192c0-35.3-28.7-64-64-64l-240 0 0-48z" />
-              </svg>
-            </div>
-          </Button>
-          <Button
-            size="sm"
-            variant="flat"
-            onClick={() => deleteUsers(selectedUsers)}>
-            <div className="w-3">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 448 512"
-                height="100"
-                width="100%">
-                <path d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0L284.2 0c12.1 0 23.2 6.8 28.6 17.7L320 32l96 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 96C14.3 96 0 81.7 0 64S14.3 32 32 32l96 0 7.2-14.3zM32 128l384 0 0 320c0 35.3-28.7 64-64 64L96 512c-35.3 0-64-28.7-64-64l0-320zm96 64c-8.8 0-16 7.2-16 16l0 224c0 8.8 7.2 16 16 16s16-7.2 16-16l0-224c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16l0 224c0 8.8 7.2 16 16 16s16-7.2 16-16l0-224c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16l0 224c0 8.8 7.2 16 16 16s16-7.2 16-16l0-224c0-8.8-7.2-16-16-16z" />
-              </svg>
-            </div>
-          </Button>
-          <Button
-            size="sm"
-            onClick={() => {
-              makeRemoveAdmin(selectedUsers, "MAKE");
-            }}>
-            Make Admin
-          </Button>
-          <Button
-            size="sm"
-            onClick={() => {
-              makeRemoveAdmin(selectedUsers, "REMOVE");
-            }}>
-            Remove Admin
-          </Button>
-
-          {/* <Button
-            className="ml-20"
-            size="sm"
-            variant="shadow"
-            onClick={() => navigate("/")}>
-            Log Out
-          </Button> */}
+    <div className="flex items-center justify-center flex-col space-y-3 overflow-x-auto">
+      <div className="w-full flex items-center justify-center flex-col">
+        <div className="flex flex-wrap space-x-1.5  mt-2 flex-col sm:flex-row  ">
+          <div className="space-x-1.5">
+            {" "}
+            <Button
+              className="bg-foreground text-background"
+              size="sm"
+              onClick={() => blockUnlockUsers(selectedUsers, "BLOCK_USERS")}>
+              <div className="w-3">
+                <svg
+                  fill="white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 448 512"
+                  height="100"
+                  width="100%">
+                  <path d="M144 144l0 48 160 0 0-48c0-44.2-35.8-80-80-80s-80 35.8-80 80zM80 192l0-48C80 64.5 144.5 0 224 0s144 64.5 144 144l0 48 16 0c35.3 0 64 28.7 64 64l0 192c0 35.3-28.7 64-64 64L64 512c-35.3 0-64-28.7-64-64L0 256c0-35.3 28.7-64 64-64l16 0z" />
+                </svg>
+              </div>
+              <div>Block</div>
+            </Button>
+            <Button
+              size="sm"
+              variant="flat"
+              onClick={() => blockUnlockUsers(selectedUsers, "UNLOCK_USERS")}>
+              <div className="w-3">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 448 512"
+                  height="100"
+                  width="100%">
+                  <path d="M144 144c0-44.2 35.8-80 80-80c31.9 0 59.4 18.6 72.3 45.7c7.6 16 26.7 22.8 42.6 15.2s22.8-26.7 15.2-42.6C331 33.7 281.5 0 224 0C144.5 0 80 64.5 80 144l0 48-16 0c-35.3 0-64 28.7-64 64L0 448c0 35.3 28.7 64 64 64l320 0c35.3 0 64-28.7 64-64l0-192c0-35.3-28.7-64-64-64l-240 0 0-48z" />
+                </svg>
+              </div>
+            </Button>
+            <Button
+              size="sm"
+              variant="flat"
+              onClick={() => deleteUsers(selectedUsers)}>
+              <div className="w-3">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 448 512"
+                  height="100"
+                  width="100%">
+                  <path d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0L284.2 0c12.1 0 23.2 6.8 28.6 17.7L320 32l96 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 96C14.3 96 0 81.7 0 64S14.3 32 32 32l96 0 7.2-14.3zM32 128l384 0 0 320c0 35.3-28.7 64-64 64L96 512c-35.3 0-64-28.7-64-64l0-320zm96 64c-8.8 0-16 7.2-16 16l0 224c0 8.8 7.2 16 16 16s16-7.2 16-16l0-224c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16l0 224c0 8.8 7.2 16 16 16s16-7.2 16-16l0-224c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16l0 224c0 8.8 7.2 16 16 16s16-7.2 16-16l0-224c0-8.8-7.2-16-16-16z" />
+                </svg>
+              </div>
+            </Button>
+          </div>
+          <div className="flex space-x-1.5 ">
+            {" "}
+            <Button
+              size="sm"
+              onClick={() => {
+                makeRemoveAdmin(selectedUsers, "MAKE");
+              }}>
+              Make Admin
+            </Button>
+            <Button
+              size="sm"
+              onClick={() => {
+                makeRemoveAdmin(selectedUsers, "REMOVE");
+              }}>
+              Remove Admin
+            </Button>
+          </div>
         </div>
-        {/* <div className="flex my-2 ml-6 w-auto">
-          <span className="">
-            Total {dataUsers.length} users - Welcome {email}
-        
-          </span>
-        </div> */}
       </div>
       {/* Container for the Table */}
-      <div className="w-full">
+      <div className="">
         {/* // className="w-1/2 sm:w-9/12 md:w-11/12 lg:w-full mb-10" */}
 
         <Table

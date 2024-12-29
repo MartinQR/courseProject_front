@@ -1,17 +1,34 @@
 import { useState, useEffect, useContext } from "react";
 import { Toaster } from "react-hot-toast";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { Card } from "@nextui-org/react";
 import useWindowSize from "../../Hooks.jsx/UseWindowSize.js";
 import { div } from "framer-motion/client";
 import { useNavigate } from "react-router-dom";
 import TableUsers from "./TableUsers.jsx";
 import { TemplatesManagment } from "./TemplatesManagment.jsx";
 import { AuthContext } from "../../contexts/AuthContext.jsx";
+import {
+  Card,
+  Spinner,
+  Avatar,
+  Button,
+  Input,
+  Select,
+  SelectItem,
+  Textarea,
+  Checkbox,
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  useDisclosure,
+} from "@nextui-org/react";
+import arrow from "../../assets/arrowthin.svg";
 
 export default function Dashboard() {
-  const { authData } = useContext(AuthContext);
-  
+  const { authData, setAuthData } = useContext(AuthContext);
+
   const size = useWindowSize();
   const navigate = useNavigate();
 
@@ -27,17 +44,20 @@ export default function Dashboard() {
             </button>
           </div>
           <div className="bg-amber-400 border-radius2 flex items-center justify-center">
-            2
+            <div className="flex flex-col items-center justify-center space-x-2 mr-2 ">
+              <Avatar showFallback src="https://images.unsplash.com/broken" />
+              <p className="text-center text-sm">
+                {authData?.firstName} {authData?.lastName}
+              </p>
+            </div>
           </div>
-          <div className="row-span-2 bg-neutral-100 border-radius2 flex items-center justify-center ">
-            3
+          <div className="row-span-2 bg-neutral-100 border-radius2 flex items-center justify-center text-2xl text-wrap">
+            DASHBOARD
           </div>
-          <div className="bg-neutral-100 border-radius2 flex items-center justify-center p-4">
-            4
+          <div className="bg-neutral-100 border-radius2 flex items-center justify-center p-4 text-4xl">
+            formo
           </div>
-          <div className="bg-neutral-100 border-radius2 flex items-center justify-center flex-col p-4">
-            5
-          </div>
+          <div className="bg-neutral-100 border-radius2 flex items-center justify-center flex-col p-4 text-4xl "> - -</div>
 
           <div className="col-span-2 col-start-4 flex space-x-1 ">
             {/* Inicia Div 8 */}
@@ -68,12 +88,33 @@ export default function Dashboard() {
             {/* Termina Div 9 */}
           </div>
           <div className="bg-neutral-100 row-start-2 col-start-1 border-radius2 flex items-center justify-center p-4">
-            6
+            <div className="flex w-full items-center justify-center">
+              <>
+                {" "}
+                <button
+                  className="w-2/3 flex "
+                  onClick={() => {
+                    navigate("/");
+                  }}>
+                  <img
+                    src={arrow}
+                    className="h-auto object-contain transform rotate-180"
+                  />
+                </button>
+              </>
+            </div>
           </div>
 
           <div className="bg-neutral-100 row-start-2 col-start-2 border-radius2 flex items-center justify-center p-4">
             {" "}
-            7
+            <Button
+              onClick={() => {
+                setAuthData(null);
+                localStorage.removeItem("authData");
+                navigate("/");
+              }}>
+              Log out
+            </Button>
           </div>
         </div>
       ) : size?.width <= 468 ? (
@@ -89,8 +130,8 @@ export default function Dashboard() {
                   <div className="w-8 h-2 bg-neutral-900 rounded-b-lg"></div>
                 </button>
               </div>
-              <div className="bg-amber-400 rounded-xl flex items-center justify-center w-1/2">
-                2
+              <div className="bg-amber-400 rounded-xl flex text-center items-center justify-center w-1/2 text-xs">
+                {authData?.firstName} {authData?.lastName}
               </div>
             </div>
             <div className="w-4/6  col-span-2 col-start-4 flex space-x-1  ">
@@ -120,7 +161,9 @@ export default function Dashboard() {
               </div>
             </div>
           </div>
-          <Card className="w-full h-20"></Card>
+          <Card className="w-full h-20 flex items-center justify-center text-3xl">
+            <div>DASHBOARD</div>
+          </Card>
         </div>
       ) : size?.width <= 768 ? (
         <div className="w-full space-y-2">
@@ -136,7 +179,11 @@ export default function Dashboard() {
                 </button>
               </div>
               <div className="bg-amber-400 rounded-3xl flex items-center justify-center w-1/2">
-                2
+                <div className="flex flex-col items-center justify-center space-x-2 mr-2 ">
+                  <p className="text-center text-sm">
+                    {authData?.firstName} {authData?.lastName}
+                  </p>
+                </div>
               </div>
             </div>
             <div className="w-4/6  col-span-2 col-start-4 flex space-x-1  ">
@@ -166,29 +213,29 @@ export default function Dashboard() {
               </div>
             </div>
           </div>
-          <Card className="w-full h-20"></Card>
+          <Card className="w-full h-20 flex items-center justify-center ">
+            <p className="text-3xl">DASHBOARD</p>
+          </Card>
         </div>
       ) : (
         "No resize window"
       )}
       {/* Body Div */}
       <div className="w-full h-auto py-3 flex flex-col items-center">
-        <div className="w-auto ml-8 mt-4 ">
+        {/* <div className="w-auto ml-8 mt-4 ">
           <p className="text-4xl">DASHBOARD</p>
-        </div>
+        </div> */}
         {/* Table Managment */}
-        {authData?.isAdmin 
-          ? (
-              <div className="w-full px-10">
-                <TableUsers />
-              </div>
-            )
-          : null
-        }
+        {authData?.isAdmin ? (
+          <div className="w-full  flex items-center justify-center flex-col mt-4 overflow-x-auto ">
+            <p className="text-3xl">USERS</p>
+            <TableUsers />
+          </div>
+        ) : null}
 
         {/* Templates and Forms Managment */}
-        <div className="mt-4 w-full flex flex-col items-center px-10">
-          <p className="text-3xl">Templates Managment</p>
+        <div className="mt-4 w-full flex flex-col items-center ">
+          <p className="text-3xl text-center">Templates Managment</p>
           <TemplatesManagment />
         </div>
       </div>
