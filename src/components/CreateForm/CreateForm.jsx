@@ -26,18 +26,31 @@ const APP_URL = import.meta.env.VITE_APP_URL;
 const APP_FRONT = import.meta.env.VITE_APP_FRONT;
 import { AuthContext } from "../../contexts/AuthContext";
 import useWindowSize from "../../Hooks.jsx/UseWindowSize.js";
+import { SearchUsersModal } from "../SearchUsersModal/SearchUsersModal.jsx";
 
 export default function CreateForm() {
   const navigate = useNavigate();
   const [isloading, setIsLoading] = useState();
   const [openModal, setOpenModal] = useState(false);
   const [topicsData, setTopicsData] = useState();
+  const [usersData, setUsersData] = useState();
+  const [openUsersModal, setOpenUsersModal] = useState(false);
   const [formResponse, setFormResponse] = useState();
   const { authData, setAuthData } = useContext(AuthContext);
   const [formData, setFormData] = useState({});
   const [tagValue, setTagValue] = useState("");
-
   const size = useWindowSize();
+
+  const initialFormData = {
+    userId: authData?.userId,
+    title: "",
+    description: "",
+    topicId: "",
+    tags: [],
+    isPublic: true,
+    allowedUsers: [],
+    inputsData: [],
+  };
 
   useEffect(() => {
     setFormData({
@@ -52,17 +65,6 @@ export default function CreateForm() {
     });
   }, [authData]);
 
-  console.log("Form Data", formData);
-  const initialFormData = {
-    userId: authData?.userId,
-    title: "",
-    description: "",
-    topicId: "",
-    tags: [],
-    isPublic: true,
-    allowedUsers: [],
-    inputsData: [],
-  };
 
   function validateForm() {
     if (!formData.title) {
@@ -165,6 +167,19 @@ export default function CreateForm() {
       value={tagValue}
     />
   );
+  
+  const allowedUsersInput = (
+    <Button
+      onClick={() => setOpenUsersModal(true)} 
+    >
+      Allowed Users
+    </Button>
+  );
+
+  const handleClickPublic = (e) => {
+    setFormData({ ...formData, isPublic: e.target.checked });
+  };
+  
 
   const titleInput = (
     <Input
@@ -187,10 +202,19 @@ export default function CreateForm() {
       value={formData?.description}
     />
   );
+  
 
   return (
     <div className="gray-background w-full min-h-screen  px-3 py-3 flex items-center flex-col">
       {/* ----------------- START HEADER ----------------- */}
+      {allowedUsersInput}
+
+      <SearchUsersModal 
+        open={openUsersModal}
+        setOpen={setOpenUsersModal}
+        form={formData}
+        setForm={setFormData}
+      />
 
       {size?.width >= 768 ? (
         <div className="grid grid-cols-5  gap-2 w-full auto-rows-[6rem]">
@@ -279,9 +303,7 @@ export default function CreateForm() {
           <div className="bg-neutral-100 row-start-2 col-start-2 border-radius2 flex items-center justify-center p-4">
             <Checkbox
               defaultSelected
-              onChange={(e) => {
-                setFormData({ ...formData, isPublic: e.target.checked });
-              }}>
+              onChange={handleClickPublic}>
               Public
             </Checkbox>
           </div>
@@ -360,9 +382,7 @@ export default function CreateForm() {
               <div className="flex-grow flex items-center justify-center ">
                 <Checkbox
                   defaultSelected
-                  onChange={(e) => {
-                    setFormData({ ...formData, isPublic: e.target.checked });
-                  }}>
+                  onChange={handleClickPublic}>
                   Public
                 </Checkbox>
               </div>
@@ -455,9 +475,7 @@ export default function CreateForm() {
               <div className="flex-grow flex items-center ml-1 ">
                 <Checkbox
                   defaultSelected
-                  onChange={(e) => {
-                    setFormData({ ...formData, isPublic: e.target.checked });
-                  }}>
+                  onChange={handleClickPublic}>
                   Public
                 </Checkbox>
               </div>
