@@ -98,7 +98,10 @@ export default function CreateForm() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          alowedUsers: formData?.allowedUsers?.map((user) => user?.id),
+        }),
       });
 
       if (!response.ok) {
