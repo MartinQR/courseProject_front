@@ -2,13 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --gray-background-light: #f2f3f4;
+  --gray-background-dark: #a4a4a4;
+}
+
 body {
   font-family: "JetBrains Mono", sans-serif;
 }
 
 .gray-background {
-  background-color: #a4a4a4;
+  /* background-color: #a4a4a4; */
+  background-color: var(--gray-background);
 }
+
 
 .border-radius2 {
   border-radius: 2.2rem;

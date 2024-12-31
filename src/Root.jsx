@@ -8,10 +8,30 @@ import FillForm from "./components/FillForm/FillForm.jsx";
 import ViewTemplate from "./components/ViewTemplate/ViewTemplate.jsx";
 import { Toaster } from "react-hot-toast";
 import ViewTemplateAnswer from "./components/ViewTemplate/ViewTemplateAnswer.jsx";
-
+import { useState, useEffect, useContext } from "react";
+import { AuthContext } from "./contexts/AuthContext.jsx";
+import "./index.css";
 
 export default function Root() {
+  const { authData, setAuthData } = useContext(AuthContext);
+
+  useEffect(() => {
+    const root = document.documentElement;
+    if (authData?.userSettings?.theme ) {
+      root.style.setProperty(
+        "--gray-background",
+        "var(--gray-background-light)"
+      );
+    } else {
+      root.style.setProperty(
+        "--gray-background",
+        "var(--gray-background-dark)"
+      );
+    }
+  }, [authData]);
+
   return (
+    // <div className={`gray-background ${theme}`}>
     <Router>
       <Toaster></Toaster>
       <Routes>
@@ -25,5 +45,6 @@ export default function Root() {
         <Route path="/view-templateAnswer" element={<ViewTemplateAnswer />} />
       </Routes>
     </Router>
+    // </div>
   );
 }
