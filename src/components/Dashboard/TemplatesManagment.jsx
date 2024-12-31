@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { formatDateTime } from "../../Utils/utils";
-import { div } from "framer-motion/client";
+import { div, p } from "framer-motion/client";
 const APP_URL = import.meta.env.VITE_APP_URL;
 
 export function TemplatesManagment() {
@@ -68,7 +68,7 @@ export function TemplatesManagment() {
 
   console.log("Templates", templates);
   console.log("User Filled Forms", userFilledForms);
-  console.log("Auth Data",authData)
+  console.log("Auth Data", authData);
   return (
     <div className="w-full  flex flex-col space-y-4 items-center justify-center my-4">
       <ButtonGroup className="w-full sm:px-0 sm:w-3/5 md:w-2/5 ">
@@ -105,35 +105,41 @@ export function TemplatesManagment() {
                 </div>
               </div>
             </CardHeader>
-            <div className="gap-2 grid grid-cols-2 sm:grid-cols-4  mx-2 px-4 py-3 overflow-y-auto custom-scrollbar h-full ">
-              {templates?.map((item, index) => (
-                <Card
-                  key={index}
-                  isPressable
-                  shadow="sm"
-                  className="p-2 h-40 "
-                  onPress={() => {
-                    handleViewTemplate(item?.id);
-                  }}>
-                  <CardBody className="overflow-visible p-0 space-y-2">
-                    <div className="h-2/5 flex text-center items-center justify-center">
-                      <b className="text-center text-sm">{item.title}</b>
-                    </div>
+            {templates?.length > 0 ? (
+              <div className="gap-2 grid grid-cols-2 sm:grid-cols-4  mx-2 px-4 py-3 overflow-y-auto custom-scrollbar h-full ">
+                {templates?.map((item, index) => (
+                  <Card
+                    key={index}
+                    isPressable
+                    shadow="sm"
+                    className="p-2 h-40 "
+                    onPress={() => {
+                      handleViewTemplate(item?.id);
+                    }}>
+                    <CardBody className="overflow-visible p-0 space-y-2">
+                      <div className="h-2/5 flex text-center items-center justify-center">
+                        <b className="text-center text-sm">{item.title}</b>
+                      </div>
 
-                    <div className="h-2/5 text-center px-1 overflow-y-auto ">
-                      <p className="text-default-500 text-xs">
-                        {item.description}
-                      </p>
-                    </div>
-                    <div className="h-1/5 flex items-center justify-center  ">
-                      <Chip color="warning" variant="dot">
-                        {index}
-                      </Chip>
-                    </div>
-                  </CardBody>
-                </Card>
-              ))}
-            </div>
+                      <div className="h-2/5 text-center px-1 overflow-y-auto ">
+                        <p className="text-default-500 text-xs">
+                          {item.description}
+                        </p>
+                      </div>
+                      <div className="h-1/5 flex items-center justify-center  ">
+                        <Chip color="warning" variant="dot">
+                          {index}
+                        </Chip>
+                      </div>
+                    </CardBody>
+                  </Card>
+                ))}
+              </div>
+            ) : (
+              <div className="gap-2 mx-2 flex items-center justify-center px-4 py-3 overflow-y-auto custom-scrollbar h-full ">
+                You haven't created a form yet.
+              </div>
+            )}
           </>
         ) : (
           <>
@@ -154,11 +160,15 @@ export function TemplatesManagment() {
                   shadow="sm"
                   className="p-2 h-32 w-full "
                   onPress={() => {
-                    handleViewTemplateAnswer(item?.form?.id,authData?.userId);
+                    handleViewTemplateAnswer(item?.form?.id, authData?.userId);
                   }}>
                   <CardBody className="overflow-visible p-0 space-y-2">
                     <div className="h-2/5 flex text-center items-center justify-center">
-                      <b className="text-center text-sm">{item?.form?.title} , By: {item?.form?.creator?.firstName} {item?.form?.creator?.lastName}</b>
+                      <b className="text-center text-sm">
+                        {item?.form?.title} , By:{" "}
+                        {item?.form?.creator?.firstName}{" "}
+                        {item?.form?.creator?.lastName}
+                      </b>
                     </div>
 
                     <div className="h-2/5 text-center px-1 overflow-y-auto ">
