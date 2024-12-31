@@ -67,6 +67,8 @@ export default function FillForm() {
 
       if (!response.ok) {
         const errorData = await response.json();
+        toast.error(errorData.error);
+        
         throw new Error(
           errorData.message ||
             `Error ${response.status}: ${response.statusText}`
