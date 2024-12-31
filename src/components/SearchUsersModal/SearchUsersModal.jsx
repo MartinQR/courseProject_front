@@ -68,6 +68,7 @@ export function SearchUsersModal({
       isOpen={open}
       onClose={handleClose}
       size="4xl"
+      className="p-6"
     >
       <ModalContent>
         <div className="flex justify-center items-center m-3">
@@ -93,7 +94,7 @@ export function SearchUsersModal({
           </ButtonGroup>
         </div>
         <ModalHeader className="block items-center">
-          <h2 className="text-2xl font-bold">Select the users who can complete the form</h2>
+          <p className="text-xl font-bold text-center my-2">Select the users who can complete the form</p>
           {selectedTab === 0 && (
             <div className="flex w-full">
             <Input

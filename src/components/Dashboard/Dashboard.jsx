@@ -111,7 +111,7 @@ export default function Dashboard() {
               <>
                 {" "}
                 <button
-                  className="w-2/3 flex "
+                  className="w-3/5 max-w-28 flex "
                   onClick={() => {
                     navigate("/");
                   }}>
@@ -133,7 +133,7 @@ export default function Dashboard() {
                 navigate("/");
               }}>
               Log out
-            </Button>
+            </Button> 
           </div>
         </div>
       ) : size?.width <= 468 ? (

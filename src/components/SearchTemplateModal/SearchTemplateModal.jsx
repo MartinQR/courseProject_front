@@ -61,7 +61,7 @@ export function SearchTemplateModal({
         </ModalHeader>
 
         <ModalBody className="m-2 overflow-y-auto max-h-96">
-          {templatesfetched?.map((template, i) => (
+          {templatesfetched?.map((template, index) => (
             <div key={template?.id} className="flex justify-between items-center">
               <div>
                 <p className="font-bold">{template?.title}</p>

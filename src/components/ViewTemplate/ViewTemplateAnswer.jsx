@@ -89,7 +89,7 @@ export default function ViewTemplateAnswer() {
 
     const formNewAnswers = {
       formId: formData?.id,
-      userId: formData?.userId,
+      userId: formData?.user?.id,
       inputs: newAnswers,
     };
 
@@ -119,7 +119,8 @@ export default function ViewTemplateAnswer() {
       // SuccesFully Response
       const data = await response.json();
 
-      toast.success("Form created sucessfully!");
+      toast.success("Form updated sucessfully!");
+      setBtnEditAnswer(false)
     } catch (error) {
       console.error("Fetch error:", error);
     } finally {
@@ -435,7 +436,7 @@ export default function ViewTemplateAnswer() {
         {btnEditAnswer && (
           // <ButtonGroup>
           <div className="space-x-2">
-            <Button onClick={submitNewAnswers}>Submit</Button>
+            <Button isLoading={isLoading} onClick={submitNewAnswers}>Submit</Button>
             <Button
               color="danger"
               onClick={() => {

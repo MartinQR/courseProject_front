@@ -68,7 +68,7 @@ export default function FillForm() {
       if (!response.ok) {
         const errorData = await response.json();
         toast.error(errorData.error);
-        
+
         throw new Error(
           errorData.message ||
             `Error ${response.status}: ${response.statusText}`
@@ -400,6 +400,15 @@ export default function FillForm() {
       )}
       {/* Body Div */}
       <div className="mt-4 w-full flex items-center flex-col justify-center space-y-2">
+        {authData?.isAdmin && (
+          <Button
+            onClick={() => {
+              navigate(`/view-template?idTemplate=${idTemplate}`);
+            }}>
+            Edit Template
+          </Button>
+        )}
+
         <p className="text-4xl text-center">PLEASE FILL OUT THE FORM</p>
         <p className="text-sm">
           Created by: {formData?.creator?.firstName}{" "}
