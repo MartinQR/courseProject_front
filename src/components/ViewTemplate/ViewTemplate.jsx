@@ -29,6 +29,7 @@ import arrow from "../../assets/arrowthin.svg";
 import { useSearchParams } from "react-router-dom";
 import { formatDateTime } from "../../Utils/utils.js";
 import { SearchTemplateModal } from "../SearchTemplateModal/SearchTemplateModal.jsx";
+import { SearchUsersModal } from "../SearchUsersModal/SearchUsersModal.jsx";
 
 export default function ViewTemplate() {
   const { authData, setAuthData } = useContext(AuthContext);
@@ -44,6 +45,7 @@ export default function ViewTemplate() {
   const [templateModifications, setTemplateModifications] = useState([]);
   const [filledOutForms, setFilledOutForms] = useState([]);
   const [openSearc, setOpenSearch] = useState(false);
+  const [openUsersModal, setOpenUsersModal] = useState(false);
 
   // const [editInput, setEditInput] = useState();
   // const [editAnswer, setEditAnswwer] = useState();
@@ -82,8 +84,9 @@ export default function ViewTemplate() {
       formId: idTemplate,
       inputsData: templateModifications,
       userId: authData?.userId,
+      allowedUsers: formData?.allowedUsers?.map(el => el?.id),
     };
-
+    
     setIsLoading(true);
     try {
       const response = await fetch(`${APP_URL}/form/update`, {
@@ -166,13 +169,7 @@ export default function ViewTemplate() {
     navigate(`/view-templateAnswer?templateId=${templateId}&userId=${userId}`);
   }
 
-  // console.log("Form Data", formData);
-  // console.log("Answers Form", answersForm);
-  // console.log("Filled Form", filledForm);
-  // console.log("authData", authData);
-  // console.log("Form Data", formData);
-  // console.log("Template Modifications",templateModifications)
-  console.log("List Filled Forms", filledOutForms);
+
 
   return (
     <div className="gray-background w-full min-h-screen  px-3 py-3 flex items-center flex-col">
@@ -497,6 +494,11 @@ export default function ViewTemplate() {
           </p>
         )}
 
+        <Button
+          onClick={() => setOpenUsersModal(true)} 
+        >
+          Allowed Users
+        </Button>
         {btnSelection2 ? (
           <Card className="bg-neutral-100 w-full sm:w-4/5 lg:w-3/5 my-5 p-5 space-y-2">
             <p className="text-center my-2">Filled Forms</p>
@@ -533,6 +535,13 @@ export default function ViewTemplate() {
       <SearchTemplateModal
         open={openSearc}
         setOpen={setOpenSearch}></SearchTemplateModal>
+
+      <SearchUsersModal 
+        form={formData}
+        setForm={setFormData}
+        open={openUsersModal}
+        setOpen={setOpenUsersModal}
+      />
     </div>
   );
 }

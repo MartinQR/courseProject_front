@@ -102,7 +102,7 @@ export default function CreateForm() {
         },
         body: JSON.stringify({
           ...formData,
-          alowedUsers: formData?.allowedUsers?.map((user) => user?.id),
+          allowedUsers: formData?.allowedUsers?.map((user) => user?.id),
         }),
       });
 
