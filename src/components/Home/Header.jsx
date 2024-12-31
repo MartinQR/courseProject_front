@@ -22,10 +22,11 @@ export default function Header() {
     navigate("/");
   }
 
+  console.log("Auth Data",authData)
   return (
     <>
       <div className="flex flex-wrap items-center justify-between space-y-1.5">
-        <div className="flex  gap-1">
+        <div className="flex  gap-1 ">
           <div className="w-6 ">
             <Card
               className="h-12 flex items-center justify-center font-semibold text-2xl bg-neutral-900 text-white "
@@ -95,7 +96,7 @@ export default function Header() {
                   setAuthData({
                     ...authData,
                     userSettings: { 
-                      theme: !authData?.userSettings?.theme,
+                      theme: !authData?.userSettings?.theme ?? true,
                        language: "en" },
                   });
                 }}>
@@ -168,7 +169,7 @@ export default function Header() {
         </div>
 
         <div className="min-w-40  ">
-          {authData && (
+          {authData?.email && (
             <div className="flex items-center space-x-2 mr-2 ">
               <Avatar showFallback src="https://images.unsplash.com/broken" />
               <p className="">
