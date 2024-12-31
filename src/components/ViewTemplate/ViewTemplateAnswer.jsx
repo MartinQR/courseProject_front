@@ -433,15 +433,19 @@ export default function ViewTemplateAnswer() {
           Edit Answers
         </Button>
         {btnEditAnswer && (
-          <ButtonGroup>
+          // <ButtonGroup>
+          <div className="space-x-2">
             <Button onClick={submitNewAnswers}>Submit</Button>
             <Button
+              color="danger"
               onClick={() => {
+                fetchTemplateResponseByUser(idUser, idTemplate);
                 setBtnEditAnswer(false);
               }}>
               Cancel
             </Button>
-          </ButtonGroup>
+          </div>
+          // </ButtonGroup>
         )}
         <Card className="bg-neutral-100 w-full sm:w-4/5 lg:w-3/5 my-5 p-5 space-y-2">
           <div className="flex  flex-col items-center space-y-2">

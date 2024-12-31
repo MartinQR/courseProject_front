@@ -483,9 +483,15 @@ export default function ViewTemplate() {
           </Button>
         </ButtonGroup>
         {btnSelection && (
-          <div>
-            <Button onClick={handleSubitEditedTemplate}>
-              Submit Template Modifications
+          <div className="space-x-2">
+            <Button onClick={handleSubitEditedTemplate}>Submit</Button>
+            <Button
+              color="danger"
+              onClick={() => {
+                getTemplate(idTemplate);
+                setBtnSelection(false)
+              }}>
+              Cancel
             </Button>
           </div>
         )}
