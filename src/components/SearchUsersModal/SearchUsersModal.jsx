@@ -121,7 +121,7 @@ export function SearchUsersModal({
                 </div>
                 <Button
                   onClick={() => handleSelectUser(user?.id)}
-                  className={"bg-blue-500"}
+                  className={"bg-blue-500 text-white"}
                 >
                   Select
                 </Button>

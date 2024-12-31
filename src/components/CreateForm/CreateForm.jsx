@@ -212,8 +212,6 @@ export default function CreateForm() {
   return (
     <div className="gray-background w-full min-h-screen  px-3 py-3 flex items-center flex-col">
       {/* ----------------- START HEADER ----------------- */}
-      {allowedUsersInput}
-
       <SearchUsersModal 
         open={openUsersModal}
         setOpen={setOpenUsersModal}
@@ -549,7 +547,8 @@ export default function CreateForm() {
 
       {/* ------------------ END HEADER ----------------- */}
       <p className="text-center text-3xl my-5">CREATE A NEW FORM</p>
-      <Card className="bg-neutral-100  w-full sm:w-4/5 lg:w-3/5  mb-5 p-5">
+      {allowedUsersInput}
+      <Card className="bg-neutral-100  w-full sm:w-4/5 lg:w-3/5  mb-5 p-5 mt-2">
         {/* <RenderInput inputData={input}></RenderInput> */}
 
         <div className="">
