@@ -75,7 +75,9 @@ export default function Comments({ formId }) {
   return (
     // <div className="">
     <Card className="bg-neutral-100 w-full my-5 p-5">
-      <div className="text-center font-bold text-2xl h-1/3">Comments</div>
+      <div className="text-center font-bold text-2xl h-1/3">
+        {authData?.userSettings?.language ? "Comments" : "Comentarios"}
+      </div>
 
       <div>
         {comments?.map((comment) => (
@@ -93,8 +95,8 @@ export default function Comments({ formId }) {
 
       <Card className="mt-5">
         <Textarea
-          label="Add Comments"
-          placeholder="Comments..."
+          label={authData?.userSettings?.language ? "Add a comment" : "Añadir un comentario"}
+          placeholder={authData?.userSettings?.language ? "Content" : "Contenido"}
           maxLength={100}
           value={content}
           onChange={(e) => setContent(e.target.value)}
@@ -104,7 +106,7 @@ export default function Comments({ formId }) {
           className="bg-orange-600 text-white m-2"
           onClick={postComment}
           isLoading={loadingPost}>
-          Comment
+          {authData?.userSettings?.language ? "Post" : "Publicar"}
         </Button>
       </Card>
     </Card>

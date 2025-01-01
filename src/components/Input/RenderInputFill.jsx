@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   Card,
   Button,
@@ -10,6 +10,7 @@ import {
   Textarea,
 } from "@nextui-org/react";
 import { input } from "framer-motion/m";
+import { AuthContext } from "../../contexts/AuthContext";
 
 export default function RenderInputFill({
   inputData,
@@ -19,6 +20,7 @@ export default function RenderInputFill({
   setFilledForm,
 }) {
   const [selected, setSelected] = useState([]);
+  const { authData } = useContext(AuthContext);
 
   //   Handle Action to add Answer to an input
 
@@ -51,7 +53,7 @@ export default function RenderInputFill({
 
           <div>
             <Input
-              label="Answer"
+              label={authData?.userSettings?.language ? "Answer" : "Respuesta"}
               variant="underlined"
               size="sm"
               onChange={(e) => {
@@ -71,7 +73,7 @@ export default function RenderInputFill({
           <div>
             {" "}
             <Textarea
-              label="Answer"
+              label={authData?.userSettings?.language ? "Answer" : "Respuesta"}
               variant="underlined"
               size="sm"
               onChange={(e) => {
@@ -90,7 +92,7 @@ export default function RenderInputFill({
 
           <div>
             <Input
-              label="Answer"
+              label={authData?.userSettings?.language ? "Answer" : "Respuesta"}
               variant="underlined"
               size="sm"
               onChange={(e) => {
@@ -109,7 +111,7 @@ export default function RenderInputFill({
 
           <div className="ml-4 my-2 ">
             <CheckboxGroup
-              label="Select one or more options"
+              label={authData?.userSettings?.language ? "Select one or more options" : "Seleccione una o más opciones"}
               value={selected}
               onValueChange={(newValues) => {
                 setSelected(newValues);
