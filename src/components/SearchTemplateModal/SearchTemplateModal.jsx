@@ -1,14 +1,17 @@
 import { Button, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Spinner } from "@nextui-org/react";
-import { use, useEffect } from "react";
+import { use, useContext, useEffect } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../contexts/AuthContext";
 
 const APP_URL = import.meta.env.VITE_APP_URL;
 
 export function SearchTemplateModal({
   open,
   setOpen,
+  tag,
 }) {
+  const { authData } = useContext(AuthContext);
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
   const [templatesfetched, setTemplatesFetched] = useState([]);
@@ -32,10 +35,28 @@ export function SearchTemplateModal({
     setQuery(e.target.value);
     getTemplatesByQuery(e.target.value);
   };
+  const getTemplateByTag = async (tag) => {
+    setLoading(true);
+    try {
+      const response = await fetch(`${APP_URL}/form/getFormsByTag?tag=${tag}`);
+      const data = await response.json();
+      setTemplatesFetched(data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    getTemplatesByQuery(query);
-  }, []);
+    if (open) {
+      if (tag) {
+        getTemplateByTag(tag);
+      } else {
+        getTemplatesByQuery(query);
+      }
+    }
+  }, [open]);
   
 
   return (
@@ -50,7 +71,10 @@ export function SearchTemplateModal({
         <ModalHeader className="flex items-center">
           {/* <p>Lupita here</p> */}
           <Input
-            placeholder="Search template..."
+            placeholder={authData?.userSettings?.language 
+              ? tag ? `Searching by tag: ${tag}` :"Search template..."
+              : tag ? `Buscando por etiqueta: ${tag}` : "Buscar plantilla..."
+            }
             size="lg"
             className="w-[90%]"
             value={query}
@@ -73,7 +97,10 @@ export function SearchTemplateModal({
                   setOpen(false);
                 }}
               >
-                View
+                {authData?.userSettings?.language
+                  ? "View"
+                  : "Ver"
+                }
               </Button>
             </div>
           ))}
