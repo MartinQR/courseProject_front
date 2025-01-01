@@ -10,6 +10,8 @@ import {
   Textarea,
 } from "@nextui-org/react";
 import { div, input } from "framer-motion/m";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
 export default function EditInput({
   inputData,
@@ -25,6 +27,14 @@ export default function EditInput({
 }) {
   const [selected, setSelected] = useState([]);
   const [checkboxOption, setCheckboxOption] = useState("");
+
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id: inputData?.id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
 
   //   Handle Action to add Answer to an input
 
@@ -88,10 +98,10 @@ export default function EditInput({
     setCheckboxOption("");
   }
   function handleEditAnswer(value) {
-    console.log("Value",value)
+    console.log("Value", value);
     const newAnswers = formEditAnswers?.map((item) => {
       if (item?.id === inputData?.id) {
-        console.log("COINDICEEEEEE")
+        console.log("COINDICEEEEEE");
         return {
           ...item,
           answer: inputData?.type === "CHECKBOX" ? value : [value],
@@ -106,9 +116,15 @@ export default function EditInput({
 
   //   console.log("Input Data", inputData);
   //   console.log("filledForm", filledForm);
+  // console.log("Index",index)
 
   return (
-    <div className="my-2">
+    <div
+      style={style}
+      ref={setNodeRef}
+      {...attributes}
+      {...listeners}
+      className="my-2">
       {inputData?.type === "SINGLE-LINE" ? (
         <Card className="w-full h-auto p-3 ">
           <div className="pl-2">

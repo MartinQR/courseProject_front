@@ -32,7 +32,11 @@ import { SearchTemplateModal } from "../SearchTemplateModal/SearchTemplateModal.
 const APP_FRONT = import.meta.env.VITE_APP_FRONT;
 import { SearchUsersModal } from "../SearchUsersModal/SearchUsersModal.jsx";
 import { DndContext, closestCenter } from "@dnd-kit/core";
-import { SortableContext, useSortable, arrayMove } from "@dnd-kit/sortable";
+import {
+  SortableContext,
+  verticalListSortingStrategy,
+  arrayMove,
+} from "@dnd-kit/sortable";
 
 export default function ViewTemplate() {
   const { authData, setAuthData } = useContext(AuthContext);
@@ -43,6 +47,7 @@ export default function ViewTemplate() {
   const [searchParams] = useSearchParams();
   const [btnSelection, setBtnSelection] = useState(false);
   const [btnSelection2, setBtnSelection2] = useState(false);
+  const [btnDrag, setBtnDrag] = useState(false);
   const size = useWindowSize();
   const idTemplate = searchParams.get("idTemplate");
   const [templateModifications, setTemplateModifications] = useState([]);
@@ -64,7 +69,7 @@ export default function ViewTemplate() {
   // Copy all the inputs
 
   useEffect(() => {
-    const copyInputs = formData?.inputs?.map((item) => {
+    const copyInputs = formData?.inputs?.map((item, index) => {
       return {
         id: item?.id,
         title: item?.title,
@@ -72,6 +77,7 @@ export default function ViewTemplate() {
         description: item?.description,
         displayed: item?.display,
         options: item?.values,
+        dragIndex: index,
       };
     });
 
@@ -173,6 +179,26 @@ export default function ViewTemplate() {
     navigate(`/view-templateAnswer?templateId=${templateId}&userId=${userId}`);
   }
 
+  function handleDragEnd(event) {
+    const { active, over } = event;
+    console.log("Active", active.id);
+    console.log("Over", over.id);
+
+    const oldIndex = templateModifications.findIndex(
+      (item) => item?.id === active?.id
+    );
+    const newIndex = templateModifications.findIndex(
+      (item) => item?.id === over?.id
+    );
+
+    const newOrderInputs = arrayMove(templateModifications, oldIndex, newIndex);
+    console.log("New Order Inputs", newOrderInputs);
+    console.log("Old Index", oldIndex);
+    console.log("New Index", newIndex);
+    setTemplateModifications(newOrderInputs);
+  }
+
+  console.log("Template Modifications", templateModifications);
   return (
     <div className="gray-background w-full min-h-screen  px-3 py-3 flex items-center flex-col">
       {size?.width >= 768 ? (
@@ -461,30 +487,23 @@ export default function ViewTemplate() {
       )}
       {/* Body Div */}
       <div className="mt-4 w-full flex items-center flex-col justify-center space-y-2">
-        <Button
-          onClick={() => {
-            setOpenModal(true);
-          }}>
-          Share Template
-          <div className="w-5 flex items-center justify-center">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 512 512"
-              height="100"
-              width="100%">
-              <path d="M307 34.8c-11.5 5.1-19 16.6-19 29.2l0 64-112 0C78.8 128 0 206.8 0 304C0 417.3 81.5 467.9 100.2 478.1c2.5 1.4 5.3 1.9 8.1 1.9c10.9 0 19.7-8.9 19.7-19.7c0-7.5-4.3-14.4-9.8-19.5C108.8 431.9 96 414.4 96 384c0-53 43-96 96-96l96 0 0 64c0 12.6 7.4 24.1 19 29.2s25 3 34.4-5.4l160-144c6.7-6.1 10.6-14.7 10.6-23.8s-3.8-17.7-10.6-23.8l-160-144c-9.4-8.5-22.9-10.6-34.4-5.4z" />
-            </svg>
-          </div>
-        </Button>
-        <ButtonGroup className="w-full sm:px-0 sm:w-3/5 md:w-2/5 ">
+        <div className="w-full  sm:w-3/5 md:w-4/5 flex  flex-row space-x-2">
           <Button
-            className="w-1/2"
-            color={btnSelection ? "primary" : "default"}
             onClick={() => {
-              setBtnSelection(true);
-              setBtnSelection2(false);
-            }}>
-            Modify Template
+              setOpenModal(true);
+            }}
+            className="w-1/2"
+            >
+            Share Template
+            <div className="w-5 flex items-center justify-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 512 512"
+                height="100"
+                width="100%">
+                <path d="M307 34.8c-11.5 5.1-19 16.6-19 29.2l0 64-112 0C78.8 128 0 206.8 0 304C0 417.3 81.5 467.9 100.2 478.1c2.5 1.4 5.3 1.9 8.1 1.9c10.9 0 19.7-8.9 19.7-19.7c0-7.5-4.3-14.4-9.8-19.5C108.8 431.9 96 414.4 96 384c0-53 43-96 96-96l96 0 0 64c0 12.6 7.4 24.1 19 29.2s25 3 34.4-5.4l160-144c6.7-6.1 10.6-14.7 10.6-23.8s-3.8-17.7-10.6-23.8l-160-144c-9.4-8.5-22.9-10.6-34.4-5.4z" />
+              </svg>
+            </div>
           </Button>
           <Button
             className="w-1/2"
@@ -492,8 +511,32 @@ export default function ViewTemplate() {
             onClick={() => {
               setBtnSelection(false);
               setBtnSelection2(true);
+              setBtnDrag(false);
             }}>
             View Responses
+          </Button>
+        </div>
+
+        <ButtonGroup className="w-full sm:px-0 sm:w-3/5 md:w-4/5 ">
+          <Button
+            className="w-1/2"
+            color={btnSelection ? "primary" : "default"}
+            onClick={() => {
+              setBtnSelection(true);
+              setBtnSelection2(false);
+              setBtnDrag(false);
+            }}>
+            Modify Template
+          </Button>
+          <Button
+            className="w-1/2"
+            color={btnDrag ? "primary" : "default"}
+            onClick={() => {
+              setBtnSelection(false);
+              setBtnSelection2(false);
+              setBtnDrag(true);
+            }}>
+            Enabled Drag
           </Button>
         </ButtonGroup>
         {btnSelection && (
@@ -504,6 +547,19 @@ export default function ViewTemplate() {
               onClick={() => {
                 getTemplate(idTemplate);
                 setBtnSelection(false);
+              }}>
+              Cancel
+            </Button>
+          </div>
+        )}
+        {btnDrag && (
+          <div className="space-x-2">
+            <Button onClick={handleSubitEditedTemplate}>Submit</Button>
+            <Button
+              color="danger"
+              onClick={() => {
+                getTemplate(idTemplate);
+                setBtnDrag(false);
               }}>
               Cancel
             </Button>
@@ -537,17 +593,41 @@ export default function ViewTemplate() {
           </Card>
         ) : (
           <Card className="bg-neutral-100 w-full sm:w-4/5 lg:w-3/5 my-5 p-5">
-            {templateModifications?.map((item, index) => (
-              <EditInput
-                inputData={item}
-                filledForm={filledForm}
-                editInput={btnSelection}
-                editAnswer={false}
-                templateModifications={templateModifications}
-                setTemplateModifications={setTemplateModifications}
-                index={index}
-              />
-            ))}
+            {btnDrag ? (
+              <DndContext
+                collisionDetection={closestCenter}
+                onDragEnd={handleDragEnd}>
+                <SortableContext
+                  items={templateModifications ?? []}
+                  strategy={verticalListSortingStrategy}>
+                  {templateModifications?.map((item, index) => (
+                    <EditInput
+                      inputData={item}
+                      filledForm={filledForm}
+                      editInput={btnSelection}
+                      editAnswer={false}
+                      templateModifications={templateModifications}
+                      setTemplateModifications={setTemplateModifications}
+                      index={index}
+                      key={item?.id}
+                    />
+                  ))}
+                </SortableContext>
+              </DndContext>
+            ) : (
+              templateModifications?.map((item, index) => (
+                <EditInput
+                  inputData={item}
+                  filledForm={filledForm}
+                  editInput={btnSelection}
+                  editAnswer={false}
+                  templateModifications={templateModifications}
+                  setTemplateModifications={setTemplateModifications}
+                  index={index}
+                  key={item?.id}
+                />
+              ))
+            )}
           </Card>
         )}
       </div>
