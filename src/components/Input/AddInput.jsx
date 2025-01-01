@@ -1,4 +1,4 @@
-const { authData, setAuthData } = useContext(AuthContext);
+import { useState, useEffect, useContext } from "react";
 import {
   Card,
   Button,
