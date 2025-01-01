@@ -91,6 +91,17 @@ export default function CreateForm() {
   async function handleCreateForm() {
     setIsLoading(true);
 
+    const indexedInputs = formData?.inputsData?.map((input, index) => ({
+      ...input,
+      dragIndex: index,
+    }));
+
+    const formToCreate = {
+      ...formData,
+      inputsData: indexedInputs,
+      allowedUsers: formData?.allowedUsers?.map((user) => user?.id),
+    };
+
     try {
       if (!validateForm()) return;
 
@@ -99,10 +110,7 @@ export default function CreateForm() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          ...formData,
-          allowedUsers: formData?.allowedUsers?.map((user) => user?.id),
-        }),
+        body: JSON.stringify(formToCreate),
       });
 
       if (!response.ok) {
