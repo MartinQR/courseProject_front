@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+const { authData, setAuthData } = useContext(AuthContext);
 import {
   Card,
   Button,
@@ -10,11 +10,13 @@ import {
 } from "@nextui-org/react";
 import "../../index.css";
 import toast from "react-hot-toast";
+import { AuthContext } from "../../contexts/AuthContext";
 
 // Component that generates a question/input and returns it as an object
 export default function AddInput({ setFormData, formData }) {
   const [inputData, setInputData] = useState({});
   const [newOption, setNewOption] = useState("");
+  const { authData, setAuthData } = useContext(AuthContext);
 
   useEffect(() => {
     setInputData({
@@ -94,10 +96,20 @@ export default function AddInput({ setFormData, formData }) {
   }
 
   // UTILS - OTHERS
+
   const inputs = [
-    { key: "SINGLE-LINE", label: "Single-line" },
-    { key: "MULTIPLE-LINE", label: "Multiple-line" },
-    { key: "INTEGER", label: "Number" },
+    {
+      key: "SINGLE-LINE",
+      label: authData?.userSettings?.language ? "Single-line" : "Linea Unica",
+    },
+    {
+      key: "MULTIPLE-LINE",
+      label: authData?.userSettings?.language ? "Multiple-line" : "Multi linea",
+    },
+    {
+      key: "INTEGER",
+      label: authData?.userSettings?.language ? "Number" : "Numero",
+    },
     { key: "CHECKBOX", label: "Checkbox" },
   ];
 
@@ -108,7 +120,7 @@ export default function AddInput({ setFormData, formData }) {
           <div className="w-2/5">
             <Input
               isRequired
-              label="Title"
+              label={authData?.userSettings?.language ? "Title" : "Titulo"}
               size="sm"
               value={inputData?.title}
               onChange={(e) => {
@@ -119,7 +131,11 @@ export default function AddInput({ setFormData, formData }) {
           <div className="w-2/5">
             <Select
               className="w-full"
-              label="Input Type"
+              label={
+                authData?.userSettings?.language
+                  ? "Input Type"
+                  : "Tipo de Input"
+              }
               size="sm"
               selectedKeys={[inputData.type]}
               onChange={hanldeChangeSelect}>
@@ -144,7 +160,9 @@ export default function AddInput({ setFormData, formData }) {
       <div>
         <Input
           isRequired
-          label="Description"
+          label={
+            authData?.userSettings?.language ? "Description" : "Descripción"
+          }
           size="sm"
           value={inputData?.description}
           onChange={(e) => {
@@ -156,20 +174,28 @@ export default function AddInput({ setFormData, formData }) {
       <div>
         {inputData?.type === "SINGLE-LINE" ? (
           <Input
-            label="Single line answer"
+            label={
+              authData?.userSettings?.language
+                ? "Single line answer"
+                : "Respuesta de una linea"
+            }
             variant="underlined"
             disabled
             size="sm"></Input>
         ) : inputData?.type === "MULTIPLE-LINE" ? (
           <Textarea
             className="max-w-xs"
-            label="Multiple line answer"
+            label={
+              authData?.userSettings?.language
+                ? "Multiple line answer"
+                : "Respuesta Multilinea"
+            }
             variant="underlined"
             disabled
           />
         ) : inputData?.type === "INTEGER" ? (
           <Input
-            label="Integer"
+            label={authData?.userSettings?.language ? "Integer" : "Entero"}
             variant="underlined"
             disabled
             size="sm"></Input>
@@ -181,7 +207,13 @@ export default function AddInput({ setFormData, formData }) {
               <div>
                 {
                   // inputData?.options?.length > 0
-                  true && <p className="text-sm ml-2">Options</p>
+                  true && (
+                    <p className="text-sm ml-2">
+                      {authData?.userSettings?.language
+                        ? "Options"
+                        : "Opciones"}
+                    </p>
+                  )
                 }
 
                 {inputData?.options?.map((item, index) => {
@@ -199,7 +231,11 @@ export default function AddInput({ setFormData, formData }) {
                 <Input
                   //   variant="faded"
                   variant="underlined"
-                  label="Add Option"
+                  label={
+                    authData?.userSettings?.language
+                      ? "Add Option"
+                      : "Agregar Opción"
+                  }
                   size="sm"
                   value={newOption}
                   onChange={(e) => setNewOption(e.target.value)}></Input>
@@ -214,7 +250,7 @@ export default function AddInput({ setFormData, formData }) {
       {/* Add Button */}
       <div className="my-5">
         <Button color="primary" className="w-full" onClick={handleAddInput}>
-          ADD +
+          {authData?.userSettings?.language ? "ADD +" : "AGREGAR +"}
         </Button>
       </div>
     </Card>

@@ -22,7 +22,7 @@ export default function Header() {
     navigate("/");
   }
 
-  console.log("Auth Data",authData)
+  console.log("Auth Data", authData);
   return (
     <>
       <div className="flex flex-wrap items-center justify-between space-y-1.5">
@@ -95,9 +95,11 @@ export default function Header() {
                 onClick={() => {
                   setAuthData({
                     ...authData,
-                    userSettings: { 
-                      theme: !authData?.userSettings?.theme ?? true,
-                       language: "en" },
+                    userSettings: {
+                      ...authData?.userSettings,
+                      theme: !authData?.userSettings?.theme,
+                      //  language: "en"
+                    },
                   });
                 }}>
                 <div className="w-6 flex items-center  justify-center">
@@ -109,6 +111,25 @@ export default function Header() {
                     <path d="M448 256c0-106-86-192-192-192l0 384c106 0 192-86 192-192zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256z" />
                   </svg>
                 </div>
+              </button>
+            </div>
+            <div>
+              <button
+                className="w-12 h-12 bg-zinc-500  rounded-full flex items-center justify-center"
+                onClick={() => {
+                  setAuthData({
+                    ...authData,
+                    userSettings: {
+                      ...authData?.userSettings,
+                      language: !authData?.userSettings?.language,
+                    },
+                  });
+                }}>
+                {authData?.userSettings?.language ? (
+                  <p className="text-2xl text-center">EN</p>
+                ) : (
+                  <p className="text-2xl text-center">ES</p>
+                )}
               </button>
             </div>
           </div>
@@ -123,7 +144,9 @@ export default function Header() {
                     onClick={() => {
                       navigate("/create-form");
                     }}>
-                    Create Form
+                    {authData?.userSettings?.language
+                      ? "Create Form"
+                      : "Crear Formulario"}
                   </Button>
 
                   <Button
@@ -131,7 +154,9 @@ export default function Header() {
                     onClick={() => {
                       navigate("/fill-form");
                     }}>
-                    Fill out form
+                    {authData?.userSettings?.language
+                      ? "Fill out form"
+                      : "Llenar Formulario"}
                   </Button>
 
                   <Button
@@ -139,11 +164,13 @@ export default function Header() {
                     onClick={() => {
                       navigate("/dashboard");
                     }}>
-                    Dashboard
+                    {authData?.userSettings?.language ? "Dashboard" : "Panel"}
                   </Button>
 
                   <Button className="h-10" onClick={logOut}>
-                    Log out
+                    {authData?.userSettings?.language
+                      ? "Log out"
+                      : "Cerrar Sesion"}
                   </Button>
                 </>
               ) : (
@@ -153,14 +180,18 @@ export default function Header() {
                     onClick={() => {
                       navigate("/login");
                     }}>
-                    Login
+                    {authData?.userSettings?.language
+                      ? "Login"
+                      : "Iniciar Sesion"}
                   </Button>
                   <Button
                     className="h-12"
                     onClick={() => {
                       navigate("/signup");
                     }}>
-                    Sign Up
+                    {authData?.userSettings?.language
+                      ? "Sign Up"
+                      : "Registrarse"}
                   </Button>
                 </>
               )}
@@ -190,7 +221,9 @@ export default function Header() {
                     onClick={() => {
                       navigate("/create-form");
                     }}>
-                    Create Form
+                    {authData?.userSettings?.language
+                      ? "Create Form"
+                      : "Crear Formulario"}
                   </Button>
 
                   <Button
@@ -198,7 +231,9 @@ export default function Header() {
                     onClick={() => {
                       navigate("/fill-form");
                     }}>
-                    Fill out form
+                    {authData?.userSettings?.language
+                      ? "Fill out form"
+                      : "Llenar Formulario"}
                   </Button>
 
                   <Button
@@ -206,11 +241,13 @@ export default function Header() {
                     onClick={() => {
                       navigate("/dashboard");
                     }}>
-                    Dashboard
+                    {authData?.userSettings?.language ? "Dashboard" : "Panel"}
                   </Button>
 
                   <Button className="h-10 mt-2" onClick={logOut}>
-                    Log out
+                    {authData?.userSettings?.language
+                      ? "Log out"
+                      : "Cerrar Sesion"}
                   </Button>
                 </>
               ) : (
@@ -220,14 +257,18 @@ export default function Header() {
                     onClick={() => {
                       navigate("/login");
                     }}>
-                    Login
+                    {authData?.userSettings?.language
+                      ? "Login"
+                      : "Iniciar Sesion"}
                   </Button>
                   <Button
                     className="h-12"
                     onClick={() => {
                       navigate("/signup");
                     }}>
-                    Sign Up
+                    {authData?.userSettings?.language
+                      ? "Sign Up"
+                      : "Registrarse"}
                   </Button>
                 </>
               )}

@@ -15,6 +15,13 @@ import "./index.css";
 export default function Root() {
   const { authData, setAuthData } = useContext(AuthContext);
 
+  // setAuthData({
+  //   ...authData,
+  //   userSettings: { 
+  //     theme: !authData?.userSettings?.theme ,
+  //      language: true },
+  // });
+
   useEffect(() => {
     const root = document.documentElement;
     if (authData?.userSettings?.theme ) {

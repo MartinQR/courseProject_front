@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useContext } from "react";
 import {
   Card,
   Button,
@@ -9,6 +9,7 @@ import {
   CheckboxGroup,
   Textarea,
 } from "@nextui-org/react";
+import { AuthContext } from "../../contexts/AuthContext";
 
 export default function RenderInput({
   inputData,
@@ -16,6 +17,8 @@ export default function RenderInput({
   setFormData,
   formData,
 }) {
+  const { authData, setAuthData } = useContext(AuthContext);
+
   function handleDeleteInput() {
     const newInputs = formData?.inputsData?.filter((_, i) => i !== index);
     setFormData({ ...formData, inputsData: newInputs });
@@ -43,7 +46,10 @@ export default function RenderInput({
           </div>
 
           <div>
-            <Input label="Answer" variant="underlined" size="sm"></Input>
+            <Input
+              label={authData?.userSettings?.language ? "Answer" : "Respuesta"}
+              variant="underlined"
+              size="sm"></Input>
           </div>
         </Card>
       ) : inputData?.type === "MULTIPLE-LINE" ? (
@@ -66,7 +72,10 @@ export default function RenderInput({
 
           <div>
             {" "}
-            <Textarea label="Answer" variant="underlined" size="sm"></Textarea>
+            <Textarea
+              label={authData?.userSettings?.language ? "Answer" : "Respuesta"}
+              variant="underlined"
+              size="sm"></Textarea>
           </div>
         </Card>
       ) : inputData?.type === "INTEGER" ? (
@@ -88,7 +97,10 @@ export default function RenderInput({
           </div>
 
           <div>
-            <Input label="Answer" variant="underlined" size="sm"></Input>
+            <Input
+              label={authData?.userSettings?.language ? "Answer" : "Respuesta"}
+              variant="underlined"
+              size="sm"></Input>
           </div>
         </Card>
       ) : inputData?.type === "CHECKBOX" ? (

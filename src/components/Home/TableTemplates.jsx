@@ -1,12 +1,14 @@
 import { Button, Card, Skeleton } from "@nextui-org/react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../contexts/AuthContext";
 
 export default function TableTemplates() {
   const APP_URL = import.meta.env.VITE_APP_URL;
   const [templates, setTemplates] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { authData, setAuthData } = useContext(AuthContext);
 
   const getMostRespondedForms = async () => {
     setLoading(true);
@@ -35,11 +37,12 @@ export default function TableTemplates() {
     getMostRespondedForms();
   }, []);
 
-
   return (
     <div className="flex flex-col sm:flex-row w-full h-full sm:h-96 my-5 space-y-2 sm:space-x-4 sm:space-y-0">
-      <Card className=" w-full sm:w-1/3 h-48 sm:h-full bg-amber-400 rounded-3xl flex items-center justify-center text-center text-3xl md:text-4xl lg:text-6xl leading-none overflow-hidden break-words">
-        5 most popular templates
+      <Card className=" w-full sm:w-1/3 h-48 sm:h-full bg-amber-400 rounded-3xl flex items-center justify-center text-center text-3xl md:text-4xl lg:text-6xl leading-none overflow-hidden break-words px-3">
+        {authData?.userSettings?.language
+          ? "5 most popular templates"
+          : "5 plantillas más populares"}
       </Card>
       <Card className="w-full sm:w-2/3 h-full bg-neutral-100 rounded-3xl flex flex-row items-center ">
         <div className="flex flex-col items-center justify-center h-full sm:h-96  w-1/3  ">
@@ -58,13 +61,15 @@ export default function TableTemplates() {
 
           {loading ? (
             <>
-            <Skeleton className="h-80 bg-neutral-100 rounded-3xl flex justify-between items-center w-full" />
+              <Skeleton className="h-80 bg-neutral-100 rounded-3xl flex justify-between items-center w-full" />
             </>
           ) : (
             <div>
               {templates?.map((template, i) => (
-                <div key={template?.id} className="flex justify-between items-center w-full">
-                  <div>
+                <div
+                  key={template?.id}
+                  className="flex justify-between items-center w-full">
+                  <div className="px-1">
                     <p className="font-bold">{template?.title}</p>
                     <p className="font-mono">{template?.description}</p>
                   </div>
@@ -72,16 +77,13 @@ export default function TableTemplates() {
                     className="bg-amber-400"
                     onClick={() => {
                       navigate(`/fill-form?idTemplate=${template?.id}`);
-                    }}
-                  >
-                    View
+                    }}>
+                    {authData?.userSettings?.language ? "View" : "Ver"}
                   </Button>
                 </div>
               ))}
             </div>
           )}
-
-          
         </div>
       </Card>
     </div>

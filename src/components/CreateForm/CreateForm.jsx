@@ -67,7 +67,6 @@ export default function CreateForm() {
     });
   }, [authData]);
 
-
   function validateForm() {
     if (!formData.title) {
       toast.error("Title is required");
@@ -172,24 +171,23 @@ export default function CreateForm() {
       value={tagValue}
     />
   );
-  
+
   const allowedUsersInput = (
-    <Button
-      onClick={() => setOpenUsersModal(true)} 
-    >
-      Allowed Users
+    <Button onClick={() => setOpenUsersModal(true)}>
+      {authData?.userSettings?.language
+        ? "Allowed Users"
+        : "Usuarios Permitidos"}
     </Button>
   );
 
   const handleClickPublic = (e) => {
     setFormData({ ...formData, isPublic: e.target.checked });
   };
-  
 
   const titleInput = (
     <Input
       variant="bordered"
-      label="Title"
+      label={authData?.userSettings?.language ? "Title" : "Titulo"}
       onChange={(e) => {
         setFormData({ ...formData, title: e.target.value });
       }}
@@ -200,19 +198,18 @@ export default function CreateForm() {
   const descriptionInput = (
     <Textarea
       variant="bordered"
-      label="Description"
+      label={authData?.userSettings?.language ? "Description" : "Descripción"}
       onChange={(e) =>
         setFormData({ ...formData, description: e.target.value })
       }
       value={formData?.description}
     />
   );
-  
 
   return (
     <div className="gray-background w-full min-h-screen  px-3 py-3 flex items-center flex-col">
       {/* ----------------- START HEADER ----------------- */}
-      <SearchUsersModal 
+      <SearchUsersModal
         open={openUsersModal}
         setOpen={setOpenUsersModal}
         form={formData}
@@ -267,7 +264,7 @@ export default function CreateForm() {
           <div className="bg-neutral-100 border-radius2 flex items-center justify-center flex-col p-4">
             <Select
               className="max-w-xs"
-              label="Topic "
+              label={authData?.userSettings?.language ? "Topic" : "Tema"}
               variant="bordered"
               onChange={(e) =>
                 setFormData({ ...formData, topicId: e.target.value })
@@ -311,7 +308,11 @@ export default function CreateForm() {
             ) : (
               <button className="w-1/2 flex" onClick={handleCreateForm}>
                 <div className="flex w-full items-center">
-                  <div className="w-1/2 text-right">CREATE FORM</div>
+                  <div className="w-1/2 text-right">
+                    {authData?.userSettings?.language
+                      ? "CREATE FORM"
+                      : "CREAR FORM"}
+                  </div>
                   <img src={arrow} className="h-auto object-contain" />
                 </div>
               </button>
@@ -319,10 +320,8 @@ export default function CreateForm() {
           </div>
 
           <div className="bg-neutral-100 row-start-2 col-start-2 border-radius2 flex items-center justify-center p-4">
-            <Checkbox
-              defaultSelected
-              onChange={handleClickPublic}>
-              Public
+            <Checkbox defaultSelected onChange={handleClickPublic}>
+              {authData?.userSettings?.language ? "Public" : "Publico"}
             </Checkbox>
           </div>
         </div>
@@ -399,7 +398,7 @@ export default function CreateForm() {
               <div className="w-1/2">
                 <Select
                   className="max-w-xs"
-                  label="Topic "
+                  label={authData?.userSettings?.language ? "Topic" : "Tema"}
                   variant="bordered"
                   onChange={(e) =>
                     setFormData({ ...formData, topicId: e.target.value })
@@ -412,10 +411,8 @@ export default function CreateForm() {
             </div>
             <div className="flex items-center justify-center w-full ">
               <div className="flex-grow flex items-center justify-center ">
-                <Checkbox
-                  defaultSelected
-                  onChange={handleClickPublic}>
-                  Public
+                <Checkbox defaultSelected onChange={handleClickPublic}>
+                  {authData?.userSettings?.language ? "Public" : "Publico"}
                 </Checkbox>
               </div>
               {isloading ? (
@@ -424,7 +421,11 @@ export default function CreateForm() {
                 <button
                   className="flex w-1/2 items-center"
                   onClick={handleCreateForm}>
-                  <div className="w-3/5 text-right">CREATE FORM</div>
+                  <div className="w-3/5 text-right">
+                    {authData?.userSettings?.language
+                      ? "CREATE FORM"
+                      : "CREAR FORM"}
+                  </div>
                   <div className="w-1/5 flex">
                     <img src={arrow} className="w-auto object-contain" />
                   </div>
@@ -510,7 +511,7 @@ export default function CreateForm() {
 
               <Select
                 className="max-w-xs"
-                label="Topic "
+                label={authData?.userSettings?.language ? "Topic" : "Tema"}
                 variant="bordered"
                 onChange={(e) =>
                   setFormData({ ...formData, topicId: e.target.value })
@@ -520,10 +521,8 @@ export default function CreateForm() {
                 ))}
               </Select>
               <div className="flex-grow flex items-center ml-1 ">
-                <Checkbox
-                  defaultSelected
-                  onChange={handleClickPublic}>
-                  Public
+                <Checkbox defaultSelected onChange={handleClickPublic}>
+                  {authData?.userSettings?.language ? "Public" : "Publico"}
                 </Checkbox>
               </div>
             </div>
@@ -532,7 +531,11 @@ export default function CreateForm() {
                 <Spinner />
               ) : (
                 <div>
-                  <div className="w-1/2 text-right">CREATE FORM</div>
+                  <div className="w-1/2 text-right">
+                    {authData?.userSettings?.language
+                      ? "CREATE FORM"
+                      : "CREAR FORM"}
+                  </div>
                   <button className="w-full flex" onClick={handleCreateForm}>
                     <img src={arrow} className="h-auto object-contain" />
                   </button>
@@ -546,7 +549,11 @@ export default function CreateForm() {
       )}
 
       {/* ------------------ END HEADER ----------------- */}
-      <p className="text-center text-3xl my-5">CREATE A NEW FORM</p>
+      <p className="text-center text-3xl my-5">
+        {authData?.userSettings?.language
+          ? "CREATE A NEW FORM"
+          : "CREAR UN NUEVO FORMULARIO"}
+      </p>
       {allowedUsersInput}
       <Card className="bg-neutral-100  w-full sm:w-4/5 lg:w-3/5  mb-5 p-5 mt-2">
         {/* <RenderInput inputData={input}></RenderInput> */}
@@ -580,7 +587,11 @@ export default function CreateForm() {
         size="lg">
         <ModalContent>
           <ModalHeader className="flex items-center">
-            <p>Form created sucessfully!</p>
+            <p>
+              {authData?.userSettings?.language
+                ? " Form created sucessfully!"
+                : "¡Formulario creado exitosamente!"}
+            </p>
             <div className="w-6 h-auto ml-2">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                 <path
@@ -592,8 +603,9 @@ export default function CreateForm() {
           </ModalHeader>
           <ModalBody className="m-2">
             <div>
-              Your form has been created successfully. Share the link below so
-              others can respond to it, or provide the generated Form ID.
+              {authData?.userSettings?.language
+                ? " Your form has been created successfully. Share the link below so others can respond to it, or provide the generated Form ID."
+                : "Su formulario ha sido creado exitosamente. Comparta el enlace a continuación para que otros puedan responderlo o proporcione el ID del formulario generado."}
             </div>
             <div className="text-sm space-y-21">
               <div>
@@ -611,14 +623,16 @@ export default function CreateForm() {
               onClick={() => {
                 navigate("/dashboard");
               }}>
-              My Forms
+              {authData?.userSettings?.language
+                ? "My Forms"
+                : "Mis Formularios"}
             </Button>
             <Button
               variant="flat"
               onClick={() => {
                 setOpenModal(false);
               }}>
-              New Form
+              {authData?.userSettings?.language ? "New Form" : "Nuevo Form"}
             </Button>
             <Button
               variant="shadow"
