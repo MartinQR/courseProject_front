@@ -31,6 +31,8 @@ import { formatDateTime } from "../../Utils/utils.js";
 import { SearchTemplateModal } from "../SearchTemplateModal/SearchTemplateModal.jsx";
 const APP_FRONT = import.meta.env.VITE_APP_FRONT;
 import { SearchUsersModal } from "../SearchUsersModal/SearchUsersModal.jsx";
+import { DndContext, closestCenter } from "@dnd-kit/core";
+import { SortableContext, useSortable, arrayMove } from "@dnd-kit/sortable";
 
 export default function ViewTemplate() {
   const { authData, setAuthData } = useContext(AuthContext);
@@ -86,9 +88,9 @@ export default function ViewTemplate() {
       formId: idTemplate,
       inputsData: templateModifications,
       userId: authData?.userId,
-      allowedUsers: formData?.allowedUsers?.map(el => el?.id),
+      allowedUsers: formData?.allowedUsers?.map((el) => el?.id),
     };
-    
+
     setIsLoading(true);
     try {
       const response = await fetch(`${APP_URL}/form/update`, {
@@ -170,8 +172,6 @@ export default function ViewTemplate() {
     console.log("TemplateId", templateId);
     navigate(`/view-templateAnswer?templateId=${templateId}&userId=${userId}`);
   }
-
-
 
   return (
     <div className="gray-background w-full min-h-screen  px-3 py-3 flex items-center flex-col">
@@ -517,11 +517,7 @@ export default function ViewTemplate() {
           </p>
         )}
 
-        <Button
-          onClick={() => setOpenUsersModal(true)} 
-        >
-          Allowed Users
-        </Button>
+        <Button onClick={() => setOpenUsersModal(true)}>Allowed Users</Button>
         {btnSelection2 ? (
           <Card className="bg-neutral-100 w-full sm:w-4/5 lg:w-3/5 my-5 p-5 space-y-2">
             <p className="text-center my-2">Filled Forms</p>
@@ -590,7 +586,7 @@ export default function ViewTemplate() {
         open={openSearch}
         setOpen={setOpenSearch}></SearchTemplateModal>
 
-      <SearchUsersModal 
+      <SearchUsersModal
         form={formData}
         setForm={setFormData}
         open={openUsersModal}
