@@ -90,9 +90,14 @@ export default function ViewTemplate() {
 
   // SUBMIT THE EDITED TEMPLATE
   async function handleSubitEditedTemplate() {
+
+    const idexedInputs = templateModifications.map((item, index) => {
+      return { ...item, dragIndex: index };
+    });
+
     const templateEditData = {
       formId: idTemplate,
-      inputsData: templateModifications,
+      inputsData: idexedInputs,
       userId: authData?.userId,
       allowedUsers: formData?.allowedUsers?.map((el) => el?.id),
     };
