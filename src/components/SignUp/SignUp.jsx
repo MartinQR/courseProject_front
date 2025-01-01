@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Card, Input, Button, AvatarIcon, Avatar } from "@nextui-org/react";
 import { EyeFilledIcon } from "../../assets/EyeFilledIcon";
 import { EyeSlashFilledIcon } from "../../assets/EyeSlashFilledIcon";
+import { AuthContext } from "../../contexts/AuthContext";
 import Header from "../Home/Header";
 import toast from "react-hot-toast";
 import "../../index.css";
@@ -10,10 +11,11 @@ const AP_URL = import.meta.env.VITE_APP_URL;
 
 export default function SignUp() {
   const [isVisible, setIsVisible] = useState(false);
+  const { authData, setAuthData } = useContext(AuthContext);
   const toggleVisibility = () => setIsVisible(!isVisible);
   const [user, setUser] = useState();
   const navigate = useNavigate();
-  const [isLoading,setIsLoading] = useState();
+  const [isLoading, setIsLoading] = useState();
 
   // Handle Functions
 
@@ -42,23 +44,20 @@ export default function SignUp() {
   }
 
   const handleSubmit = async () => {
-    setIsLoading(true)
+    setIsLoading(true);
     try {
-      const response = await fetch(
-        `${AP_URL}/user/register`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            firstName: user.firstName,
-            lastName: user.lastName,
-            email: user.email,
-            password: user.password,
-          }),
-        }
-      );
+      const response = await fetch(`${AP_URL}/user/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email,
+          password: user.password,
+        }),
+      });
 
       const data = await response.json();
 
@@ -70,11 +69,10 @@ export default function SignUp() {
       }
     } catch (error) {
       console.error("Request error:", error);
-    } finally{
-      setIsLoading(false)
+    } finally {
+      setIsLoading(false);
     }
   };
-
 
   return (
     <div className="gray-background px-3 py-3 h-screen ">
@@ -99,9 +97,15 @@ export default function SignUp() {
                 value={user?.firstName}
                 isRequired
                 size="sm"
-                label="First Name "
+                label={
+                  authData?.userSettings?.language ? "First Name" : "Nombres"
+                }
                 variant="flat"
-                placeholder="Enter your name"
+                placeholder={
+                  authData?.userSettings?.language
+                    ? "Enter your name"
+                    : "Ingresa tus nombres"
+                }
                 onChange={handleInputFirstName}></Input>
             </div>
             <div className="">
@@ -109,9 +113,15 @@ export default function SignUp() {
                 value={user?.lastName}
                 isRequired
                 size="sm"
-                label="Last Name"
+                label={
+                  authData?.userSettings?.language ? "Last Name" : "Apellidos"
+                }
                 variant="flat"
-                placeholder="Enter your name"
+                placeholder={
+                  authData?.userSettings?.language
+                    ? "Enter your Last Name"
+                    : "Ingresa tus apellidos"
+                }
                 onChange={handleInputLastName}></Input>
             </div>
             {/* Input Email */}
@@ -121,7 +131,11 @@ export default function SignUp() {
                 size="sm"
                 label="Email"
                 variant="flat"
-                placeholder="Enter your email"
+                placeholder={
+                  authData?.userSettings?.language
+                    ? "Enter your email"
+                    : "Ingresa tu email"
+                }
                 onChange={handleInputEmail}></Input>
             </div>
             {/* Input PassWord */}
@@ -129,9 +143,15 @@ export default function SignUp() {
               <Input
                 isRequired
                 size="sm"
-                label="Password"
+                label={
+                  authData?.userSettings?.language ? "Password" : "Contraseña"
+                }
                 variant="flat"
-                placeholder="Enter your password"
+                placeholder={
+                  authData?.userSettings?.language
+                    ? "Enter your password"
+                    : "Ingresa tu contraseña"
+                }
                 onChange={handleInputPassword}
                 endContent={
                   <button
@@ -151,19 +171,30 @@ export default function SignUp() {
               />
             </div>
           </div>
-          <Button isLoading={isLoading} onClick={handleSubmit} className="w-40 my-2.5 bg-amber-400 text-white font-semibold" size="sm">
-            Create Account
+          <Button
+            isLoading={isLoading}
+            onClick={handleSubmit}
+            className="w-40 my-2.5 bg-amber-400 text-white font-semibold"
+            size="sm">
+            {authData?.userSettings?.language
+              ? "Create Account"
+              : "Crear Cuenta"}
           </Button>
         </Card>
       </div>
       <div className="h-1/6 flex flex items-center justify-center ">
         {" "}
         <p className="text-xs text-center mt-4 sm:text-sm">
-          Already have an account?{" "}
+          {authData?.userSettings?.language
+            ? "Already have an account? "
+            : "Ya tienes una cuenta? "}
           <Link
             to="/login"
             className="text-white hover:underline font-semibold">
-            Log In
+               {authData?.userSettings?.language
+            ? "Log In"
+            : "Iniciar Sesión"}
+            
           </Link>
         </p>
       </div>

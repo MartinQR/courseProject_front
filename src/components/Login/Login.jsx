@@ -10,7 +10,7 @@ import { AuthContext } from "../../contexts/AuthContext";
 const AP_URL = import.meta.env.VITE_APP_URL;
 
 export default function Login() {
-  const { setAuthData } = useContext(AuthContext);
+  const { authData, setAuthData } = useContext(AuthContext);
   const [isVisible, setIsVisible] = useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
   const [userForm, setUserForm] = useState();
@@ -59,7 +59,7 @@ export default function Login() {
     }
   };
 
-  return (
+  return ( 
     <div className="gray-background px-3 py-3 h-screen  ">
       <div className="h-1/5">
         <Header />
@@ -68,7 +68,7 @@ export default function Login() {
       <div className="flex items-center justify-center h-auto flex-col px-4 md:px-0 ">
         <Card className="w-full max-w-xs md:max-w-md lg:max-w-lg h-auto flex items-center my-4 md:my-5 p-4 md:px-10 px-6 bg-neutral-500">
           <p className="mt-2 text-center text-xl sm:text-3xl text-white">
-            LOGIN
+            {authData?.userSettings?.language ? "LOGIN" : "INICIAR SESION"}
           </p>
 
           <div className="my-3 w-full">
@@ -81,7 +81,11 @@ export default function Login() {
                 size="sm"
                 label="Email"
                 variant="flat"
-                placeholder="Enter your email"
+                placeholder={
+                  authData?.userSettings?.language
+                    ? "Enter your email"
+                    : "Ingresa tu email"
+                }
                 className="w-full text-sm sm:text-base"
               />
             </div>
@@ -92,9 +96,15 @@ export default function Login() {
                 onChange={handleInputPassword}
                 isRequired
                 size="sm"
-                label="Password"
+                label={
+                  authData?.userSettings?.language ? "Password" : "Contraseña"
+                }
                 variant="flat"
-                placeholder="Enter your password"
+                placeholder={
+                  authData?.userSettings?.language
+                    ? "Enter your password"
+                    : "Ingresa tu contraseña"
+                }
                 endContent={
                   <button
                     className="focus:outline-none"
@@ -118,17 +128,19 @@ export default function Login() {
             size="md"
             isLoading={isloading}
             onClick={handleLogin}>
-            Sign In
+            {authData?.userSettings?.language ? "Sign In" : "Iniciar Sesión"}
           </Button>
         </Card>
       </div>
       <div className="h-1/5 flex flex items-center justify-center ">
         <p className="text-xs text-center mt-4 sm:text-sm">
-          Don't have an account?{" "}
+          {authData?.userSettings?.language
+            ? "Don't have an account? "
+            : "No tienes una cuenta? "}
           <Link
             to="/signup"
             className="text-white hover:underline font-semibold">
-            Sign Up
+            {authData?.userSettings?.language ? "Sign Up" : "Registrate"}
           </Link>
         </p>
       </div>
