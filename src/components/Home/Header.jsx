@@ -184,7 +184,7 @@ export default function Header() {
         <div className="hidden lg:block">
           {toggleBtn && (
             <div className="space-x-1 flex flex-wrap">
-              {authData ? (
+              {authData?.userId  ? (
                 <>
                   <Button
                     className="h-10"
@@ -223,7 +223,7 @@ export default function Header() {
               ) : (
                 <>
                   <Button
-                    className="h-12"
+                    className="h-10"
                     onClick={() => {
                       navigate("/login");
                     }}>
@@ -232,7 +232,7 @@ export default function Header() {
                       : "Iniciar Sesion"}
                   </Button>
                   <Button
-                    className="h-12"
+                    className="h-10"
                     onClick={() => {
                       navigate("/signup");
                     }}>
@@ -261,7 +261,7 @@ export default function Header() {
         <div className="block lg:hidden ">
           {toggleBtn && (
             <div className="space-x-1 flex flex-wrap items-center">
-              {authData ? (
+              {authData?.userId ? (
                 <>
                   <Button
                     className="h-10 mt-2"
@@ -300,7 +300,7 @@ export default function Header() {
               ) : (
                 <>
                   <Button
-                    className="h-12"
+                    className="h-10 mt-1"
                     onClick={() => {
                       navigate("/login");
                     }}>
@@ -309,7 +309,7 @@ export default function Header() {
                       : "Iniciar Sesion"}
                   </Button>
                   <Button
-                    className="h-12"
+                    className="h-10 mt-1"
                     onClick={() => {
                       navigate("/signup");
                     }}>
