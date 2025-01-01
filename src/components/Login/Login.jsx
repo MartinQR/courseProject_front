@@ -46,12 +46,7 @@ export default function Login() {
 
       if (response.ok) {
         toast.success("Successsfully Login!");
-        setAuthData({
-          ...data,
-          userSettings: { 
-            theme: false,
-             language: "en" },
-        });
+        setAuthData(data);
         localStorage.setItem("authData", JSON.stringify(data));
         navigate("/", { state: { email: userForm.email } });
       } else {

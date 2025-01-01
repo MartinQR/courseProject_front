@@ -3,11 +3,13 @@ import { Card, CardBody, Button, ButtonGroup, Avatar } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 import { SearchTemplateModal } from "../SearchTemplateModal/SearchTemplateModal";
+const APP_URL = import.meta.env.VITE_APP_URL;
 
 export default function Header() {
   const [toggleBtn, setToggleBtn] = useState(false);
   const { authData, setAuthData } = useContext(AuthContext);
   const [open, setOpen] = useState(false);
+  const [isloading, setIsLoading] = useState(true);
 
   const navigate = useNavigate();
 
@@ -20,6 +22,41 @@ export default function Header() {
     setAuthData(null);
     localStorage.removeItem("authData");
     navigate("/");
+  }
+
+  // Handle Actions
+  async function handleUpdateUserSettings(userId, theme, language) {
+    setIsLoading(true);
+
+    try {
+      const response = await fetch(`${APP_URL}/user/updateUserSettings`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: userId,
+          theme: theme,
+          language: language,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(
+          errorData.message ||
+            `Error ${response.status}: ${response.statusText}`
+        );
+      }
+      // SuccesFully Response
+      const data = await response.json();
+      toast.success("User Settings Updated Succesfully!");
+      setOpenModal(true);
+    } catch (error) {
+      console.error("Fetch error:", error);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   console.log("Auth Data", authData);
@@ -101,6 +138,11 @@ export default function Header() {
                       //  language: "en"
                     },
                   });
+                  handleUpdateUserSettings(
+                    authData?.userId,
+                    !authData?.userSettings?.theme,
+                    authData?.userSettings?.language
+                  );
                 }}>
                 <div className="w-6 flex items-center  justify-center">
                   <svg
@@ -124,6 +166,11 @@ export default function Header() {
                       language: !authData?.userSettings?.language,
                     },
                   });
+                  handleUpdateUserSettings(
+                    authData?.userId,
+                    !authData?.userSettings?.theme,
+                    authData?.userSettings?.language
+                  );
                 }}>
                 {authData?.userSettings?.language ? (
                   <p className="text-2xl text-center">EN</p>
