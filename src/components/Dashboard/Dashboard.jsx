@@ -9,20 +9,8 @@ import { TemplatesManagment } from "./TemplatesManagment.jsx";
 import { AuthContext } from "../../contexts/AuthContext.jsx";
 import {
   Card,
-  Spinner,
   Avatar,
   Button,
-  Input,
-  Select,
-  SelectItem,
-  Textarea,
-  Checkbox,
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  useDisclosure,
 } from "@nextui-org/react";
 import arrow from "../../assets/arrowthin.svg";
 import { SearchTemplateModal } from "../SearchTemplateModal/SearchTemplateModal.jsx";
@@ -68,7 +56,7 @@ export default function Dashboard() {
             </div>
           </div>
           <div className="row-span-2 bg-neutral-100 border-radius2 flex items-center justify-center text-2xl text-wrap">
-            DASHBOARD
+            {authData?.userSettings?.language ? "DASHBOARD" : "PANEL"}
           </div>
           <div className="bg-neutral-100 border-radius2 flex items-center justify-center p-4 text-4xl">
             formo
@@ -132,7 +120,7 @@ export default function Dashboard() {
                 localStorage.removeItem("authData");
                 navigate("/");
               }}>
-              Log out
+              {authData?.userSettings?.language ? "LOGOUT" : "SALIR"}
             </Button> 
           </div>
         </div>
@@ -194,7 +182,7 @@ export default function Dashboard() {
             </div>
           </div>
           <Card className="w-full h-20 flex items-center justify-center text-3xl">
-            <div>DASHBOARD</div>
+            <div>{authData?.userSettings?.language ? "DASHBOARD" : "PANEL"}</div>
           </Card>
         </div>
       ) : size?.width <= 768 ? (
@@ -259,7 +247,7 @@ export default function Dashboard() {
             </div>
           </div>
           <Card className="w-full h-20 flex items-center justify-center ">
-            <p className="text-3xl">DASHBOARD</p>
+            <p className="text-3xl">{authData?.userSettings?.language ? "DASHBOARD" : "PANEL"}</p>
           </Card>
         </div>
       ) : (
@@ -268,7 +256,7 @@ export default function Dashboard() {
       {/* Body Div */}
       <div className="w-full h-auto py-3 flex flex-col items-center">
         {/* <div className="w-auto ml-8 mt-4 ">
-          <p className="text-4xl">DASHBOARD</p>
+          <p className="text-4xl">{authData?.userSettings?.language ? "DASHBOARD" : "PANEL"}"}}</p>
         </div> */}
         {/* Table Managment */}
         {authData?.isAdmin ? (
@@ -280,7 +268,9 @@ export default function Dashboard() {
 
         {/* Templates and Forms Managment */}
         <div className="mt-4 w-full flex flex-col items-center ">
-          <p className="text-3xl text-center">Templates Managment</p>
+          <p className="text-3xl text-center">
+            {authData?.userSettings?.language ? "Templates Managment" : "Gestión de Plantillas"}
+          </p>
           <TemplatesManagment />
         </div>
       </div>

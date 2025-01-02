@@ -78,7 +78,7 @@ export function TemplatesManagment() {
           onClick={() => {
             setBtnSelection(true);
           }}>
-          Templates
+          {authData?.userSettings?.language ? "Templates" : "Plantillas"}
         </Button>
         <Button
           className="w-1/2"
@@ -86,7 +86,7 @@ export function TemplatesManagment() {
           onClick={() => {
             setBtnSelection(false);
           }}>
-          Filled Forms
+          {authData?.userSettings?.language ? "Filled Forms" : "Formularios Llenados"}
         </Button>
       </ButtonGroup>
       <Card className="w-full sm:w-4/5 lg:w-3/5 h-96">
@@ -94,13 +94,15 @@ export function TemplatesManagment() {
           <>
             <CardHeader>
               <div className="flex items-center justify-center w-full space-x-4">
-                <p>Tempaltes Created</p>
+                <p>
+                  {authData?.userSettings?.language ? "Tempaltes Created" : "Plantillas Creadas"}
+                </p>
                 <div>
                   <Button
                     onClick={() => {
                       navigate("/create-form");
                     }}>
-                    Create New +{" "}
+                    {authData?.userSettings?.language ? "Create new" : "Crear nuevo"} +{" "}
                   </Button>
                 </div>
               </div>
@@ -137,7 +139,7 @@ export function TemplatesManagment() {
               </div>
             ) : (
               <div className="gap-2 mx-2 flex items-center justify-center px-4 py-3 overflow-y-auto custom-scrollbar h-full ">
-                You haven't created a form yet.
+                {authData?.userSettings?.language ? "You haven't created a form yet." : "Aún no has creado una plantilla."}
               </div>
             )}
           </>
@@ -145,9 +147,9 @@ export function TemplatesManagment() {
           <>
             <CardHeader>
               <div className="flex items-center justify-center w-full space-x-4">
-                <p>Forms answered by you</p>
+                <p>{authData?.userSettings?.language ? "Forms answered by you" : "Formularios respondidos por ti"}</p>
                 <div>
-                  <Button>Answer a form</Button>
+                  <Button>{authData?.userSettings?.language ? "Answer a form" : "Responder formulario"}</Button>
                 </div>
               </div>
             </CardHeader>
