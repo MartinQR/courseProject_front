@@ -207,7 +207,9 @@ export default function FillForm() {
               ) : (
                 <>
                   {" "}
-                  <div className="w-1/2 text-right">SUBMIT</div>
+                  <div className="w-1/2 text-right">
+                    {authData?.userSettings?.language ? "SUBMIT" : "ENVIAR"}
+                  </div>
                   <button className="w-1/2 flex " onClick={handleSubmitForm}>
                     <img src={arrow} className="h-auto object-contain" />
                   </button>
@@ -218,7 +220,7 @@ export default function FillForm() {
 
           <div className="bg-neutral-100 row-start-2 col-start-2 border-radius2 flex items-center justify-center p-4">
             <Checkbox defaultSelected isDisabled>
-              Public
+              {authData?.userSettings?.language ? "Public" : "Público"}
             </Checkbox>
           </div>
         </div>
@@ -409,9 +411,11 @@ export default function FillForm() {
           </Button>
         )}
 
-        <p className="text-4xl text-center">PLEASE FILL OUT THE FORM</p>
+        <p className="text-4xl text-center">
+          {authData?.userSettings?.language ? "PLEASE FILL OUT THE FORM" : "POR FAVOR LLENE EL FORMULARIO"}  
+        </p>
         <p className="text-sm">
-          Created by: {formData?.creator?.firstName}{" "}
+          {authData?.userSettings?.language ? "Created by" : "Creado por"}: {formData?.creator?.firstName}{" "}
           {formData?.creator?.lastName}
         </p>
         <Card className="bg-neutral-100 w-full sm:w-4/5 lg:w-3/5 my-5 p-5">
@@ -439,7 +443,9 @@ export default function FillForm() {
           }}>
           <ModalContent className="p-4">
             <ModalHeader>
-              <p>Enter the template ID to fill out.</p>
+              <p>
+                {authData?.userSettings?.language ? "Enter the template ID to fill out." : "Ingrese el ID de la plantilla para completar."}
+              </p>
             </ModalHeader>
             <ModalBody>
               <Input
@@ -447,12 +453,13 @@ export default function FillForm() {
                 onChange={(e) => {
                   setTemplateIdModal(e.target.value);
                 }}
-                label="Form ID"></Input>
+                label={authData?.userSettings?.language ? "Form ID" : "ID de la plantilla"}
+              />
               <Button
                 isLoading={isloading2}
                 onClick={() => getTemplate(templateIdModal)}
                 className="bg-orange-600 text-white m-2">
-                Fill out Form!
+                {authData?.userSettings?.language ? "Fill out Form!" : "¡Completa el formulario!"}
               </Button>
             </ModalBody>
           </ModalContent>
@@ -460,7 +467,8 @@ export default function FillForm() {
       </div>
       <SearchTemplateModal
         open={openSearch}
-        setOpen={setOpenSearch}></SearchTemplateModal>
+        setOpen={setOpenSearch}
+      />
     </div>
   );
 }
