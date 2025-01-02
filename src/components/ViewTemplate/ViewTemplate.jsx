@@ -293,7 +293,7 @@ export default function ViewTemplate() {
               <>
                 {" "}
                 <button
-                  className="w-2/3 flex "
+                  className="w-2/3 max-w-28  flex "
                   onClick={() => {
                     navigate(-1);
                   }}>

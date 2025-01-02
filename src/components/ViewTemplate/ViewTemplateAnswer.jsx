@@ -120,7 +120,7 @@ export default function ViewTemplateAnswer() {
       const data = await response.json();
 
       toast.success("Form updated sucessfully!");
-      setBtnEditAnswer(false)
+      setBtnEditAnswer(false);
     } catch (error) {
       console.error("Fetch error:", error);
     } finally {
@@ -224,7 +224,7 @@ export default function ViewTemplateAnswer() {
               <>
                 {" "}
                 <button
-                  className="w-2/3 flex "
+                  className="w-2/3 max-w-28 flex "
                   onClick={() => {
                     navigate(-1);
                   }}>
@@ -436,7 +436,9 @@ export default function ViewTemplateAnswer() {
         {btnEditAnswer && (
           // <ButtonGroup>
           <div className="space-x-2">
-            <Button isLoading={isLoading} onClick={submitNewAnswers}>Submit</Button>
+            <Button isLoading={isLoading} onClick={submitNewAnswers}>
+              Submit
+            </Button>
             <Button
               color="danger"
               onClick={() => {
