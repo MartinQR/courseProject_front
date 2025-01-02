@@ -13,7 +13,7 @@ import toast from "react-hot-toast";
 import { AuthContext } from "../../contexts/AuthContext";
 
 // Component that generates a question/input and returns it as an object
-export default function AddInput({ setFormData, formData }) {
+export default function AddInput({ setFormData, formData, edit = false }) {
   const [inputData, setInputData] = useState({});
   const [newOption, setNewOption] = useState("");
   const { authData, setAuthData } = useContext(AuthContext);
@@ -74,10 +74,17 @@ export default function AddInput({ setFormData, formData }) {
       return;
     }
 
-    setFormData({
-      ...formData,
-      inputsData: [...formData.inputsData, inputData],
-    });
+    if (edit) {
+      setFormData([...formData, { ...inputData, dragIndex: formData?.length }]);
+      console.log("Entra 1")
+    } else {
+      console.log("Entra 2")
+      setFormData({
+        ...formData,
+        inputsData: [...formData.inputsData, inputData],
+      });
+    }
+
     clearInput();
   }
 

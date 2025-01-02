@@ -9,7 +9,12 @@ export const AuthProvider = ({ children }) => {
     const storedAuthData = localStorage.getItem('authData');
     if (storedAuthData) {
       setAuthData(JSON.parse(storedAuthData));
+      // setAuthData({...authData,userSettings:{...authData?.userSettings,language:true}})
     }
+    
+    // else{
+    //   setAuthData({...authData,userSettings:{theme:false,language:true}})
+    // }
   }, []);
 
   return (

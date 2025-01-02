@@ -403,7 +403,7 @@ export default function FillForm() {
         {authData?.isAdmin && (
           <Button
             onClick={() => {
-              navigate(`/view-template?idTemplate=${idTemplate}`);
+              navigate(`/view-template?idTemplate=${templateIdModal}`);
             }}>
             Edit Template
           </Button>

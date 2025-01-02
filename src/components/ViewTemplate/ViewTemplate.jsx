@@ -37,6 +37,7 @@ import {
   verticalListSortingStrategy,
   arrayMove,
 } from "@dnd-kit/sortable";
+import AddInput from "../Input/AddInput.jsx";
 
 export default function ViewTemplate() {
   const { authData, setAuthData } = useContext(AuthContext);
@@ -89,8 +90,7 @@ export default function ViewTemplate() {
   const navigate = useNavigate();
 
   // SUBMIT THE EDITED TEMPLATE
-  async function handleSubitEditedTemplate() {
-
+  async function handleSubmitEditedTemplate() {
     const idexedInputs = templateModifications.map((item, index) => {
       return { ...item, dragIndex: index };
     });
@@ -129,6 +129,8 @@ export default function ViewTemplate() {
       console.error("Fetch error:", error);
     } finally {
       setIsLoading(false);
+      setBtnDrag(false);
+      setBtnSelection(false);
     }
   }
 
@@ -497,8 +499,7 @@ export default function ViewTemplate() {
             onClick={() => {
               setOpenModal(true);
             }}
-            className="w-1/2"
-            >
+            className="w-1/2">
             Share Template
             <div className="w-5 flex items-center justify-center">
               <svg
@@ -545,8 +546,10 @@ export default function ViewTemplate() {
           </Button>
         </ButtonGroup>
         {btnSelection && (
-          <div className="space-x-2">
-            <Button onClick={handleSubitEditedTemplate}>Submit</Button>
+          <div className="space-x-2 flex items-center">
+            <Button isLoading={isLoading} onClick={handleSubmitEditedTemplate}>
+              Submit
+            </Button>
             <Button
               color="danger"
               onClick={() => {
@@ -558,8 +561,10 @@ export default function ViewTemplate() {
           </div>
         )}
         {btnDrag && (
-          <div className="space-x-2">
-            <Button onClick={handleSubitEditedTemplate}>Submit</Button>
+          <div className="space-x-2 flex items-center">
+            <Button isLoading={isLoading} onClick={handleSubmitEditedTemplate}>
+              Submit
+            </Button>
             <Button
               color="danger"
               onClick={() => {
@@ -632,6 +637,12 @@ export default function ViewTemplate() {
                   key={item?.id}
                 />
               ))
+            )}
+            {btnSelection && (
+              <AddInput
+                setFormData={setTemplateModifications}
+                formData={templateModifications}
+                edit={true}></AddInput>
             )}
           </Card>
         )}

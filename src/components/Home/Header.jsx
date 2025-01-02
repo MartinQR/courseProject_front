@@ -169,8 +169,9 @@ export default function Header() {
                   handleUpdateUserSettings(
                     authData?.userId,
                     !authData?.userSettings?.theme,
-                    authData?.userSettings?.language
+                  !authData?.userSettings?.language
                   );
+                  localStorage.setItem("authData", JSON.stringify(authData));
                 }}>
                 {authData?.userSettings?.language ? (
                   <p className="text-2xl text-center">EN</p>
