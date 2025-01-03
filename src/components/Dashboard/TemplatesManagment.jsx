@@ -1,4 +1,4 @@
-import { Button, ButtonGroup, Card, CardHeader } from "@nextui-org/react";
+import { Button, ButtonGroup, Card, CardHeader, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, user } from "@nextui-org/react";
 import { CardBody, CardFooter, Image, Chip } from "@nextui-org/react";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
@@ -13,6 +13,8 @@ export function TemplatesManagment() {
   const [userFilledForms, setUserFilledForms] = useState();
   const [btnSelection, setBtnSelection] = useState(true);
   const navigate = useNavigate();
+  const [openModal, setOpenModal] = useState(false);
+  const [selectedTemplate, setSelectedTemplate] = useState(null);
 
   // --------- FETCH REQUEST --------
   const getUserTemplates = async (userId) => {
@@ -66,9 +68,39 @@ export function TemplatesManagment() {
     }
   }, [authData]);
 
-  console.log("Templates", templates);
-  console.log("User Filled Forms", userFilledForms);
-  console.log("Auth Data", authData);
+  const [loadingDelete, setLoadingDelete] = useState(false);
+
+  const handleDeleteTemplate = async (templateId) => {
+    const body = {
+      formId: templateId,
+      userId: authData?.userId,
+    };
+
+    setLoadingDelete(true);
+    try {
+      const response = await fetch(
+        `${APP_URL}/form/deleteForm`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(body),
+        }
+      );
+      if (response.ok) {
+        console.log("Template Deleted");
+        getUserTemplates(authData?.userId);
+      }
+      setOpenModal(false);
+    } catch (error) {
+      console.error("Error deleting template", error);
+    } finally {
+      setLoadingDelete(false);
+    }
+  }
+
+
   return (
     <div className="w-full  flex flex-col space-y-4 items-center justify-center my-4">
       <ButtonGroup className="w-full sm:px-0 sm:w-3/5 md:w-2/5 ">
@@ -130,10 +162,33 @@ export function TemplatesManagment() {
                       </div>
                       <div className="h-1/5 flex items-center justify-center  ">
                         <Chip color="warning" variant="dot">
-                          {index}
+                          {index + 1}
                         </Chip>
                       </div>
                     </CardBody>
+                    <CardFooter
+                      className="flex items-center justify-center w-full space-x-4"
+                    >
+                      <Button 
+                        size="sm" 
+                        variant="faded"
+                        onClick={() => {
+                          console.log("Selected Template", item);
+                          
+                          setSelectedTemplate(item);
+                          setOpenModal(true);
+                        }}
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 448 512"
+                          height="100"
+                          width="40%"
+                        >
+                          <path d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0L284.2 0c12.1 0 23.2 6.8 28.6 17.7L320 32l96 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 96C14.3 96 0 81.7 0 64S14.3 32 32 32l96 0 7.2-14.3zM32 128l384 0 0 320c0 35.3-28.7 64-64 64L96 512c-35.3 0-64-28.7-64-64l0-320zm96 64c-8.8 0-16 7.2-16 16l0 224c0 8.8 7.2 16 16 16s16-7.2 16-16l0-224c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16l0 224c0 8.8 7.2 16 16 16s16-7.2 16-16l0-224c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16l0 224c0 8.8 7.2 16 16 16s16-7.2 16-16l0-224c0-8.8-7.2-16-16-16z" />
+                        </svg>
+                      </Button>
+                    </CardFooter>
                   </Card>
                 ))}
               </div>
@@ -195,6 +250,46 @@ export function TemplatesManagment() {
           </>
         )}
       </Card>
+
+
+      <Modal
+        isOpen={openModal}
+        onClose={() => setOpenModal(false)}
+        className="w-1/2"
+        title="Template Details"
+
+      >
+        <ModalContent
+          
+        >
+          <ModalHeader>
+            <div className="">
+              <p>
+                {authData?.userSettings?.language 
+                  ? "Are you sure you want to delete this template?" 
+                  : "¿Estás seguro de que deseas eliminar esta plantilla?"
+                }
+              </p>
+            </div>
+          </ModalHeader>
+          <ModalBody>
+            {selectedTemplate?.title}
+          </ModalBody>
+          <ModalFooter>
+            <Button color="primary" variant="light" onPress={() => setOpenModal(false)}>
+              {authData?.userSettings?.language ? "Cancel" : "Cancelar"}
+            </Button>
+            <Button 
+              color="danger" 
+              onPress={() => handleDeleteTemplate(selectedTemplate?.id)} 
+              isLoading={loadingDelete}
+            >
+              {authData?.userSettings?.language ? "Delete" : "Eliminar"}
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+
+      </Modal>
     </div>
   );
 }
