@@ -7,11 +7,7 @@ import { useNavigate } from "react-router-dom";
 import TableUsers from "./TableUsers.jsx";
 import { TemplatesManagment } from "./TemplatesManagment.jsx";
 import { AuthContext } from "../../contexts/AuthContext.jsx";
-import {
-  Card,
-  Avatar,
-  Button,
-} from "@nextui-org/react";
+import { Card, Avatar, Button, Chip } from "@nextui-org/react";
 import arrow from "../../assets/arrowthin.svg";
 import { SearchTemplateModal } from "../SearchTemplateModal/SearchTemplateModal.jsx";
 
@@ -22,6 +18,7 @@ export default function Dashboard() {
   const size = useWindowSize();
   const navigate = useNavigate();
 
+  console.log("Auth Data", authData);
   return (
     <div className="gray-background w-full min-h-screen  px-3 py-3 flex items-center flex-col">
       {size?.width >= 768 ? (
@@ -63,7 +60,11 @@ export default function Dashboard() {
           </div>
           <div className="bg-neutral-100 border-radius2 flex items-center justify-center flex-col p-4 text-4xl ">
             {" "}
-            - -
+            {authData?.isAdmin ? (
+              <Chip color="success">ADMIN</Chip>
+            ) : (
+              <Chip color="warning">STAFF</Chip>
+            )}
           </div>
 
           <div className="col-span-2 col-start-4 flex space-x-1 ">
@@ -121,7 +122,7 @@ export default function Dashboard() {
                 navigate("/");
               }}>
               {authData?.userSettings?.language ? "LOGOUT" : "SALIR"}
-            </Button> 
+            </Button>
           </div>
         </div>
       ) : size?.width <= 468 ? (
@@ -182,7 +183,9 @@ export default function Dashboard() {
             </div>
           </div>
           <Card className="w-full h-20 flex items-center justify-center text-3xl">
-            <div>{authData?.userSettings?.language ? "DASHBOARD" : "PANEL"}</div>
+            <div>
+              {authData?.userSettings?.language ? "DASHBOARD" : "PANEL"}
+            </div>
           </Card>
         </div>
       ) : size?.width <= 768 ? (
@@ -247,7 +250,9 @@ export default function Dashboard() {
             </div>
           </div>
           <Card className="w-full h-20 flex items-center justify-center ">
-            <p className="text-3xl">{authData?.userSettings?.language ? "DASHBOARD" : "PANEL"}</p>
+            <p className="text-3xl">
+              {authData?.userSettings?.language ? "DASHBOARD" : "PANEL"}
+            </p>
           </Card>
         </div>
       ) : (
@@ -269,7 +274,9 @@ export default function Dashboard() {
         {/* Templates and Forms Managment */}
         <div className="mt-4 w-full flex flex-col items-center ">
           <p className="text-3xl text-center">
-            {authData?.userSettings?.language ? "Templates Managment" : "Gestión de Plantillas"}
+            {authData?.userSettings?.language
+              ? "Templates Managment"
+              : "Gestión de Plantillas"}
           </p>
           <TemplatesManagment />
         </div>
