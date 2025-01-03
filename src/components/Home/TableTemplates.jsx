@@ -2,6 +2,7 @@ import { Button, Card, Skeleton } from "@nextui-org/react";
 import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
+import "./Home.css";
 
 export default function TableTemplates() {
   const APP_URL = import.meta.env.VITE_APP_URL;
@@ -44,19 +45,19 @@ export default function TableTemplates() {
           ? "5 most popular templates"
           : "5 plantillas más populares"}
       </Card>
-      <Card className="w-full sm:w-2/3 h-full bg-neutral-100 rounded-3xl flex flex-row items-center ">
-        <div className="flex flex-col items-center justify-center h-full sm:h-96  w-1/3  ">
-          <div className="w-20 h-6 bg-amber-400 rounded-lg "></div>
+      <Card className="w-full sm:w-2/3 h-full bg-neutral-100 rounded-3xl flex flex-col sm:flex-row  items-center  p-4 ">
+        <div className="flex flex-col items-center justify-center h-full sm:h-96 w-full sm:w-3/12   ">
+          <div className="w-3/6 sm:w-20 h-6 bg-amber-400 rounded-lg "></div>
 
           <div className="h-4"></div>
 
-          <div className="w-20 h-6 bg-amber-400 rounded-lg"></div>
+          <div className="w-3/6 sm:w-20 h-6 bg-amber-400 rounded-lg"></div>
 
           <div className="h-4"></div>
 
-          <div className="w-20 h-6 bg-amber-400 rounded-lg"></div>
+          <div className="w-3/6 sm:w-20 h-6 bg-amber-400 rounded-lg"></div>
         </div>
-        <div className="w-2/3 h-full flex items-center justify-center flex-col p-3 space-y-2 sm:space-y-4  ">
+        <div className="w-full sm:w-9/12 h-full flex items-center justify-center flex-col p-3 space-y-2 sm:space-y-4  ">
           {/* Top 5 popular templates */}
 
           {loading ? (
@@ -64,7 +65,7 @@ export default function TableTemplates() {
               <Skeleton className="h-80 bg-neutral-100 rounded-3xl flex justify-between items-center w-full" />
             </>
           ) : (
-            <div>
+            <div className=" p-2 overflow-y-auto custom-scrollbar max-h-96">
               {templates?.map((template, i) => (
                 <div
                   key={template?.id}
@@ -74,7 +75,7 @@ export default function TableTemplates() {
                     <p className="font-mono">{template?.description}</p>
                   </div>
                   <Button
-                    className="bg-amber-400"
+                    className="bg-amber-400 ml-4"
                     onClick={() => {
                       navigate(`/fill-form?idTemplate=${template?.id}`);
                     }}>
