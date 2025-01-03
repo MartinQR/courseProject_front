@@ -143,6 +143,14 @@ export default function Header() {
                     !authData?.userSettings?.theme,
                     authData?.userSettings?.language
                   );
+
+                  localStorage.setItem("authData", JSON.stringify({
+                    ...authData,
+                    userSettings: {
+                      ...authData?.userSettings,
+                      theme: !authData?.userSettings?.theme,
+                    },
+                  }));
                 }}>
                 <div className="w-6 flex items-center  justify-center">
                   <svg
@@ -171,7 +179,13 @@ export default function Header() {
                     !authData?.userSettings?.theme,
                   !authData?.userSettings?.language
                   );
-                  localStorage.setItem("authData", JSON.stringify(authData));
+                  localStorage.setItem("authData", JSON.stringify({
+                    ...authData,
+                    userSettings: {
+                      ...authData?.userSettings,
+                      language: !authData?.userSettings?.language,
+                    },
+                  }));
                 }}>
                 {authData?.userSettings?.language ? (
                   <p className="text-2xl text-center">EN</p>

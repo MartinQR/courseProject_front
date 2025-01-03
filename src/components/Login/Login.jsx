@@ -43,7 +43,8 @@ export default function Login() {
       });
 
       const data = await response.json();
-
+      console.log("datauser", data);
+      
       if (response.ok) {
         toast.success("Successsfully Login!");
         setAuthData(data);
