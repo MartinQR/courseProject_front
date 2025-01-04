@@ -10,7 +10,10 @@ export default function MainCard() {
   const navigate = useNavigate();
   return (
     <>
-      <Card className="w-full h-96 my-4 bg-neutral-500  border-radius border-radius-m flex flex-col sm:flex-row space-y-2">
+      <Card
+        className={`w-full h-96 my-4 border-radius border-radius-m flex flex-col sm:flex-row space-y-2 ${
+          authData?.userSettings?.theme ? "bg-neutral-300" : "bg-neutral-500"
+        }`}>
         <div className=" w-full sm:w-1/2 h-full flex items-center justify-center overflow-hidden">
           <img
             src={imgPhone}
@@ -32,6 +35,10 @@ export default function MainCard() {
           <div className=" mb-3">
             <Button
               color="primary"
+              className={` ${
+                authData?.userSettings?.theme ? "bg-zinc-800" : "bg-zinc-100 text-black"
+              }`}
+              // className="bg-zinc-800"
               onClick={() => {
                 navigate("/create-form");
               }}>

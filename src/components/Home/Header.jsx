@@ -144,13 +144,16 @@ export default function Header() {
                     authData?.userSettings?.language
                   );
 
-                  localStorage.setItem("authData", JSON.stringify({
-                    ...authData,
-                    userSettings: {
-                      ...authData?.userSettings,
-                      theme: !authData?.userSettings?.theme,
-                    },
-                  }));
+                  localStorage.setItem(
+                    "authData",
+                    JSON.stringify({
+                      ...authData,
+                      userSettings: {
+                        ...authData?.userSettings,
+                        theme: !authData?.userSettings?.theme,
+                      },
+                    })
+                  );
                 }}>
                 <div className="w-6 flex items-center  justify-center">
                   <svg
@@ -177,15 +180,18 @@ export default function Header() {
                   handleUpdateUserSettings(
                     authData?.userId,
                     !authData?.userSettings?.theme,
-                  !authData?.userSettings?.language
+                    !authData?.userSettings?.language
                   );
-                  localStorage.setItem("authData", JSON.stringify({
-                    ...authData,
-                    userSettings: {
-                      ...authData?.userSettings,
-                      language: !authData?.userSettings?.language,
-                    },
-                  }));
+                  localStorage.setItem(
+                    "authData",
+                    JSON.stringify({
+                      ...authData,
+                      userSettings: {
+                        ...authData?.userSettings,
+                        language: !authData?.userSettings?.language,
+                      },
+                    })
+                  );
                 }}>
                 {authData?.userSettings?.language ? (
                   <p className="text-2xl text-center">EN</p>
@@ -199,7 +205,7 @@ export default function Header() {
         <div className="hidden lg:block">
           {toggleBtn && (
             <div className="space-x-1 flex flex-wrap">
-              {authData?.userId  ? (
+              {authData?.userId ? (
                 <>
                   <Button
                     className="h-10"
@@ -264,7 +270,12 @@ export default function Header() {
         <div className="min-w-40  ">
           {authData?.email && (
             <div className="flex items-center space-x-2 mr-2 ">
-              <Avatar showFallback src="https://images.unsplash.com/broken" />
+              {authData?.userSettings?.theme ? (
+                <Avatar className="bg-zinc-600 text-white" showFallback src="https://images.unsplash.com/broken" />
+              ) : (
+                <Avatar showFallback src="https://images.unsplash.com/broken" />
+              )}
+
               <p className="">
                 {authData?.firstName} {authData?.lastName}
               </p>

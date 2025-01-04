@@ -1,9 +1,14 @@
 import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../../contexts/AuthContext";
 import "./Home";
 
 export default function Footer() {
+  const { authData } = useContext(AuthContext);
   return (
-    <div className="bg-neutral-500 w-full h-full rounded-3xl p-4 flex flex-col md:flex-row space-y-4">
+    <div
+      className={` w-full h-full rounded-3xl p-4 flex flex-col md:flex-row space-y-4 ${
+        authData?.userSettings?.theme ? "bg-neutral-300" : "bg-neutral-500"
+      }`}>
       <div className=" w-full md:w-1/3 flex flex-col items-center justify-center space-y-2">
         <p className="text-3xl text-white font-bold">Martin Quiroz</p>
         <p>Front End Developer</p>
