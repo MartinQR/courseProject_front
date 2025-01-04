@@ -205,7 +205,6 @@ export default function CreateForm() {
   );
 
   const descriptionInput = (
-    <div>
     <Textarea
       variant="bordered"
       label={authData?.userSettings?.language ? "Description" : "Descripción"}
@@ -213,9 +212,7 @@ export default function CreateForm() {
         setFormData({ ...formData, description: e.target.value })
       }
       value={formData?.description}
-    /> 
-    <ReactMarkdown>{formData?.description}</ReactMarkdown>
-    </div>
+    />
   );
 
   return (
