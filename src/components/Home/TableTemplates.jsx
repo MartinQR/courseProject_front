@@ -2,6 +2,7 @@ import { Button, Card, Skeleton } from "@nextui-org/react";
 import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
+import ReactMarkdown from "react-markdown";
 import "./Home.css";
 
 export default function TableTemplates() {
@@ -72,7 +73,8 @@ export default function TableTemplates() {
                   className="flex justify-between items-center w-full">
                   <div className="px-1">
                     <p className="font-bold">{template?.title}</p>
-                    <p className="font-mono">{template?.description}</p>
+                    {/* <p className="font-mono">{template?.description}</p> */}
+                    <ReactMarkdown className="font-mono">{template?.description}</ReactMarkdown>
                   </div>
                   <Button
                     className="bg-amber-400 ml-4"

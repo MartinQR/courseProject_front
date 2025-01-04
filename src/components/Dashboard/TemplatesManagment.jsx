@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { formatDateTime } from "../../Utils/utils";
+import ReactMarkdown from "react-markdown";
 import { div, p } from "framer-motion/client";
 const APP_URL = import.meta.env.VITE_APP_URL;
 
@@ -156,9 +157,10 @@ export function TemplatesManagment() {
                       </div>
 
                       <div className="h-2/5 text-center px-1 overflow-y-auto ">
-                        <p className="text-default-500 text-xs">
+                      <ReactMarkdown>{item.description}</ReactMarkdown>
+                        {/* <p className="text-default-500 text-xs">
                           {item.description}
-                        </p>
+                        </p> */}
                       </div>
                       <div className="h-1/5 flex items-center justify-center  ">
                         <Chip color="warning" variant="dot">

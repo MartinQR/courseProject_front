@@ -28,6 +28,7 @@ import { AuthContext } from "../../contexts/AuthContext";
 import useWindowSize from "../../Hooks.jsx/UseWindowSize.js";
 import { SearchTemplateModal } from "../SearchTemplateModal/SearchTemplateModal.jsx";
 import { SearchUsersModal } from "../SearchUsersModal/SearchUsersModal.jsx";
+import ReactMarkdown from "react-markdown";
 
 export default function CreateForm() {
   const navigate = useNavigate();
@@ -204,6 +205,7 @@ export default function CreateForm() {
   );
 
   const descriptionInput = (
+    <div>
     <Textarea
       variant="bordered"
       label={authData?.userSettings?.language ? "Description" : "Descripción"}
@@ -211,7 +213,9 @@ export default function CreateForm() {
         setFormData({ ...formData, description: e.target.value })
       }
       value={formData?.description}
-    />
+    /> 
+    <ReactMarkdown>{formData?.description}</ReactMarkdown>
+    </div>
   );
 
   return (

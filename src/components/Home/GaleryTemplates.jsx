@@ -2,6 +2,7 @@ import { Card, Skeleton } from "@nextui-org/react";
 import "./Home.css";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import ReactMarkdown from "react-markdown";
 const APP_URL = import.meta.env.VITE_APP_URL;
 
 export default function GalleryTemplates() {
@@ -59,7 +60,8 @@ export default function GalleryTemplates() {
               <div className="m-5">{icon(template?.id)}</div>
               <div className="m-5">
                 <p className="font-bold mb-4"> * {template?.title}</p>
-                <p>{template?.description}</p>
+                {/* <p>{template?.description}</p> */}
+                <ReactMarkdown>{template?.description}</ReactMarkdown>
 
                 <div className="flex justify-between items-center mt-4">
                   <p className="text-sm text-gray-500 mt-4">

@@ -28,6 +28,7 @@ import { useSearchParams } from "react-router-dom";
 import Comments from "../Comments/Comments.jsx";
 import Likes from "../Likes/Likes.jsx";
 import { SearchTemplateModal } from "../SearchTemplateModal/SearchTemplateModal.jsx";
+import ReactMarkdown from "react-markdown";
 
 export default function FillForm() {
   const { authData, setAuthData } = useContext(AuthContext);
@@ -156,7 +157,9 @@ export default function FillForm() {
               {formData?.title}
             </div>
             <div className="text-center text-xs h-2/3">
-              {formData?.description}
+              <ReactMarkdown>
+                {formData?.description}
+              </ReactMarkdown>
             </div>
           </div>
           <div className="bg-neutral-100 border-radius2 p-4">

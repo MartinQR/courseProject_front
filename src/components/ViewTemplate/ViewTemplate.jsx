@@ -38,6 +38,7 @@ import {
   arrayMove,
 } from "@dnd-kit/sortable";
 import AddInput from "../Input/AddInput.jsx";
+import ReactMarkdown from "react-markdown";
 
 export default function ViewTemplate() {
   const { authData, setAuthData } = useContext(AuthContext);
@@ -244,7 +245,8 @@ export default function ViewTemplate() {
               {formData?.title}
             </div>
             <div className="text-center text-xs h-2/3">
-              {formData?.description}
+              <ReactMarkdown>{formData?.description}</ReactMarkdown>
+              {/* {formData?.description} */}
             </div>
           </div>
           <div className="bg-neutral-100 border-radius2 p-4">

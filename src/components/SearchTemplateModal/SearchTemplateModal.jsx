@@ -3,6 +3,7 @@ import { use, useContext, useEffect } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
+import ReactMarkdown from "react-markdown";
 
 const APP_URL = import.meta.env.VITE_APP_URL;
 
@@ -89,7 +90,8 @@ export function SearchTemplateModal({
             <div key={template?.id} className="flex justify-between items-center">
               <div>
                 <p className="font-bold">{template?.title}</p>
-                <p className="font-mono">{template?.description}</p>
+                {/* <p className="font-mono">{template?.description}</p> */}
+                <ReactMarkdown className={""}>{template?.description}</ReactMarkdown>
               </div>
               <Button
                 onClick={() => {
