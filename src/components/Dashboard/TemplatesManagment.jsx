@@ -16,6 +16,7 @@ import { AuthContext } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { formatDateTime } from "../../Utils/utils";
 import { div, p } from "framer-motion/client";
+import ReactMarkdown from "react-markdown";
 const APP_URL = import.meta.env.VITE_APP_URL;
 
 export function TemplatesManagment() {
@@ -171,7 +172,9 @@ export function TemplatesManagment() {
 
                       <div className="h-32 text-center px-1 overflow-y-auto ">
                         <p className="text-default-500 text-xs">
-                          {item.description}
+                          <ReactMarkdown>
+                            {item?.description}
+                          </ReactMarkdown>
                         </p>
                       </div>
                       <div className="h-1/5 flex items-center justify-center space-x-4 ">
@@ -249,7 +252,9 @@ export function TemplatesManagment() {
 
                     <div className="h-2/5 text-center px-1 overflow-y-auto ">
                       <p className="text-default-500 text-xs">
-                        {item?.form?.description}
+                        <ReactMarkdown>
+                          {item?.form?.description}
+                        </ReactMarkdown>
                       </p>
                     </div>
                     <div className="h-2/5 text-center px-1 overflow-y-auto ">
