@@ -3,6 +3,7 @@ import Header from "./Header";
 import MainCard from "./MainCard";
 import GalleryTemplates from "./GaleryTemplates";
 import TableTemplates from "./TableTemplates";
+import Footer from "./Footer";
 import { Card } from "@nextui-org/react";
 import { TagsCloud } from "../TagsCloud/TagsCloud";
 
@@ -15,6 +16,7 @@ export default function Home() {
       <GalleryTemplates />
       <TagsCloud />
       <TableTemplates />
+      <Footer/>
     </div>
   );
 }
