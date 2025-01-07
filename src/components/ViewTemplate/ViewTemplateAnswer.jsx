@@ -131,7 +131,7 @@ export default function ViewTemplateAnswer() {
   // console.log("Form Data", formData);
   // console.log("Answers Form", answersForm);
   // console.log("Filled Form", filledForm);
-  // console.log("authData", authData);
+  console.log("authData", authData);
   // console.log("Form Data", formData);
   // console.log("Template Modifications",templateModifications)
   console.log("Form Data", formData);
@@ -426,13 +426,16 @@ export default function ViewTemplateAnswer() {
 
       {/* Body Div */}
       <div className="mt-4 w-full flex items-center flex-col justify-center space-y-2">
-        <Button
-          color={btnEditAnswer ? "primary" : "default"}
-          onClick={() => {
-            setBtnEditAnswer(true);
-          }}>
-          Edit Answers
-        </Button>
+        {authData?.isAdmin && (
+          <Button
+            color={btnEditAnswer ? "primary" : "default"}
+            onClick={() => {
+              setBtnEditAnswer(true);
+            }}>
+            Edit Answers
+          </Button>
+        )}
+
         {btnEditAnswer && (
           // <ButtonGroup>
           <div className="space-x-2">
