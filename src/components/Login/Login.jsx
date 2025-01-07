@@ -67,8 +67,14 @@ export default function Login() {
       </div>
 
       <div className="flex items-center justify-center h-auto flex-col px-4 md:px-0 ">
-        <Card className="w-full max-w-xs md:max-w-md lg:max-w-lg h-auto flex items-center my-4 md:my-5 p-4 md:px-10 px-6 bg-neutral-500">
-          <p className="mt-2 text-center text-xl sm:text-3xl text-white">
+        <Card className={`w-full max-w-xs md:max-w-md lg:max-w-lg h-auto flex items-center my-4 md:my-5 p-4 md:px-10 px-6  ${
+          authData?.userSettings?.theme ? "bg-neutral-300" : "bg-neutral-500"
+        } `}>
+
+
+          <p className={`mt-2 text-center text-xl sm:text-3xl  ${
+          authData?.userSettings?.theme ? "text-black" : "text-white"
+        }`}>
             {authData?.userSettings?.language ? "LOGIN" : "INICIAR SESION"}
           </p>
 
@@ -125,7 +131,9 @@ export default function Login() {
             </div>
           </div>
           <Button
-            className="w-full md:w-40 bg-amber-400 text-white font-semibold"
+            className={`w-full md:w-40  text-white font-semibold ${
+              authData?.userSettings?.theme ? "bg-zinc-500" : "bg-amber-400"
+            }`}
             size="md"
             isLoading={isloading}
             onClick={handleLogin}>
@@ -140,7 +148,9 @@ export default function Login() {
             : "No tienes una cuenta? "}
           <Link
             to="/signup"
-            className="text-white hover:underline font-semibold">
+            className={`hover:underline font-semibold ${
+              authData?.userSettings?.theme ? "text-black" : "text-white"
+            }`}>
             {authData?.userSettings?.language ? "Sign Up" : "Registrate"}
           </Link>
         </p>

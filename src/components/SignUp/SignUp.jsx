@@ -80,14 +80,17 @@ export default function SignUp() {
         <Header />
       </div>
       <div className="flex w-full items-center justify-center flex-col h-auto h-4/6 ">
-        <Card className="w-64 sm:w-72 md:w-80 h-auto flex items-center bg-neutral-500 ">
+        <Card
+          className={`w-64 sm:w-72 md:w-80 h-auto flex items-center  ${
+            authData?.userSettings?.theme ? "bg-neutral-300" : "bg-neutral-500"
+          }`}>
           {/* <p className="mt-5">Don't have an account? Sign up!</p> */}
           <div className="flex items-center justify-center my-2.5">
             <Avatar
               icon={<AvatarIcon />}
-              classNames={{
-                icon: "text-black/80",
-              }}
+              className={` ${
+                authData?.userSettings?.theme ? "bg-zinc-500 text-white" : ""
+              } `}
             />
           </div>
           <div className="space-y-2 mx-4">
@@ -174,8 +177,10 @@ export default function SignUp() {
           <Button
             isLoading={isLoading}
             onClick={handleSubmit}
-            className="w-40 my-2.5 bg-amber-400 text-white font-semibold"
-            size="sm">
+            className={`w-40 text-white font-semibold my-4 ${
+              authData?.userSettings?.theme ? "bg-zinc-500" : "bg-amber-400"
+            }`}
+            size="md">
             {authData?.userSettings?.language
               ? "Create Account"
               : "Crear Cuenta"}
@@ -190,11 +195,10 @@ export default function SignUp() {
             : "Ya tienes una cuenta? "}
           <Link
             to="/login"
-            className="text-white hover:underline font-semibold">
-               {authData?.userSettings?.language
-            ? "Log In"
-            : "Iniciar Sesión"}
-            
+            className={` hover:underline font-semibold ${
+              authData?.userSettings?.theme ? "text-black" : "text-white"
+            }`}>
+            {authData?.userSettings?.language ? "Log In" : "Iniciar Sesión"}
           </Link>
         </p>
       </div>

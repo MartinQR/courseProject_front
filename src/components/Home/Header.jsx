@@ -62,37 +62,38 @@ export default function Header() {
   console.log("Auth Data", authData);
   return (
     <>
-      <div className="flex flex-wrap items-center justify-between space-y-1.5">
-        <div className="flex  gap-1 ">
-          <div className="w-6 ">
-            <Card
-              className="h-12 flex items-center justify-center font-semibold text-2xl bg-neutral-900 text-white "
-              size="md">
-              .
-            </Card>
-          </div>
-          <div>
-            <Card
-              className="h-12 w-12 flex items-center justify-center font-semibold text-xl bg-neutral-900 text-white"
-              size="md">
-              /
-            </Card>
-          </div>
-          <div>
-            <button
-              onClick={() => {
-                navigate("/");
-              }}>
+      <div className="flex flex-wrap items-center justify-between">
+        <div className="flex space-x-1 flex-wrap">
+          <div className="flex gap-1 my-1 ">
+            <div className="w-6 ">
               <Card
-                className="h-12 w-28 rounded-3xl flex items-center justify-center font-semibold text-2xl bg-neutral-900 text-white"
+                className="h-12 flex items-center justify-center font-semibold text-2xl bg-neutral-900 text-white "
                 size="md">
-                formo
+                .
               </Card>
-            </button>
-          </div>
-          <div className="flex space-x-1">
+            </div>
+            <div>
+              <Card
+                className="h-12 w-12 flex items-center justify-center font-semibold text-xl bg-neutral-900 text-white"
+                size="md">
+                /
+              </Card>
+            </div>
+            <div>
+              <button
+                onClick={() => {
+                  navigate("/");
+                }}>
+                <Card
+                  className="h-12 w-28 rounded-3xl flex items-center justify-center font-semibold text-2xl bg-neutral-900 text-white"
+                  size="md">
+                  formo
+                </Card>
+              </button>
+            </div>
+
             {toggleBtn ? (
-              <div className="flex flex-row space-x-2">
+              <div className="flex flex-row ">
                 <button
                   onClick={() => setToggleBtn(!toggleBtn)}
                   className="w-12 h-12  rounded-full flex items-center justify-center bg-neutral-300">
@@ -100,7 +101,7 @@ export default function Header() {
                 </button>
               </div>
             ) : (
-              <div className="flex flex-row space-x-2">
+              <div className="flex flex-row ">
                 <button
                   onClick={() => setToggleBtn(!toggleBtn)}
                   className="w-12 h-12  rounded-full flex items-center justify-center bg-neutral-300">
@@ -109,6 +110,9 @@ export default function Header() {
                 </button>
               </div>
             )}
+          </div>
+
+          <div className="flex space-x-1 my-1 ">
             <div>
               <button
                 className="w-12 h-12 bg-orange-600  rounded-full flex items-center justify-center"
@@ -126,6 +130,7 @@ export default function Header() {
                 </div>
               </button>
             </div>
+
             <div>
               <button
                 className="w-12 h-12 bg-zinc-500  rounded-full flex items-center justify-center"
@@ -267,11 +272,16 @@ export default function Header() {
           )}
         </div>
 
-        <div className="min-w-40  ">
+        <div className="min-w-40  flex items-center">
           {authData?.email && (
             <div className="flex items-center space-x-2 mr-2 ">
               {authData?.userSettings?.theme ? (
-                <Avatar className="bg-zinc-600 text-white" showFallback src="https://images.unsplash.com/broken" />
+                <Avatar
+                  className="bg-zinc-600 text-white"
+                  showFallback
+                  size="md"
+                  src="https://images.unsplash.com/broken"
+                />
               ) : (
                 <Avatar showFallback src="https://images.unsplash.com/broken" />
               )}
