@@ -4,6 +4,7 @@ import "../../index.css";
 import imgPhone from "../../assets/undraw_mobile_ux_re_59hr.svg";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
+import toast from "react-hot-toast";
 
 export default function MainCard() {
   const { authData } = useContext(AuthContext);
@@ -40,6 +41,10 @@ export default function MainCard() {
               }`}
               // className="bg-zinc-800"
               onClick={() => {
+                if (!authData?.userId) {
+                  toast.error("Please login to create a form");
+                  return;
+                }
                 navigate("/create-form");
               }}>
               {authData?.userSettings?.language ? " START BUILDING!" : "CREAR!"}
