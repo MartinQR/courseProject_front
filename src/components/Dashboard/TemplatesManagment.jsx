@@ -237,11 +237,11 @@ export function TemplatesManagment() {
                   key={index}
                   isPressable
                   shadow="sm"
-                  className="p-2 h-32 w-full "
+                  className="py-4 h-auto w-full px-6 "
                   onPress={() => {
                     handleViewTemplateAnswer(item?.form?.id, authData?.userId);
                   }}>
-                  <CardBody className="overflow-visible p-0 space-y-2">
+                  <CardBody className="overflow-visible p-0 space-y-3 ">
                     <div className="h-2/5 flex text-center items-center justify-center">
                       <b className="text-center text-sm">
                         {item?.form?.title} , By:{" "}
@@ -250,14 +250,14 @@ export function TemplatesManagment() {
                       </b>
                     </div>
 
-                    <div className="h-2/5 text-center px-1 overflow-y-auto ">
+                    <div className="h-auto text-center px-1 ">
                       <p className="text-default-500 text-xs">
                         <ReactMarkdown>
                           {item?.form?.description}
                         </ReactMarkdown>
                       </p>
                     </div>
-                    <div className="h-2/5 text-center px-1 overflow-y-auto ">
+                    <div className="h-auto text-center px-1  ">
                       <p className="text-default-500 text-xs">
                         Form filled on:{formatDateTime(item?.createdAt)}
                       </p>
