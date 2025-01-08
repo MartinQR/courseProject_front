@@ -56,6 +56,11 @@ export default function FillForm() {
 
   // SUBMIT DE FORM
   async function handleSubmitForm() {
+    if (!authData?.userId) {
+      toast.error("You must be logged in to fill out a form.");
+      return;
+    }
+
     setIsLoading(true);
     try {
       const response = await fetch(`${APP_URL}/form/filloutForm`, {
@@ -430,6 +435,7 @@ export default function FillForm() {
               answersForm={answersForm}
               setAnswersForm={setAnswersForm}
               inputData={item}
+              disabled={authData?.userId ? false : true}
             />
           ))}
         </Card>

@@ -18,6 +18,7 @@ export default function RenderInputFill({
   setAnswersForm,
   filledForm,
   setFilledForm,
+  disabled,
 }) {
   const [selected, setSelected] = useState([]);
   const { authData } = useContext(AuthContext);
@@ -58,7 +59,9 @@ export default function RenderInputFill({
               size="sm"
               onChange={(e) => {
                 handleAnswer(e.target.value);
-              }}></Input>
+              }}
+              disabled={disabled} 
+            />
           </div>
         </Card>
       ) : inputData?.type === "MULTIPLE-LINE" ? (
@@ -78,7 +81,9 @@ export default function RenderInputFill({
               size="sm"
               onChange={(e) => {
                 handleAnswer(e.target.value);
-              }}></Textarea>
+              }} 
+              disabled={disabled}
+            />
           </div>
         </Card>
       ) : inputData?.type === "INTEGER" ? (
@@ -97,7 +102,9 @@ export default function RenderInputFill({
               size="sm"
               onChange={(e) => {
                 handleAnswer(e.target.value);
-              }}></Input>
+              }}
+              disabled={disabled} 
+            />
           </div>
         </Card>
       ) : inputData?.type === "CHECKBOX" ? (
@@ -124,7 +131,7 @@ export default function RenderInputFill({
               {inputData?.values?.map((item, index) => {
                 return (
                   <div key={index} className="">
-                    <Checkbox value={item} size="sm">
+                    <Checkbox value={item} size="sm" isDisabled={disabled}>
                       {item}
                     </Checkbox>
                   </div>
