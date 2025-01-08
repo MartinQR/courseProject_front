@@ -39,6 +39,9 @@ import {
 } from "@dnd-kit/sortable";
 import AddInput from "../Input/AddInput.jsx";
 import ReactMarkdown from "react-markdown";
+import Comments from "../Comments/Comments.jsx";
+import Likes from "../Likes/Likes.jsx";
+import FormInformation from "../FormInformation/FormInformation.jsx";
 
 export default function ViewTemplate() {
   const { authData, setAuthData } = useContext(AuthContext);
@@ -165,10 +168,6 @@ export default function ViewTemplate() {
     }
   };
 
-  // useEffect(() => {
-  //   fetchForm("2852440d-01d5-4e5d-9293-eae559737df3");
-  // }, []);
-
   useEffect(() => {
     const answersForm = formData?.inputs?.map((item) => {
       return { inputId: item?.id };
@@ -185,7 +184,7 @@ export default function ViewTemplate() {
   function handleViewTemplateAnswer(templateId, userId) {
     console.log("TemplateId", templateId);
     navigate(`/view-templateAnswer?templateId=${templateId}&userId=${userId}`);
-  }
+  };
 
   function handleDragEnd(event) {
     const { active, over } = event;
@@ -204,9 +203,9 @@ export default function ViewTemplate() {
     console.log("Old Index", oldIndex);
     console.log("New Index", newIndex);
     setTemplateModifications(newOrderInputs);
-  }
+  };
 
-  console.log("Template Modifications", templateModifications);
+
   return (
     <div className="gray-background w-full min-h-screen  px-3 py-3 flex items-center flex-col">
       {size?.width >= 768 ? (
@@ -649,6 +648,14 @@ export default function ViewTemplate() {
           </Card>
         )}
       </div>
+
+      <Likes formId={idTemplate} />
+
+      <div className="w-full sm:w-4/5 lg:w-3/5 my-5">
+        <FormInformation formId={idTemplate} formInputs={formData.inputs} />
+      </div>
+
+
       <Modal
         isOpen={openModal}
         onClose={() => {

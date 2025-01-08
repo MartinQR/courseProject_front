@@ -35,8 +35,6 @@ export default function Comments({ formId }) {
   }, [formId]);
   
   useEffect(() => {
-    console.log("formId", formId);
-    
     const intervalId = setInterval(() => {
       if (formId) {
         console.log("useEffect");
