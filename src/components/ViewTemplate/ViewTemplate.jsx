@@ -585,7 +585,7 @@ export default function ViewTemplate() {
 
         <Button onClick={() => setOpenUsersModal(true)}>Allowed Users</Button>
         {btnSelection2 ? (
-          <Card className={`${authData?.userSettings?.theme ? "bg-neutral-300" : "bg-neutral-100"}  w-full sm:w-4/5 lg:w-3/5 my-5 p-5 space-y-2`}>
+          <Card className={`${authData?.userSettings?.theme ? "bg-neutral-100" : "bg-neutral-100"}  w-full sm:w-4/5 lg:w-3/5 my-5 p-5 space-y-2`}>
             <p className="text-center my-2">Filled Forms</p>
             {filledOutForms?.map((item, index) => (
               <Card
@@ -602,7 +602,7 @@ export default function ViewTemplate() {
             ))}
           </Card>
         ) : (
-          <Card className={`${authData?.userSettings?.theme ? "bg-neutral-300" : "bg-neutral-100"}  w-full sm:w-4/5 lg:w-3/5 my-5 p-5`}>
+          <Card className={`${authData?.userSettings?.theme ? "bg-neutral-100" : "bg-neutral-100"}  w-full sm:w-4/5 lg:w-3/5 my-5 p-5`}>
             {btnDrag ? (
               <DndContext
                 collisionDetection={closestCenter}
