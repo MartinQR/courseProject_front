@@ -426,7 +426,7 @@ export default function FillForm() {
           {authData?.userSettings?.language ? "Created by" : "Creado por"}: {formData?.creator?.firstName}{" "}
           {formData?.creator?.lastName}
         </p>
-        <Card className={`${authData?.userSettings?.theme ? "bg-neutral-300" : "bg-neutral-100"} bg-neutral-100 w-full sm:w-4/5 lg:w-3/5 my-5 p-5`}>
+        <Card className={`bg-neutral-100 w-full sm:w-4/5 lg:w-3/5 my-5 p-5`}>
           {formData?.inputs?.map((item) => (
             <RenderInputFill
               key={item?.id}

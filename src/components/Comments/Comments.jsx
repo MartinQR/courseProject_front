@@ -78,7 +78,7 @@ export default function Comments({ formId }) {
   return (
     // <div className="">
     <Card className="bg-neutral-100 w-full my-5 p-5">
-      <div className="text-center font-bold text-2xl h-1/3">
+      <div className="text-center font-bold text-2xl h-full my-2">
         {authData?.userSettings?.language ? "Comments" : "Comentarios"}
       </div>
 

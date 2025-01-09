@@ -43,7 +43,7 @@ export default function RenderInputFill({
   return (
     <div className="my-2">
       {inputData?.type === "SINGLE-LINE" ? (
-        <Card className="bg- w-full h-auto p-3 ">
+        <Card className="w-full h-auto p-3 ">
           <div className="pl-2">
             <div className="flex justify-between">
               <p className="font-bold">{inputData?.title}</p>

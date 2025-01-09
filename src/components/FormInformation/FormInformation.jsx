@@ -57,18 +57,18 @@ export default function FormInformation({ formId, formInputs }) {
             key={input?.id}
             className="bg-neutral-100 my-4 flex items-center justify-between p-2">
             <div className="flex items-center">
-              <p className="text-xl font-bold ml-2">{input?.title}</p>
+              <p className="text-base  ml-2">{input?.title}</p>
             </div>
 
             <div className="flex items-center">
-              <p className="font-bold">Most frequent response:</p> 
+              <p className="">Most frequent response: </p> 
               <p>{information?.[input?.id]?.mostFrequentValue}</p>
             </div>
 
             {
               input.type === "INTEGER" && (
                 <div className="flex items-center">
-                  <p className="font-bold">Average: </p> 
+                  <p className="">Average: </p> 
                   <p>
                     {information?.[input?.id]?.average}
                   </p>
