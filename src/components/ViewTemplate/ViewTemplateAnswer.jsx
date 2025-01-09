@@ -423,10 +423,9 @@ export default function ViewTemplateAnswer() {
       ) : (
         "No resize window"
       )}
-
       {/* Body Div */}
       <div className="mt-4 w-full flex items-center flex-col justify-center space-y-2">
-        {authData?.isAdmin && (
+        {(authData?.isAdmin || authData?.userId === formData?.user?.id) && (
           <Button
             color={btnEditAnswer ? "primary" : "default"}
             onClick={() => {

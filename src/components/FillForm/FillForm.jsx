@@ -410,10 +410,10 @@ export default function FillForm() {
       )}
       {/* Body Div */}
       <div className="mt-4 w-full flex items-center flex-col justify-center space-y-2">
-        {authData?.isAdmin && (
+        {(authData?.isAdmin || authData?.userId === formData?.userId) && (
           <Button
             onClick={() => {
-              navigate(`/view-template?idTemplate=${templateIdModal}`);
+              navigate(`/view-template?idTemplate=${formData?.id}`);
             }}>
             Edit Template
           </Button>
