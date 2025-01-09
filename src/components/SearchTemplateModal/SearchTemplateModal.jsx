@@ -1,4 +1,13 @@
-import { Button, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Spinner } from "@nextui-org/react";
+import {
+  Button,
+  Input,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  Spinner,
+} from "@nextui-org/react";
 import { use, useContext, useEffect } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -7,22 +16,19 @@ import ReactMarkdown from "react-markdown";
 
 const APP_URL = import.meta.env.VITE_APP_URL;
 
-export function SearchTemplateModal({
-  open,
-  setOpen,
-  tag,
-}) {
+export function SearchTemplateModal({ open, setOpen, tag }) {
   const { authData } = useContext(AuthContext);
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
   const [templatesfetched, setTemplatesFetched] = useState([]);
   const navigate = useNavigate();
 
-
   const getTemplatesByQuery = async (query) => {
     setLoading(true);
     try {
-      const response = await fetch(`${APP_URL}/form/searchForms?query=${query}`);
+      const response = await fetch(
+        `${APP_URL}/form/searchForms?query=${query}`
+      );
       const data = await response.json();
       setTemplatesFetched(data);
     } catch (error) {
@@ -58,7 +64,6 @@ export function SearchTemplateModal({
       }
     }
   }, [open]);
-  
 
   return (
     <Modal
@@ -66,43 +71,46 @@ export function SearchTemplateModal({
       onClose={() => {
         setOpen(false);
       }}
-      size="4xl"
-    >
+      size="4xl">
       <ModalContent>
         <ModalHeader className="flex items-center">
           {/* <p>Lupita here</p> */}
           <Input
-            placeholder={authData?.userSettings?.language 
-              ? tag ? `Searching by tag: ${tag}` :"Search template..."
-              : tag ? `Buscando por etiqueta: ${tag}` : "Buscar plantilla..."
+            placeholder={
+              authData?.userSettings?.language
+                ? tag
+                  ? `Searching by tag: ${tag}`
+                  : "Search template..."
+                : tag
+                ? `Buscando por etiqueta: ${tag}`
+                : "Buscar plantilla..."
             }
             size="lg"
             className="w-[90%]"
             value={query}
             onChange={handleSearch}
-           
           />
           {loading && <Spinner />}
         </ModalHeader>
 
         <ModalBody className="m-2 overflow-y-auto max-h-96">
           {templatesfetched?.map((template, index) => (
-            <div key={template?.id} className="flex justify-between items-center">
+            <div
+              key={template?.id}
+              className="flex justify-between items-center">
               <div>
                 <p className="font-bold">{template?.title}</p>
                 {/* <p className="font-mono">{template?.description}</p> */}
-                <ReactMarkdown className={""}>{template?.description}</ReactMarkdown>
+                <ReactMarkdown className={""}>
+                  {template?.description}
+                </ReactMarkdown>
               </div>
               <Button
                 onClick={() => {
                   navigate(`/fill-form?idTemplate=${template?.id}`);
                   setOpen(false);
-                }}
-              >
-                {authData?.userSettings?.language
-                  ? "View"
-                  : "Ver"
-                }
+                }}>
+                {authData?.userSettings?.language ? "View" : "Ver"}
               </Button>
             </div>
           ))}
