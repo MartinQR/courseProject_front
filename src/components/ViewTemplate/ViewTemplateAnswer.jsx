@@ -29,6 +29,7 @@ import { formatDateTime } from "../../Utils/utils.js";
 import { div, form } from "framer-motion/m";
 import EditInput from "../Input/EditInput.jsx";
 import { SearchTemplateModal } from "../SearchTemplateModal/SearchTemplateModal.jsx";
+import ReactMarkdown from "react-markdown";
 
 export default function ViewTemplateAnswer() {
   const { authData, setAuthData } = useContext(AuthContext);
@@ -175,7 +176,8 @@ export default function ViewTemplateAnswer() {
               {formData?.title}
             </div>
             <div className="text-center text-xs h-2/3">
-              {formData?.description}
+              <ReactMarkdown>{formData?.description}</ReactMarkdown>
+              
             </div>
           </div>
           <div className={`${authData?.userSettings?.theme ? "bg-neutral-300" : "bg-neutral-100"} border-radius2 p-4`}>
