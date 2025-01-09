@@ -173,7 +173,8 @@ export default function CreateForm() {
 
   const InputTag = (
     <Input
-      variant="bordered"
+      // variant="bordered"
+      variant={authData?.userSettings?.theme ? "flat" : "bordered"}
       label="#TAGS"
       onChange={handleAddTags}
       placeholder="tag1, tag2, tag3"
@@ -195,7 +196,8 @@ export default function CreateForm() {
 
   const titleInput = (
     <Input
-      variant="bordered"
+      // variant="bordered"
+      variant={authData?.userSettings?.theme ? "flat" : "bordered"}
       label={authData?.userSettings?.language ? "Title" : "Titulo"}
       onChange={(e) => {
         setFormData({ ...formData, title: e.target.value });
@@ -206,7 +208,8 @@ export default function CreateForm() {
 
   const descriptionInput = (
     <Textarea
-      variant="bordered"
+      // variant="bordered"
+      variant={authData?.userSettings?.theme ? "flat" : "bordered"}
       label={authData?.userSettings?.language ? "Description" : "Descripción"}
       onChange={(e) =>
         setFormData({ ...formData, description: e.target.value })
@@ -257,7 +260,7 @@ export default function CreateForm() {
               </p>
             </div>
           </div>
-          <div className="row-span-2 bg-neutral-100 border-radius2 flex items-center justify-center ">
+          <div className={`row-span-2 ${authData?.userSettings?.theme ? "bg-neutral-300" : "bg-neutral-100"} border-radius2 flex items-center justify-center `}>
             <div className="w-full h-full p-4">
               <div className="w-full h-1/3 flex items-center justify-center">
                 {titleInput}
@@ -267,14 +270,15 @@ export default function CreateForm() {
               </div>
             </div>
           </div>
-          <div className="bg-neutral-100 border-radius2 flex items-center justify-center p-4">
+          <div className={`${authData?.userSettings?.theme ? "bg-neutral-300" : "bg-neutral-100"} border-radius2 flex items-center justify-center p-4`}>
             {InputTag}
           </div>
-          <div className="bg-neutral-100 border-radius2 flex items-center justify-center flex-col p-4">
+          <div className={`${authData?.userSettings?.theme ? "bg-neutral-300" : "bg-neutral-100"} border-radius2 flex items-center justify-center flex-col p-4`}>
             <Select
               className="max-w-xs"
               label={authData?.userSettings?.language ? "Topic" : "Tema"}
-              variant="bordered"
+              // variant="bordered"
+              variant={authData?.userSettings?.theme ? "flat" : "bordered"}
               onChange={(e) =>
                 setFormData({ ...formData, topicId: e.target.value })
               }>
@@ -311,7 +315,7 @@ export default function CreateForm() {
               </button>
             </div>
           </div>
-          <div className="bg-neutral-100 row-start-2 col-start-1 border-radius2 flex items-center justify-center p-4">
+          <div className={`${authData?.userSettings?.theme ? "bg-neutral-300" : "bg-neutral-100"} row-start-2 col-start-1 border-radius2 flex items-center justify-center p-4 `}>
             {isloading ? (
               <Spinner />
             ) : (
@@ -328,7 +332,7 @@ export default function CreateForm() {
             )}
           </div>
 
-          <div className="bg-neutral-100 row-start-2 col-start-2 border-radius2 flex items-center justify-center p-4">
+          <div className={`${authData?.userSettings?.theme ? "bg-neutral-300" : "bg-neutral-100"} row-start-2 col-start-2 border-radius2 flex items-center justify-center p-4`}>
             <Checkbox defaultSelected onChange={handleClickPublic}>
               {authData?.userSettings?.language ? "Public" : "Publico"}
             </Checkbox>
@@ -392,7 +396,7 @@ export default function CreateForm() {
               </div>
             </div>
           </div>
-          <Card className="w-full h-auto p-4 space-y-2">
+          <Card className={`w-full h-auto p-4 space-y-2 ${authData?.userSettings?.theme ? "bg-neutral-300" : "bg-neutral-100"}`}>
             <div className="w-2/5 space-y-2 w-full">
               <div className="w-full flex items-center justify-center">
                 {titleInput}
@@ -408,7 +412,8 @@ export default function CreateForm() {
                 <Select
                   className="max-w-xs"
                   label={authData?.userSettings?.language ? "Topic" : "Tema"}
-                  variant="bordered"
+                  // variant="bordered"
+                  variant={authData?.userSettings?.theme ? "flat" : "bordered"}
                   onChange={(e) =>
                     setFormData({ ...formData, topicId: e.target.value })
                   }>
@@ -506,7 +511,7 @@ export default function CreateForm() {
               </div>
             </div>
           </div>
-          <Card className="w-full h-auto p-4 flex flex-row space-x-2">
+          <Card className={`${authData?.userSettings?.theme ? "bg-neutral-300" : "bg-neutral-100"} w-full h-auto p-4 flex flex-row space-x-2`}>
             <div className="w-2/5 space-y-2">
               <div className="w-full flex items-center justify-center">
                 {titleInput}
@@ -521,7 +526,8 @@ export default function CreateForm() {
               <Select
                 className="max-w-xs"
                 label={authData?.userSettings?.language ? "Topic" : "Tema"}
-                variant="bordered"
+                // variant="bordered"
+                variant={authData?.userSettings?.theme ? "flat" : "bordered"}
                 onChange={(e) =>
                   setFormData({ ...formData, topicId: e.target.value })
                 }>

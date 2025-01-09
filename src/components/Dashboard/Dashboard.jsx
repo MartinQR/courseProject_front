@@ -52,13 +52,13 @@ export default function Dashboard() {
               </p>
             </div>
           </div>
-          <div className="row-span-2 bg-neutral-100 border-radius2 flex items-center justify-center text-2xl text-wrap">
+          <div className={`${authData?.userSettings?.theme ? "bg-neutral-300" : "bg-neutral-100"} row-span-2 bg-neutral-100 border-radius2 flex items-center justify-center text-2xl text-wrap`}>
             {authData?.userSettings?.language ? "DASHBOARD" : "PANEL"}
           </div>
-          <div className="bg-neutral-100 border-radius2 flex items-center justify-center p-4 text-4xl">
+          <div className={`${authData?.userSettings?.theme ? "bg-neutral-300" : "bg-neutral-100"} bg-neutral-100 border-radius2 flex items-center justify-center p-4 text-4xl`}>
             formo
           </div>
-          <div className="bg-neutral-100 border-radius2 flex items-center justify-center flex-col p-4 text-4xl ">
+          <div className={`${authData?.userSettings?.theme ? "bg-neutral-300" : "bg-neutral-100"} bg-neutral-100 border-radius2 flex items-center justify-center flex-col p-4 text-4xl `}>
             {" "}
             {authData?.isAdmin ? (
               <Chip color="success">ADMIN</Chip>
@@ -95,7 +95,7 @@ export default function Dashboard() {
             </div>
             {/* Termina Div 9 */}
           </div>
-          <div className="bg-neutral-100 row-start-2 col-start-1 border-radius2 flex items-center justify-center p-4">
+          <div className={`${authData?.userSettings?.theme ? "bg-neutral-300" : "bg-neutral-100"} bg-neutral-100 row-start-2 col-start-1 border-radius2 flex items-center justify-center p-4`}>
             <div className="flex w-full items-center justify-center">
               <>
                 {" "}
@@ -113,7 +113,7 @@ export default function Dashboard() {
             </div>
           </div>
 
-          <div className="bg-neutral-100 row-start-2 col-start-2 border-radius2 flex items-center justify-center p-4">
+          <div className={`${authData?.userSettings?.theme ? "bg-neutral-300" : "bg-neutral-100"} bg-neutral-100 row-start-2 col-start-2 border-radius2 flex items-center justify-center p-4`}>
             {" "}
             <Button
               onClick={() => {

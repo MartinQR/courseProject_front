@@ -47,7 +47,6 @@ export default function ViewTemplate() {
   const { authData, setAuthData } = useContext(AuthContext);
   const [formData, setFormData] = useState({});
   const [filledForm, setFilledForm] = useState({});
-  const [answersForm, setAnswersForm] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [searchParams] = useSearchParams();
   const [btnSelection, setBtnSelection] = useState(false);
@@ -239,7 +238,7 @@ export default function ViewTemplate() {
               </p>
             </div>
           </div>
-          <div className="row-span-2 bg-neutral-100 border-radius2 flex items-center justify-center flex-col p-4 ">
+          <div className={`${authData?.userSettings?.theme ? "bg-neutral-300" : "bg-neutral-100"} row-span-2 border-radius2 flex items-center justify-center flex-col p-4 `}>
             <div className="text-center font-bold text-sm h-1/3">
               {formData?.title}
             </div>
@@ -248,7 +247,7 @@ export default function ViewTemplate() {
               {/* {formData?.description} */}
             </div>
           </div>
-          <div className="bg-neutral-100 border-radius2 p-4">
+          <div className={`${authData?.userSettings?.theme ? "bg-neutral-300" : "bg-neutral-100"}  border-radius2 p-4`}>
             {formData?.tags?.map((item, index) => {
               return (
                 <p key={index} className="text-xs">
@@ -257,7 +256,7 @@ export default function ViewTemplate() {
               );
             })}
           </div>
-          <div className="bg-neutral-100 border-radius2 flex items-center justify-center flex-col p-4">
+          <div className={`${authData?.userSettings?.theme ? "bg-neutral-300" : "bg-neutral-100"}  border-radius2 flex items-center justify-center flex-col p-4`}>
             {formData?.topic?.name}
           </div>
 
@@ -289,7 +288,7 @@ export default function ViewTemplate() {
             </div>
             {/* Termina Div 9 */}
           </div>
-          <div className="bg-neutral-100 row-start-2 col-start-1 border-radius2 flex items-center justify-center p-4">
+          <div className={`${authData?.userSettings?.theme ? "bg-neutral-300" : "bg-neutral-100"}  row-start-2 col-start-1 border-radius2 flex items-center justify-center p-4`}>
             <div className="flex w-full items-center justify-center">
               <>
                 {" "}
@@ -307,7 +306,7 @@ export default function ViewTemplate() {
             </div>
           </div>
 
-          <div className="bg-neutral-100 row-start-2 col-start-2 border-radius2 flex items-center justify-center p-4">
+          <div className={`${authData?.userSettings?.theme ? "bg-neutral-300" : "bg-neutral-100"}  row-start-2 col-start-2 border-radius2 flex items-center justify-center p-4`}>
             <Checkbox
               defaultSelected
               // onChange={(e) => {
@@ -375,7 +374,7 @@ export default function ViewTemplate() {
               </div>
             </div>
           </div>
-          <Card className="w-full h-auto p-4 flex flex-row space-y-2 flex flex-col">
+          <Card className="w-full h-auto p-4 space-y-2 flex flex-col">
             <div className=" text-center font-bold text-xl">
               {formData?.title}
             </div>
@@ -586,7 +585,7 @@ export default function ViewTemplate() {
 
         <Button onClick={() => setOpenUsersModal(true)}>Allowed Users</Button>
         {btnSelection2 ? (
-          <Card className="bg-neutral-100 w-full sm:w-4/5 lg:w-3/5 my-5 p-5 space-y-2">
+          <Card className={`${authData?.userSettings?.theme ? "bg-neutral-300" : "bg-neutral-100"}  w-full sm:w-4/5 lg:w-3/5 my-5 p-5 space-y-2`}>
             <p className="text-center my-2">Filled Forms</p>
             {filledOutForms?.map((item, index) => (
               <Card
@@ -603,7 +602,7 @@ export default function ViewTemplate() {
             ))}
           </Card>
         ) : (
-          <Card className="bg-neutral-100 w-full sm:w-4/5 lg:w-3/5 my-5 p-5">
+          <Card className={`${authData?.userSettings?.theme ? "bg-neutral-300" : "bg-neutral-100"}  w-full sm:w-4/5 lg:w-3/5 my-5 p-5`}>
             {btnDrag ? (
               <DndContext
                 collisionDetection={closestCenter}

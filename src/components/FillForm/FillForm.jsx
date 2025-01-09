@@ -157,7 +157,7 @@ export default function FillForm() {
               </p>
             </div>
           </div>
-          <div className="row-span-2 bg-neutral-100 border-radius2 flex items-center justify-center flex-col p-4 ">
+          <div className={`${authData?.userSettings?.theme ? "bg-neutral-300" : "bg-neutral-100"} row-span-2 bg-neutral-100 border-radius2 flex items-center justify-center flex-col p-4 `}>
             <div className="text-center font-bold text-sm h-1/3">
               {formData?.title}
             </div>
@@ -167,7 +167,7 @@ export default function FillForm() {
               </ReactMarkdown>
             </div>
           </div>
-          <div className="bg-neutral-100 border-radius2 p-4">
+          <div className={`${authData?.userSettings?.theme ? "bg-neutral-300" : "bg-neutral-100"} bg-neutral-100 border-radius2 p-4`}>
             {formData?.tags?.map((item, index) => {
               return (
                 <p key={index} className="text-xs">
@@ -176,7 +176,7 @@ export default function FillForm() {
               );
             })}
           </div>
-          <div className="bg-neutral-100 border-radius2 flex items-center justify-center flex-col p-4">
+          <div className={`${authData?.userSettings?.theme ? "bg-neutral-300" : "bg-neutral-100"} bg-neutral-100 border-radius2 flex items-center justify-center flex-col p-4`}>
             {formData?.topic?.name}
           </div>
 
@@ -208,7 +208,7 @@ export default function FillForm() {
             </div>
             {/* Termina Div 9 */}
           </div>
-          <div className="bg-neutral-100 row-start-2 col-start-1 border-radius2 flex items-center justify-center p-4">
+          <div className={`${authData?.userSettings?.theme ? "bg-neutral-300" : "bg-neutral-100"} bg-neutral-100 row-start-2 col-start-1 border-radius2 flex items-center justify-center p-4`}>
             <div className="flex w-full items-center justify-center">
               {isLoading ? (
                 <Spinner size="lg" color="warning" />
@@ -226,7 +226,7 @@ export default function FillForm() {
             </div>
           </div>
 
-          <div className="bg-neutral-100 row-start-2 col-start-2 border-radius2 flex items-center justify-center p-4">
+          <div className={`${authData?.userSettings?.theme ? "bg-neutral-300" : "bg-neutral-100"} bg-neutral-100 row-start-2 col-start-2 border-radius2 flex items-center justify-center p-4`}>
             <Checkbox defaultSelected isDisabled>
               {authData?.userSettings?.language ? "Public" : "Público"}
             </Checkbox>
@@ -426,7 +426,7 @@ export default function FillForm() {
           {authData?.userSettings?.language ? "Created by" : "Creado por"}: {formData?.creator?.firstName}{" "}
           {formData?.creator?.lastName}
         </p>
-        <Card className="bg-neutral-100 w-full sm:w-4/5 lg:w-3/5 my-5 p-5">
+        <Card className={`${authData?.userSettings?.theme ? "bg-neutral-300" : "bg-neutral-100"} bg-neutral-100 w-full sm:w-4/5 lg:w-3/5 my-5 p-5`}>
           {formData?.inputs?.map((item) => (
             <RenderInputFill
               key={item?.id}
