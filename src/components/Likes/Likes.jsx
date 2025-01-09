@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 import { Button } from "@nextui-org/react";
+import toast from "react-hot-toast";
 const APP_URL = import.meta.env.VITE_APP_URL;
 
 export default function Likes({ formId }) {
@@ -92,6 +93,11 @@ export default function Likes({ formId }) {
   
 
   const handleLike = async() => {
+    if (!authData?.userId) {
+      toast.error("Please login to like the form");
+      return;
+    }
+
     if (liked) {
       await unlikeForm();
     } else {
@@ -106,7 +112,7 @@ export default function Likes({ formId }) {
       <div className="ml-4">
         <Button
           className={liked ? "bg-blue-500 text-white" : ""}
-          onClick={() => handleLike()}
+          onClick={handleLike}
         >
           {liked ? "Unlike" : "Like"}
         </Button>

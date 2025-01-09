@@ -3,6 +3,7 @@ import { useState, useEffect, useContext } from "react";
 import { Card, Avatar, Button, Textarea } from "@nextui-org/react";
 const APP_URL = import.meta.env.VITE_APP_URL;
 import { AuthContext } from "../../contexts/AuthContext";
+import toast from "react-hot-toast";
 
 export default function Comments({ formId }) {
   const { authData } = useContext(AuthContext);
@@ -47,6 +48,10 @@ export default function Comments({ formId }) {
   }, [formId]);
 
   const postComment = async () => {
+    if (!authData?.userId) {
+      toast.error("You must be logged in to post a comment");
+    }
+
     setLoadingPost(true);
 
     try {
@@ -98,12 +103,15 @@ export default function Comments({ formId }) {
           maxLength={100}
           value={content}
           onChange={(e) => setContent(e.target.value)}
+          disabled={!authData?.userId}
         />
         <Button
           variant="bordered"
           className="bg-orange-600 text-white m-2"
           onClick={postComment}
-          isLoading={loadingPost}>
+          isLoading={loadingPost}
+          disabled={!content || !authData?.userId}
+        >
           {authData?.userSettings?.language ? "Post" : "Publicar"}
         </Button>
       </Card>

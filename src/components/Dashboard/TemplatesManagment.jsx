@@ -222,7 +222,11 @@ export function TemplatesManagment() {
                     : "Formularios respondidos por ti"}
                 </p>
                 <div>
-                  <Button>
+                  <Button
+                    onClick={() => {
+                      navigate("/fill-form");
+                    }}
+                  >
                     {authData?.userSettings?.language
                       ? "Answer a form"
                       : "Responder formulario"}
