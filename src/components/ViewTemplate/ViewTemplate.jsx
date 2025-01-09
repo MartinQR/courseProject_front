@@ -117,6 +117,7 @@ export default function ViewTemplate() {
 
       if (!response.ok) {
         const errorData = await response.json();
+        toast.error(errorData?.error);
         throw new Error(
           errorData.message ||
             `Error ${response.status}: ${response.statusText}`
@@ -125,7 +126,7 @@ export default function ViewTemplate() {
       // SuccesFully Response
       const data = await response.json();
 
-      toast.success("Form created sucessfully!");
+      toast.success("Form Updated sucessfully!");
       setOpenModal(true);
       // navigate("/create-form");
     } catch (error) {
