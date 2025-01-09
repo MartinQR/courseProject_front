@@ -452,7 +452,7 @@ export default function ViewTemplateAnswer() {
           </div>
           // </ButtonGroup>
         )}
-        <Card className={`${authData?.userSettings?.theme ? "bg-neutral-300" : "bg-neutral-100"} w-full sm:w-4/5 lg:w-3/5 my-5 p-5 space-y-2`}>
+        <Card className={`${authData?.userSettings?.theme ? "bg-neutral-100" : "bg-neutral-100"} w-full sm:w-4/5 lg:w-3/5 my-5 p-5 space-y-2`}>
           <div className="flex  flex-col items-center space-y-2">
             <div>
               Form completed by {formData?.user?.firstName}{" "}
