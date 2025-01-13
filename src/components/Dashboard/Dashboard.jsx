@@ -10,15 +10,19 @@ import { AuthContext } from "../../contexts/AuthContext.jsx";
 import { Card, Avatar, Button, Chip } from "@nextui-org/react";
 import arrow from "../../assets/arrowthin.svg";
 import { SearchTemplateModal } from "../SearchTemplateModal/SearchTemplateModal.jsx";
+import logoSalesforce from "../../assets/Salesforce.png";
+import SalesforceModal from "../SalesForce/SalesforceModal.jsx";
 
 export default function Dashboard() {
   const { authData, setAuthData } = useContext(AuthContext);
   const [openSearch, setOpenSearch] = useState(false);
+  const [openSalesforce,setOpenSalesforce] = useState(false)
 
   const size = useWindowSize();
   const navigate = useNavigate();
 
-  console.log("Auth Data", authData);
+
+  // console.log("Auth Data", authData);
   return (
     <div className="gray-background w-full min-h-screen  px-3 py-3 flex items-center flex-col">
       {size?.width >= 768 ? (
@@ -52,13 +56,30 @@ export default function Dashboard() {
               </p>
             </div>
           </div>
-          <div className={`${authData?.userSettings?.theme ? "bg-neutral-300" : "bg-neutral-100"} row-span-2 bg-neutral-100 border-radius2 flex items-center justify-center text-2xl text-wrap`}>
+          <div
+            className={`${
+              authData?.userSettings?.theme
+                ? "bg-neutral-300"
+                : "bg-neutral-100"
+            } row-span-2 bg-neutral-100 border-radius2 flex items-center justify-center text-2xl text-wrap`}>
             {authData?.userSettings?.language ? "DASHBOARD" : "PANEL"}
           </div>
-          <div className={`${authData?.userSettings?.theme ? "bg-neutral-300" : "bg-neutral-100"} bg-neutral-100 border-radius2 flex items-center justify-center p-4 text-4xl`}>
-            formo
+          <div
+            className={`${
+              authData?.userSettings?.theme
+                ? "bg-neutral-300"
+                : "bg-neutral-100"
+            } bg-neutral-100 border-radius2 flex items-center justify-center p-4 text-4xl`}>
+            <button className="w-24" onClick={()=>{setOpenSalesforce(true)}}>
+              <img src={logoSalesforce} />
+            </button>
           </div>
-          <div className={`${authData?.userSettings?.theme ? "bg-neutral-300" : "bg-neutral-100"} bg-neutral-100 border-radius2 flex items-center justify-center flex-col p-4 text-4xl `}>
+          <div
+            className={`${
+              authData?.userSettings?.theme
+                ? "bg-neutral-300"
+                : "bg-neutral-100"
+            } bg-neutral-100 border-radius2 flex items-center justify-center flex-col p-4 text-4xl `}>
             {" "}
             {authData?.isAdmin ? (
               <Chip color="success">ADMIN</Chip>
@@ -95,7 +116,12 @@ export default function Dashboard() {
             </div>
             {/* Termina Div 9 */}
           </div>
-          <div className={`${authData?.userSettings?.theme ? "bg-neutral-300" : "bg-neutral-100"} bg-neutral-100 row-start-2 col-start-1 border-radius2 flex items-center justify-center p-4`}>
+          <div
+            className={`${
+              authData?.userSettings?.theme
+                ? "bg-neutral-300"
+                : "bg-neutral-100"
+            } bg-neutral-100 row-start-2 col-start-1 border-radius2 flex items-center justify-center p-4`}>
             <div className="flex w-full items-center justify-center">
               <>
                 {" "}
@@ -113,7 +139,12 @@ export default function Dashboard() {
             </div>
           </div>
 
-          <div className={`${authData?.userSettings?.theme ? "bg-neutral-300" : "bg-neutral-100"} bg-neutral-100 row-start-2 col-start-2 border-radius2 flex items-center justify-center p-4`}>
+          <div
+            className={`${
+              authData?.userSettings?.theme
+                ? "bg-neutral-300"
+                : "bg-neutral-100"
+            } bg-neutral-100 row-start-2 col-start-2 border-radius2 flex items-center justify-center p-4`}>
             {" "}
             <Button
               onClick={() => {
@@ -284,6 +315,7 @@ export default function Dashboard() {
       <SearchTemplateModal
         open={openSearch}
         setOpen={setOpenSearch}></SearchTemplateModal>
+        <SalesforceModal open={openSalesforce} setOpen={setOpenSalesforce}></SalesforceModal>
     </div>
   );
 }
