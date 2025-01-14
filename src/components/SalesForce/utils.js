@@ -111,14 +111,4 @@ async function getAccessToken() {
   }
 }
 
-// async function getAccessToken() {
-
-//   const clientId =
-//     "3MVG9XgkMlifdwVDVJm9VyCYhR.LCe2nNkgVwmgECwshUYFSef08kglhcku50BGmFthXmdSEhI7yAb7fosWaK";
-//   const redirectUri = "http://localhost:5173/callback";
-//   const authorizationUrl = `https://login.salesforce.com/services/oauth2/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}`;
-
-//   window.location.href = authorizationUrl;
-// }
-
 export { getAccessToken, createAccountAndContact };
