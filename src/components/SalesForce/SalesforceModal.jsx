@@ -8,14 +8,12 @@ import {
   ModalHeader,
   Spinner,
 } from "@nextui-org/react";
-import { use, useContext, useEffect } from "react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../../contexts/AuthContext";
-import { createAccountAndContact, getAccessToken } from "../SalesForce/utils";
+import toast from "react-hot-toast";
+const APP_URL = import.meta.env.VITE_APP_URL;
+
 
 export default function SalesforceModal({ open, setOpen }) {
-  const [token, setToken] = useState("");
   const [accountData, setAccountData] = useState({ Type: "Customer" });
   const [contactData, setContactData] = useState({});
   function updateAccountData(value, input) {
@@ -29,8 +27,30 @@ export default function SalesforceModal({ open, setOpen }) {
     setContactData({ ...contactData, [input]: value });
   }
 
-  console.log("Account Data", accountData);
-  console.log("Contact Data", contactData);
+  const createAccountAndContact = async () => {
+
+    try {
+      const response = await fetch(`${APP_URL}/salesforce/createAccountAndContact`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ accountData, contactData }),
+      });
+
+      if (response.ok) {
+        setOpen(false);
+        setAccountData({ Type: "Customer" });
+        setContactData({});
+        toast.success("Account and Contact created successfully");
+      }
+      
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+
   return (
     <Modal
       isOpen={open}
