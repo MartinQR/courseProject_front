@@ -131,7 +131,7 @@ export function TemplatesManagment() {
             : "Formularios Llenados"}
         </Button>
       </ButtonGroup>
-      <Card className="w-full sm:w-4/5 lg:w-3/5 h-auto ">
+      <Card className="w-full sm:w-4/5 lg:w-3/5 h-auto">
         {btnSelection ? (
           <>
             <CardHeader>
@@ -172,9 +172,7 @@ export function TemplatesManagment() {
 
                       <div className="h-32 text-center px-1 overflow-y-auto ">
                         <p className="text-default-500 text-xs">
-                          <ReactMarkdown>
-                            {item?.description}
-                          </ReactMarkdown>
+                          <ReactMarkdown>{item?.description}</ReactMarkdown>
                         </p>
                       </div>
                       <div className="h-1/5 flex items-center justify-center space-x-4 ">
@@ -225,8 +223,7 @@ export function TemplatesManagment() {
                   <Button
                     onClick={() => {
                       navigate("/fill-form");
-                    }}
-                  >
+                    }}>
                     {authData?.userSettings?.language
                       ? "Answer a form"
                       : "Responder formulario"}
@@ -256,9 +253,7 @@ export function TemplatesManagment() {
 
                     <div className="h-auto text-center px-1 ">
                       <p className="text-default-500 text-xs">
-                        <ReactMarkdown>
-                          {item?.form?.description}
-                        </ReactMarkdown>
+                        <ReactMarkdown>{item?.form?.description}</ReactMarkdown>
                       </p>
                     </div>
                     <div className="h-auto text-center px-1  ">
