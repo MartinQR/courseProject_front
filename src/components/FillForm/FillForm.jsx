@@ -29,6 +29,8 @@ import Comments from "../Comments/Comments.jsx";
 import Likes from "../Likes/Likes.jsx";
 import { SearchTemplateModal } from "../SearchTemplateModal/SearchTemplateModal.jsx";
 import ReactMarkdown from "react-markdown";
+import CreateTicket from "../Jira/CreateTicket.jsx";
+import JiraModal from "../Jira/JiraModal.jsx";
 
 export default function FillForm() {
   const { authData, setAuthData } = useContext(AuthContext);
@@ -43,6 +45,7 @@ export default function FillForm() {
   const size = useWindowSize();
   const idTemplate = searchParams.get("idTemplate");
   const [openSearch, setOpenSearch] = useState(false);
+  const [openJira, setOpenJira] = useState(false);
 
   useEffect(() => {
     if (idTemplate) {
@@ -157,17 +160,25 @@ export default function FillForm() {
               </p>
             </div>
           </div>
-          <div className={`${authData?.userSettings?.theme ? "bg-neutral-300" : "bg-neutral-100"} row-span-2 bg-neutral-100 border-radius2 flex items-center justify-center flex-col p-4 `}>
+          <div
+            className={`${
+              authData?.userSettings?.theme
+                ? "bg-neutral-300"
+                : "bg-neutral-100"
+            } row-span-2 bg-neutral-100 border-radius2 flex items-center justify-center flex-col p-4 `}>
             <div className="text-center font-bold text-sm h-1/3">
               {formData?.title}
             </div>
             <div className="text-center text-xs h-2/3">
-              <ReactMarkdown>
-                {formData?.description}
-              </ReactMarkdown>
+              <ReactMarkdown>{formData?.description}</ReactMarkdown>
             </div>
           </div>
-          <div className={`${authData?.userSettings?.theme ? "bg-neutral-300" : "bg-neutral-100"} bg-neutral-100 border-radius2 p-4`}>
+          <div
+            className={`${
+              authData?.userSettings?.theme
+                ? "bg-neutral-300"
+                : "bg-neutral-100"
+            } bg-neutral-100 border-radius2 p-4`}>
             {formData?.tags?.map((item, index) => {
               return (
                 <p key={index} className="text-xs">
@@ -176,7 +187,12 @@ export default function FillForm() {
               );
             })}
           </div>
-          <div className={`${authData?.userSettings?.theme ? "bg-neutral-300" : "bg-neutral-100"} bg-neutral-100 border-radius2 flex items-center justify-center flex-col p-4`}>
+          <div
+            className={`${
+              authData?.userSettings?.theme
+                ? "bg-neutral-300"
+                : "bg-neutral-100"
+            } bg-neutral-100 border-radius2 flex items-center justify-center flex-col p-4`}>
             {formData?.topic?.name}
           </div>
 
@@ -208,7 +224,12 @@ export default function FillForm() {
             </div>
             {/* Termina Div 9 */}
           </div>
-          <div className={`${authData?.userSettings?.theme ? "bg-neutral-300" : "bg-neutral-100"} bg-neutral-100 row-start-2 col-start-1 border-radius2 flex items-center justify-center p-4`}>
+          <div
+            className={`${
+              authData?.userSettings?.theme
+                ? "bg-neutral-300"
+                : "bg-neutral-100"
+            } bg-neutral-100 row-start-2 col-start-1 border-radius2 flex items-center justify-center p-4`}>
             <div className="flex w-full items-center justify-center">
               {isLoading ? (
                 <Spinner size="lg" color="warning" />
@@ -226,7 +247,12 @@ export default function FillForm() {
             </div>
           </div>
 
-          <div className={`${authData?.userSettings?.theme ? "bg-neutral-300" : "bg-neutral-100"} bg-neutral-100 row-start-2 col-start-2 border-radius2 flex items-center justify-center p-4`}>
+          <div
+            className={`${
+              authData?.userSettings?.theme
+                ? "bg-neutral-300"
+                : "bg-neutral-100"
+            } bg-neutral-100 row-start-2 col-start-2 border-radius2 flex items-center justify-center p-4`}>
             <Checkbox defaultSelected isDisabled>
               {authData?.userSettings?.language ? "Public" : "Público"}
             </Checkbox>
@@ -410,21 +436,46 @@ export default function FillForm() {
       )}
       {/* Body Div */}
       <div className="mt-4 w-full flex items-center flex-col justify-center space-y-2">
-        {(authData?.isAdmin || authData?.userId === formData?.userId) && (
-          <Button
-            onClick={() => {
-              navigate(`/view-template?idTemplate=${formData?.id}`);
-            }}>
-            Edit Template
-          </Button>
-        )}
+        <div className="flex  w-full items-center justify-center">
+          <div className=" w-1/3">
+            <div className="">
+              <button
+                className="h-12"
+                onClick={() => {
+                  setOpenJira(true);
+                }}>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 512 512"
+                  height="100%"
+                  width="100">
+                  <path d="M464 256A208 208 0 1 0 48 256a208 208 0 1 0 416 0zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zm169.8-90.7c7.9-22.3 29.1-37.3 52.8-37.3l58.3 0c34.9 0 63.1 28.3 63.1 63.1c0 22.6-12.1 43.5-31.7 54.8L280 264.4c-.2 13-10.9 23.6-24 23.6c-13.3 0-24-10.7-24-24l0-13.5c0-8.6 4.6-16.5 12.1-20.8l44.3-25.4c4.7-2.7 7.6-7.7 7.6-13.1c0-8.4-6.8-15.1-15.1-15.1l-58.3 0c-3.4 0-6.4 2.1-7.5 5.3l-.4 1.2c-4.4 12.5-18.2 19-30.6 14.6s-19-18.2-14.6-30.6l.4-1.2zM224 352a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z" />
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div className="w-1/3  flex items-center justify-center">
+            {(authData?.isAdmin || authData?.userId === formData?.userId) && (
+              <Button
+                onClick={() => {
+                  navigate(`/view-template?idTemplate=${formData?.id}`);
+                }}>
+                Edit Template
+              </Button>
+            )}
+          </div>
+
+          <div className="w-1/3 "></div>
+        </div>
 
         <p className="text-4xl text-center">
-          {authData?.userSettings?.language ? "PLEASE FILL OUT THE FORM" : "POR FAVOR LLENE EL FORMULARIO"}  
+          {authData?.userSettings?.language
+            ? "PLEASE FILL OUT THE FORM"
+            : "POR FAVOR LLENE EL FORMULARIO"}
         </p>
         <p className="text-sm">
-          {authData?.userSettings?.language ? "Created by" : "Creado por"}: {formData?.creator?.firstName}{" "}
-          {formData?.creator?.lastName}
+          {authData?.userSettings?.language ? "Created by" : "Creado por"}:{" "}
+          {formData?.creator?.firstName} {formData?.creator?.lastName}
         </p>
         <Card className={`bg-neutral-100 w-full sm:w-4/5 lg:w-3/5 my-5 p-5`}>
           {formData?.inputs?.map((item) => (
@@ -453,7 +504,9 @@ export default function FillForm() {
           <ModalContent className="p-4">
             <ModalHeader>
               <p>
-                {authData?.userSettings?.language ? "Enter the template ID to fill out." : "Ingrese el ID de la plantilla para completar."}
+                {authData?.userSettings?.language
+                  ? "Enter the template ID to fill out."
+                  : "Ingrese el ID de la plantilla para completar."}
               </p>
             </ModalHeader>
             <ModalBody>
@@ -462,22 +515,27 @@ export default function FillForm() {
                 onChange={(e) => {
                   setTemplateIdModal(e.target.value);
                 }}
-                label={authData?.userSettings?.language ? "Form ID" : "ID de la plantilla"}
+                label={
+                  authData?.userSettings?.language
+                    ? "Form ID"
+                    : "ID de la plantilla"
+                }
               />
               <Button
                 isLoading={isloading2}
                 onClick={() => getTemplate(templateIdModal)}
                 className="bg-orange-600 text-white m-2">
-                {authData?.userSettings?.language ? "Fill out Form!" : "¡Completa el formulario!"}
+                {authData?.userSettings?.language
+                  ? "Fill out Form!"
+                  : "¡Completa el formulario!"}
               </Button>
             </ModalBody>
           </ModalContent>
         </Modal>
       </div>
-      <SearchTemplateModal
-        open={openSearch}
-        setOpen={setOpenSearch}
-      />
+      <SearchTemplateModal open={openSearch} setOpen={setOpenSearch} />
+      <CreateTicket />
+      <JiraModal open={openJira} setOpen={setOpenJira}></JiraModal>
     </div>
   );
 }

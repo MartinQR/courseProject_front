@@ -6,9 +6,9 @@ import TableTemplates from "./TableTemplates";
 import Footer from "./Footer";
 import { Card } from "@nextui-org/react";
 import { TagsCloud } from "../TagsCloud/TagsCloud";
+import CreateTicket from "../Jira/CreateTicket";
 
 export default function Home() {
-  
   return (
     <div className="gray-background w-full min-h-screen  px-3 py-3">
       <Header />
@@ -16,7 +16,8 @@ export default function Home() {
       <GalleryTemplates />
       <TagsCloud />
       <TableTemplates />
-      <Footer/>
+      <CreateTicket />
+      <Footer />
     </div>
   );
 }
