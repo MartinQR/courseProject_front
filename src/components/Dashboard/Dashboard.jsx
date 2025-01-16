@@ -14,6 +14,7 @@ import logoSalesforce from "../../assets/Salesforce.png";
 import SalesforceModal from "../SalesForce/SalesforceModal.jsx";
 import JiraModal from "../Jira/JiraModal.jsx";
 import ViewTickets from "../Jira/ViewTickets.jsx";
+import CreateTicket from "../Jira/CreateTicket.jsx";
 
 export default function Dashboard() {
   const { authData, setAuthData } = useContext(AuthContext);
@@ -353,6 +354,7 @@ export default function Dashboard() {
         open={openSalesforce}
         setOpen={setOpenSalesforce}></SalesforceModal>
       <JiraModal open={openJira} setOpen={setOpenJira}></JiraModal>
+      <CreateTicket />
     </div>
   );
 }

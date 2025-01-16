@@ -9,26 +9,98 @@ import {
   Spinner,
   Select,
   SelectItem,
+  Textarea,
 } from "@nextui-org/react";
 import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
+const APP_URL = import.meta.env.VITE_APP_URL;
+import toast from "react-hot-toast";
 
 export default function JiraModal({ open, setOpen }) {
   const { authData, setAuthData } = useContext(AuthContext);
   const [ticket, setTicket] = useState({});
+  const [loading, setLoading] = useState();
+  const currentUrl = window.location.href;
 
-  console.log("Ticket", ticket);
+  useEffect(() => {
+    setTicket({
+      reportedBy: authData?.email,
+      link: currentUrl,
+      template: "",
+      description: "",
+      priority: "",
+      summary: "",
+    });
+  }, [authData?.email]);
+  // console.log("Ticket", ticket);
 
   function handleChangeTicket(label, value) {
+    // console.log("Label", label);
+    // console.log("Value", value);
     setTicket({ ...ticket, [label]: value });
   }
   const priorityOptions = [
-    { key: "HIGH", label: "High" },
-    { key: "AVERAGE", label: "Average" },
-    { key: "LOW", label: "Low" },
+    { key: "High", label: "High" },
+    { key: "Medium", label: "Medium" },
+    { key: "Low", label: "Low" },
   ];
-  console.log("Auth Context", authData);
+  // console.log("Auth Context", authData);
+  // console.log("Ticket", ticket);
+  // HandleActions
+
+  async function handleCreateTicket() {
+    // console.log(APP_URL)
+
+    setTicket({
+      ...ticket,
+      reportedBy: authData?.email,
+      link: "www.example.com",
+    });
+    setLoading(true);
+    const url = `${APP_URL}/jira/createIssue`;
+
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(ticket),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(
+          `HTTP error! status: ${response.status}, response: ${errorText}`
+        );
+      }
+
+      const data = await response.json();
+      handleResetInputs();
+      toast.success("Ticket created successfully");
+      console.log("Ticket created successfully:", data);
+      setOpen(false);
+    } catch (error) {
+      toast.error("Error creating ticket");
+      console.error("Error creating ticket:", error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  function handleResetInputs() {
+    setTicket({
+      reportedBy: authData?.email,
+      template: "",
+      priority: "",
+      summary: "",
+      description: "",
+    });
+  }
+
+  // console.log("Auth Data", authData);
+  console.log("Ticket", ticket);
   return (
     <Modal
       isOpen={open}
@@ -49,28 +121,47 @@ export default function JiraModal({ open, setOpen }) {
         <div className="space-y-4 my-10 w-full flex flex-col justify-center items-center">
           <div className="flex w-10/12 space-x-4">
             <Input isDisabled label="Reported by:" value={authData?.email} />
-            <Input label="Template:" value={authData?.email} />
+            <Input
+              label="Template:"
+              value={ticket?.template}
+              onChange={(e) => {
+                handleChangeTicket("template", e.target.value);
+              }}
+            />
           </div>
           <div className="flex w-10/12 space-x-4">
-            <Input label="Link:" value={authData?.email} />
+            <Input
+              label="Summary:"
+              value={ticket?.summary}
+              onChange={(e) => {
+                handleChangeTicket("summary", e.target.value);
+              }}
+            />
             <Select
               onChange={(e) => {
-                handleChangeTicket("Priority", e.target.value);
+                handleChangeTicket("priority", e.target.value);
               }}
-              label="Priority:"
-              value={authData?.email}>
+              label="Priority:">
               {priorityOptions.map((item) => (
                 <SelectItem key={item.key}>{item.label}</SelectItem>
               ))}
             </Select>
           </div>
-          <div className="flex w-10/12 space-x-4">
-            <Input label="Status:" value={authData?.email} />
+
+          <div className="w-10/12">
+            <Textarea
+              value={ticket?.description}
+              label="Description:"
+              onChange={(e) => {
+                handleChangeTicket("description", e.target.value);
+              }}></Textarea>
           </div>
         </div>
         <Button
+          isLoading={loading}
           className="w-10/12 mb-4 bg-amber-400"
           onClick={() => {
+            handleCreateTicket();
             // createAccountAndContact(accountData, contactData);
           }}>
           CREATE TICKET
