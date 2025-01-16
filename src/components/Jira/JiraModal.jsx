@@ -50,6 +50,10 @@ export default function JiraModal({ open, setOpen }) {
   // HandleActions
 
   async function handleCreateTicket() {
+    if (!authData?.email) {
+      toast.error("You must be logged in to make a ticket");
+      return;
+    }
     // console.log(APP_URL)
 
     setTicket({
