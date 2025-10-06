@@ -136,6 +136,9 @@ export default function CreateForm() {
     }
   }
 
+  function createCommit() {
+    console.log(1);
+  }
   // Get TopisID
   async function fetchTopics() {
     try {
@@ -260,7 +263,12 @@ export default function CreateForm() {
               </p>
             </div>
           </div>
-          <div className={`row-span-2 ${authData?.userSettings?.theme ? "bg-neutral-300" : "bg-neutral-100"} border-radius2 flex items-center justify-center `}>
+          <div
+            className={`row-span-2 ${
+              authData?.userSettings?.theme
+                ? "bg-neutral-300"
+                : "bg-neutral-100"
+            } border-radius2 flex items-center justify-center `}>
             <div className="w-full h-full p-4">
               <div className="w-full h-1/3 flex items-center justify-center">
                 {titleInput}
@@ -270,10 +278,20 @@ export default function CreateForm() {
               </div>
             </div>
           </div>
-          <div className={`${authData?.userSettings?.theme ? "bg-neutral-300" : "bg-neutral-100"} border-radius2 flex items-center justify-center p-4`}>
+          <div
+            className={`${
+              authData?.userSettings?.theme
+                ? "bg-neutral-300"
+                : "bg-neutral-100"
+            } border-radius2 flex items-center justify-center p-4`}>
             {InputTag}
           </div>
-          <div className={`${authData?.userSettings?.theme ? "bg-neutral-300" : "bg-neutral-100"} border-radius2 flex items-center justify-center flex-col p-4`}>
+          <div
+            className={`${
+              authData?.userSettings?.theme
+                ? "bg-neutral-300"
+                : "bg-neutral-100"
+            } border-radius2 flex items-center justify-center flex-col p-4`}>
             <Select
               className="max-w-xs"
               label={authData?.userSettings?.language ? "Topic" : "Tema"}
@@ -315,7 +333,12 @@ export default function CreateForm() {
               </button>
             </div>
           </div>
-          <div className={`${authData?.userSettings?.theme ? "bg-neutral-300" : "bg-neutral-100"} row-start-2 col-start-1 border-radius2 flex items-center justify-center p-4 `}>
+          <div
+            className={`${
+              authData?.userSettings?.theme
+                ? "bg-neutral-300"
+                : "bg-neutral-100"
+            } row-start-2 col-start-1 border-radius2 flex items-center justify-center p-4 `}>
             {isloading ? (
               <Spinner />
             ) : (
@@ -332,7 +355,12 @@ export default function CreateForm() {
             )}
           </div>
 
-          <div className={`${authData?.userSettings?.theme ? "bg-neutral-300" : "bg-neutral-100"} row-start-2 col-start-2 border-radius2 flex items-center justify-center p-4`}>
+          <div
+            className={`${
+              authData?.userSettings?.theme
+                ? "bg-neutral-300"
+                : "bg-neutral-100"
+            } row-start-2 col-start-2 border-radius2 flex items-center justify-center p-4`}>
             <Checkbox defaultSelected onChange={handleClickPublic}>
               {authData?.userSettings?.language ? "Public" : "Publico"}
             </Checkbox>
@@ -396,7 +424,12 @@ export default function CreateForm() {
               </div>
             </div>
           </div>
-          <Card className={`w-full h-auto p-4 space-y-2 ${authData?.userSettings?.theme ? "bg-neutral-300" : "bg-neutral-100"}`}>
+          <Card
+            className={`w-full h-auto p-4 space-y-2 ${
+              authData?.userSettings?.theme
+                ? "bg-neutral-300"
+                : "bg-neutral-100"
+            }`}>
             <div className="w-2/5 space-y-2 w-full">
               <div className="w-full flex items-center justify-center">
                 {titleInput}
@@ -511,7 +544,12 @@ export default function CreateForm() {
               </div>
             </div>
           </div>
-          <Card className={`${authData?.userSettings?.theme ? "bg-neutral-300" : "bg-neutral-100"} w-full h-auto p-4 flex flex-row space-x-2`}>
+          <Card
+            className={`${
+              authData?.userSettings?.theme
+                ? "bg-neutral-300"
+                : "bg-neutral-100"
+            } w-full h-auto p-4 flex flex-row space-x-2`}>
             <div className="w-2/5 space-y-2">
               <div className="w-full flex items-center justify-center">
                 {titleInput}
